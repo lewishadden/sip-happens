@@ -1,6 +1,8 @@
 import PostCard from "@/components/PostCard";
 import { getAllPosts } from "@/lib/db";
 
+export const dynamic = "force-dynamic";
+
 export const metadata = {
   title: "All Reviews | Sip Happens",
   description: "Browse all our espresso martini reviews from bars around the world.",

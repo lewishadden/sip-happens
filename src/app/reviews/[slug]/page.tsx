@@ -3,6 +3,8 @@ import Link from "next/link";
 import { getPostBySlug, getAllPosts } from "@/lib/db";
 import RatingStars from "@/components/RatingStars";
 
+export const dynamic = "force-dynamic";
+
 interface PageProps {
   params: Promise<{ slug: string }>;
 }

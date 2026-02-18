@@ -2,6 +2,8 @@ import Link from "next/link";
 import PostCard from "@/components/PostCard";
 import { getRecentPosts, getAllPosts } from "@/lib/db";
 
+export const dynamic = "force-dynamic";
+
 export default async function Home() {
   const featuredPosts = await getRecentPosts(3);
   const totalReviews = (await getAllPosts()).length;
