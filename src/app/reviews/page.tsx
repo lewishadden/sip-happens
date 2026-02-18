@@ -6,8 +6,8 @@ export const metadata = {
   description: "Browse all our espresso martini reviews from bars around the world.",
 };
 
-export default function ReviewsPage() {
-  const posts = getAllPosts();
+export default async function ReviewsPage() {
+  const posts = await getAllPosts();
 
   return (
     <div className="max-w-6xl mx-auto px-4 py-12">

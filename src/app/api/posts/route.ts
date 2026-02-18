@@ -4,7 +4,7 @@ import { getSession } from "@/lib/auth";
 
 export async function GET() {
   const session = await getSession();
-  const posts = getAllPosts(!session);
+  const posts = await getAllPosts(!session);
   return NextResponse.json(posts);
 }
 
@@ -22,7 +22,7 @@ export async function POST(request: NextRequest) {
   }
 
   try {
-    const post = createPost({
+    const post = await createPost({
       title,
       slug,
       excerpt: excerpt || "",
@@ -33,13 +33,13 @@ export async function POST(request: NextRequest) {
       price: price || null,
       currency: currency || "USD",
       image_url: image_url || "",
-      published: published ? 1 : 0,
+      published: !!published,
       author_id: session.userId,
     });
     return NextResponse.json(post, { status: 201 });
   } catch (error: unknown) {
     const message = error instanceof Error ? error.message : "Failed to create post";
-    if (message.includes("UNIQUE constraint")) {
+    if (message.includes("unique") || message.includes("duplicate")) {
       return NextResponse.json({ error: "A post with this slug already exists" }, { status: 409 });
     }
     return NextResponse.json({ error: message }, { status: 500 });

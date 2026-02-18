@@ -2,9 +2,9 @@ import Link from "next/link";
 import PostCard from "@/components/PostCard";
 import { getRecentPosts, getAllPosts } from "@/lib/db";
 
-export default function Home() {
-  const featuredPosts = getRecentPosts(3);
-  const totalReviews = getAllPosts().length;
+export default async function Home() {
+  const featuredPosts = await getRecentPosts(3);
+  const totalReviews = (await getAllPosts()).length;
 
   return (
     <div>

@@ -17,7 +17,7 @@ interface Post {
   price: number | null;
   currency: string | null;
   image_url: string;
-  published: number;
+  published: boolean;
 }
 
 export default function EditPostPage({ params }: { params: Promise<{ id: string }> }) {

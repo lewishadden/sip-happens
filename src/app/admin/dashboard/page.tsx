@@ -11,7 +11,7 @@ interface Post {
   bar_name: string | null;
   location: string | null;
   rating: number | null;
-  published: number;
+  published: boolean;
   created_at: string;
 }
 

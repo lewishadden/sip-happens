@@ -8,7 +8,7 @@ interface RouteContext {
 
 export async function GET(_request: NextRequest, context: RouteContext) {
   const { id } = await context.params;
-  const post = getPostById(parseInt(id));
+  const post = await getPostById(parseInt(id));
   if (!post) {
     return NextResponse.json({ error: "Post not found" }, { status: 404 });
   }
@@ -26,7 +26,7 @@ export async function PUT(request: NextRequest, context: RouteContext) {
   const { title, slug, excerpt, content, bar_name, location, rating, price, currency, image_url, published } = body;
 
   try {
-    const post = updatePost(parseInt(id), {
+    const post = await updatePost(parseInt(id), {
       title,
       slug,
       excerpt: excerpt || "",
@@ -37,7 +37,7 @@ export async function PUT(request: NextRequest, context: RouteContext) {
       price: price || null,
       currency: currency || "USD",
       image_url: image_url || "",
-      published: published ? 1 : 0,
+      published: !!published,
     });
 
     if (!post) {
@@ -58,6 +58,6 @@ export async function DELETE(_request: NextRequest, context: RouteContext) {
   }
 
   const { id } = await context.params;
-  deletePost(parseInt(id));
+  await deletePost(parseInt(id));
   return NextResponse.json({ success: true });
 }

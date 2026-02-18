@@ -7,7 +7,7 @@ const SECRET = new TextEncoder().encode(process.env.JWT_SECRET || "fallback-secr
 const COOKIE_NAME = "sip-happens-token";
 
 export async function signIn(email: string, password: string): Promise<{ success: boolean; error?: string }> {
-  const user = getUserByEmail(email);
+  const user = await getUserByEmail(email);
   if (!user) return { success: false, error: "Invalid credentials" };
 
   const valid = bcrypt.compareSync(password, user.password_hash);
