@@ -19,7 +19,9 @@ export default function AdminDashboard() {
   const router = useRouter();
   const [posts, setPosts] = useState<Post[]>([]);
   const [loading, setLoading] = useState(true);
-  const [user, setUser] = useState<{ name: string; email: string } | null>(null);
+  const [user, setUser] = useState<{ name: string; email: string } | null>(
+    null,
+  );
 
   useEffect(() => {
     async function load() {
@@ -37,7 +39,7 @@ export default function AdminDashboard() {
       setLoading(false);
     }
     load();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   async function handleDelete(id: number, title: string) {
@@ -68,9 +70,7 @@ export default function AdminDashboard() {
         <div>
           <h1 className="text-3xl font-bold text-espresso-900">Dashboard</h1>
           {user && (
-            <p className="text-espresso-500 mt-1">
-              Welcome back, {user.name}
-            </p>
+            <p className="text-espresso-500 mt-1">Welcome back, {user.name}</p>
           )}
         </div>
         <div className="flex gap-3">
@@ -91,7 +91,9 @@ export default function AdminDashboard() {
 
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-10">
         <div className="bg-white rounded-xl p-6 border border-espresso-100 shadow-sm">
-          <div className="text-3xl font-bold text-espresso-800">{posts.length}</div>
+          <div className="text-3xl font-bold text-espresso-800">
+            {posts.length}
+          </div>
           <div className="text-sm text-espresso-500 mt-1">Total Posts</div>
         </div>
         <div className="bg-white rounded-xl p-6 border border-espresso-100 shadow-sm">
@@ -115,16 +117,23 @@ export default function AdminDashboard() {
 
         {posts.length === 0 ? (
           <div className="text-center py-12">
-            <span className="text-4xl block mb-3">&#9749;</span>
-            <p className="text-espresso-500">No posts yet. Time to write your first review!</p>
+            <span className="text-4xl block mb-3">&#127864;</span>
+            <p className="text-espresso-500">
+              No posts yet. Time to write your first review!
+            </p>
           </div>
         ) : (
           <div className="divide-y divide-espresso-50">
             {posts.map((post) => (
-              <div key={post.id} className="px-6 py-4 flex items-center justify-between gap-4 hover:bg-espresso-50/50 transition-colors">
+              <div
+                key={post.id}
+                className="px-6 py-4 flex items-center justify-between gap-4 hover:bg-espresso-50/50 transition-colors"
+              >
                 <div className="min-w-0 flex-1">
                   <div className="flex items-center gap-2">
-                    <h3 className="font-medium text-espresso-900 truncate">{post.title}</h3>
+                    <h3 className="font-medium text-espresso-900 truncate">
+                      {post.title}
+                    </h3>
                     <span
                       className={`flex-shrink-0 px-2 py-0.5 text-xs rounded-full font-medium ${
                         post.published
@@ -142,7 +151,9 @@ export default function AdminDashboard() {
                     {post.rating !== null && (
                       <>
                         <span>&#8226;</span>
-                        <span className="text-caramel">&#9733; {post.rating}</span>
+                        <span className="text-caramel">
+                          &#9733; {post.rating}
+                        </span>
                       </>
                     )}
                   </div>
