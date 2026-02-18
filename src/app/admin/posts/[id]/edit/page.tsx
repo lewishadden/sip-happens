@@ -5,6 +5,15 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import PostForm from "@/components/PostForm";
 
+interface LocationData {
+  place_id: string;
+  formatted_address: string;
+  city: string;
+  country: string;
+  lat: number;
+  lng: number;
+}
+
 interface Post {
   id: number;
   title: string;
@@ -13,6 +22,7 @@ interface Post {
   content: string;
   bar_name: string;
   location: string;
+  location_data: LocationData | null;
   rating: number;
   price: number | null;
   currency: string | null;
@@ -80,6 +90,7 @@ export default function EditPostPage({ params }: { params: Promise<{ id: string 
             content: post.content,
             bar_name: post.bar_name || "",
             location: post.location || "",
+            location_data: post.location_data || null,
             rating: post.rating || 0,
             price: post.price,
             currency: post.currency || "USD",

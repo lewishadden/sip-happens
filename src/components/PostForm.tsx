@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import LocationSearch, { type LocationData } from "./LocationSearch";
 
 interface PostFormProps {
   initialData?: {
@@ -12,6 +13,7 @@ interface PostFormProps {
     content: string;
     bar_name: string;
     location: string;
+    location_data: LocationData | null;
     rating: number;
     price: number | null;
     currency: string;
@@ -32,6 +34,9 @@ export default function PostForm({ initialData, mode }: PostFormProps) {
   const [content, setContent] = useState(initialData?.content || "");
   const [barName, setBarName] = useState(initialData?.bar_name || "");
   const [location, setLocation] = useState(initialData?.location || "");
+  const [locationData, setLocationData] = useState<LocationData | null>(
+    initialData?.location_data ?? null
+  );
   const [rating, setRating] = useState(String(initialData?.rating ?? ""));
   const [price, setPrice] = useState(String(initialData?.price ?? ""));
   const [currency, setCurrency] = useState(initialData?.currency || "USD");
@@ -66,6 +71,7 @@ export default function PostForm({ initialData, mode }: PostFormProps) {
       content,
       bar_name: barName,
       location,
+      location_data: locationData,
       rating: rating === "" ? 0 : parseFloat(rating),
       price: price === "" ? null : parseFloat(price),
       currency,
@@ -169,13 +175,13 @@ export default function PostForm({ initialData, mode }: PostFormProps) {
           >
             Location
           </label>
-          <input
-            id="location"
-            type="text"
-            value={location}
-            onChange={(e) => setLocation(e.target.value)}
-            className="w-full px-4 py-3 rounded-xl border border-espresso-200 focus:outline-none focus:ring-2 focus:ring-caramel focus:border-transparent text-espresso-900"
-            placeholder="London, United Kingdom"
+          <LocationSearch
+            initialValue={initialData?.location || ""}
+            initialLocationData={initialData?.location_data}
+            onChange={({ display, data }) => {
+              setLocation(display);
+              setLocationData(data);
+            }}
           />
         </div>
       </div>

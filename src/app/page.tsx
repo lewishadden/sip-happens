@@ -1,12 +1,13 @@
 import Link from "next/link";
 import PostCard from "@/components/PostCard";
-import { getRecentPosts, getAllPosts } from "@/lib/db";
+import { getRecentPosts, getAllPosts, getUniqueCountryCount } from "@/lib/db";
 
 export const dynamic = "force-dynamic";
 
 export default async function Home() {
   const featuredPosts = await getRecentPosts(3);
   const totalReviews = (await getAllPosts()).length;
+  const countryCount = await getUniqueCountryCount();
 
   return (
     <div>
@@ -80,12 +81,14 @@ export default async function Home() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
             <div>
               <div className="text-4xl font-bold text-caramel mb-2">
-                {totalReviews}+
+                {totalReviews}
               </div>
               <div className="text-espresso-400 text-sm">Reviews Published</div>
             </div>
             <div>
-              <div className="text-4xl font-bold text-caramel mb-2">15+</div>
+              <div className="text-4xl font-bold text-caramel mb-2">
+                {countryCount}
+              </div>
               <div className="text-espresso-400 text-sm">Countries Visited</div>
             </div>
             <div>

@@ -23,7 +23,7 @@ export async function PUT(request: NextRequest, context: RouteContext) {
 
   const { id } = await context.params;
   const body = await request.json();
-  const { title, slug, excerpt, content, bar_name, location, rating, price, currency, image_url, published } = body;
+  const { title, slug, excerpt, content, bar_name, location, location_data, rating, price, currency, image_url, published } = body;
 
   try {
     const post = await updatePost(parseInt(id), {
@@ -33,6 +33,7 @@ export async function PUT(request: NextRequest, context: RouteContext) {
       content,
       bar_name: bar_name || "",
       location: location || "",
+      location_data: location_data || null,
       rating: rating || 0,
       price: price || null,
       currency: currency || "USD",

@@ -37,6 +37,10 @@ async function createTables() {
     )
   `;
 
+  await sql`
+    ALTER TABLE posts ADD COLUMN IF NOT EXISTS location_data JSONB
+  `;
+
   console.log("Tables created.");
 }
 
@@ -56,11 +60,6 @@ async function seedAdmin() {
 }
 
 async function seedPosts() {
-  const rows = await sql`SELECT COUNT(*) as count FROM posts`;
-  if (Number(rows[0].count) > 0) {
-    console.log("Posts already exist, skipping.");
-    return;
-  }
 
   const posts = [
     {
@@ -88,6 +87,7 @@ This is the espresso martini that all others should be measured against. It's so
 **Price:** £14 | **Serving Style:** Classic coupe glass | **Coffee Bean Garnish:** Three, perfectly placed`,
       bar_name: "Bar Termini",
       location: "London, United Kingdom",
+      location_data: { place_id: "ChIJdd4hrwug2EcRmSrV3Vo6llI", formatted_address: "7 Old Compton St, London W1D 5JE, UK", city: "London", country: "United Kingdom", lat: 51.5133, lng: -0.1312 },
       rating: 4.8,
       price: 14,
       currency: "GBP",
@@ -118,6 +118,7 @@ This is Melbourne in a glass — unpretentious excellence. The quality of the co
 **Price:** AUD $24 | **Serving Style:** Nick and Nora glass | **Coffee Bean Garnish:** Single bean, centred`,
       bar_name: "Eau de Vie",
       location: "Melbourne, Australia",
+      location_data: { place_id: "ChIJ90260mVG1moRkM2MIXVWBAQ", formatted_address: "1 Malthouse Ln, Melbourne VIC 3000, Australia", city: "Melbourne", country: "Australia", lat: -37.8136, lng: 144.9631 },
       rating: 4.6,
       price: 24,
       currency: "AUD",
@@ -150,6 +151,7 @@ Skip the espresso martini here and order a Mai Tai instead — they do those wel
 **Price:** $22 USD | **Serving Style:** Martini glass (warm) | **Coffee Bean Garnish:** None`,
       bar_name: "Waikiki Beach Bar",
       location: "Honolulu, Hawaii",
+      location_data: { place_id: "ChIJTUbDjDsYAHwRbJen81_1KEs", formatted_address: "2005 Kalia Rd, Honolulu, HI 96815, USA", city: "Honolulu", country: "United States", lat: 21.2769, lng: -157.8290 },
       rating: 1.5,
       price: 22,
       currency: "USD",
@@ -182,6 +184,7 @@ This is innovation at its finest. By respecting the classic format while adding 
 **Price:** NOK 195 | **Serving Style:** Custom ceramic cup | **Coffee Bean Garnish:** Grated tonka bean`,
       bar_name: "Himkok",
       location: "Oslo, Norway",
+      location_data: { place_id: "ChIJOfBn8mFuQUYRmh4j019gkn4", formatted_address: "Storgata 27, 0184 Oslo, Norway", city: "Oslo", country: "Norway", lat: 59.9139, lng: 10.7522 },
       rating: 4.9,
       price: 195,
       currency: "NOK",
@@ -212,6 +215,7 @@ No frills, no twists, no molecular gastronomy — just an exceptionally well-mad
 **Price:** RUB 890 | **Serving Style:** Frosted coupe glass | **Coffee Bean Garnish:** Three beans in a triangle`,
       bar_name: "Brasserie Pushkin",
       location: "Moscow, Russia",
+      location_data: { place_id: "ChIJh2E2GKNKtUYRSQLOwBhMAAQ", formatted_address: "Tverskoy Blvd, 26А, Moscow, Russia, 125009", city: "Moscow", country: "Russia", lat: 55.7648, lng: 37.6043 },
       rating: 4.4,
       price: 890,
       currency: "RUB",
@@ -221,8 +225,20 @@ No frills, no twists, no molecular gastronomy — just an exceptionally well-mad
 
   for (const post of posts) {
     await sql`
-      INSERT INTO posts (title, slug, excerpt, content, bar_name, location, rating, price, currency, image_url, published, author_id)
-      VALUES (${post.title}, ${post.slug}, ${post.excerpt}, ${post.content}, ${post.bar_name}, ${post.location}, ${post.rating}, ${post.price}, ${post.currency}, ${post.image_url}, true, 1)
+      INSERT INTO posts (title, slug, excerpt, content, bar_name, location, location_data, rating, price, currency, image_url, published, author_id)
+      VALUES (${post.title}, ${post.slug}, ${post.excerpt}, ${post.content}, ${post.bar_name}, ${post.location}, ${JSON.stringify(post.location_data)}::jsonb, ${post.rating}, ${post.price}, ${post.currency}, ${post.image_url}, true, 1)
+      ON CONFLICT (slug) DO UPDATE SET
+        title = EXCLUDED.title,
+        excerpt = EXCLUDED.excerpt,
+        content = EXCLUDED.content,
+        bar_name = EXCLUDED.bar_name,
+        location = EXCLUDED.location,
+        location_data = EXCLUDED.location_data,
+        rating = EXCLUDED.rating,
+        price = EXCLUDED.price,
+        currency = EXCLUDED.currency,
+        image_url = EXCLUDED.image_url,
+        updated_at = NOW()
     `;
   }
 

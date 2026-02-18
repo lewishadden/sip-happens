@@ -15,7 +15,7 @@ export async function POST(request: NextRequest) {
   }
 
   const body = await request.json();
-  const { title, slug, excerpt, content, bar_name, location, rating, price, currency, image_url, published } = body;
+  const { title, slug, excerpt, content, bar_name, location, location_data, rating, price, currency, image_url, published } = body;
 
   if (!title || !slug || !content) {
     return NextResponse.json({ error: "Title, slug, and content are required" }, { status: 400 });
@@ -29,6 +29,7 @@ export async function POST(request: NextRequest) {
       content,
       bar_name: bar_name || "",
       location: location || "",
+      location_data: location_data || null,
       rating: rating || 0,
       price: price || null,
       currency: currency || "USD",
