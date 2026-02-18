@@ -1,65 +1,111 @@
-import Image from "next/image";
+import Link from "next/link";
+import PostCard from "@/components/PostCard";
+import { getRecentPosts, getAllPosts } from "@/lib/db";
 
 export default function Home() {
+  const featuredPosts = getRecentPosts(3);
+  const totalReviews = getAllPosts().length;
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
+    <div>
+      {/* Hero */}
+      <section className="relative bg-espresso-900 text-cream overflow-hidden">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--color-espresso-700)_0%,_var(--color-espresso-950)_70%)]" />
+        <div className="relative max-w-6xl mx-auto px-4 py-24 md:py-36 text-center">
+          <span className="text-6xl md:text-8xl block mb-6">&#9749;</span>
+          <h1 className="text-4xl md:text-6xl font-bold mb-4 tracking-tight">
+            Sip Happens
           </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
+          <p className="text-lg md:text-xl text-espresso-300 max-w-2xl mx-auto mb-4">
+            Reviewing espresso martinis around the globe, one sip at a time.
           </p>
+          <p className="text-sm text-espresso-400 mb-8">
+            {totalReviews} reviews and counting
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Link
+              href="/reviews"
+              className="inline-flex items-center justify-center px-8 py-3 bg-caramel text-espresso-950 font-semibold rounded-full hover:bg-espresso-300 transition-all shadow-lg hover:shadow-xl"
+            >
+              Browse Reviews
+            </Link>
+            <Link
+              href="/about"
+              className="inline-flex items-center justify-center px-8 py-3 border-2 border-espresso-600 text-espresso-200 font-semibold rounded-full hover:border-caramel hover:text-caramel transition-all"
+            >
+              Our Story
+            </Link>
+          </div>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+      </section>
+
+      {/* Latest Reviews */}
+      <section className="max-w-6xl mx-auto px-4 py-16">
+        <div className="flex items-end justify-between mb-10">
+          <div>
+            <h2 className="text-3xl font-bold text-espresso-900">Latest Reviews</h2>
+            <p className="text-espresso-500 mt-1">Fresh from the glass</p>
+          </div>
+          <Link
+            href="/reviews"
+            className="text-sm font-semibold text-espresso-600 hover:text-caramel transition-colors hidden sm:block"
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+            View all reviews &rarr;
+          </Link>
         </div>
-      </main>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {featuredPosts.map((post) => (
+            <PostCard key={post.id} {...post} />
+          ))}
+        </div>
+
+        <div className="mt-8 text-center sm:hidden">
+          <Link
+            href="/reviews"
+            className="text-sm font-semibold text-espresso-600 hover:text-caramel transition-colors"
+          >
+            View all reviews &rarr;
+          </Link>
+        </div>
+      </section>
+
+      {/* Stats */}
+      <section className="bg-espresso-900 text-cream">
+        <div className="max-w-6xl mx-auto px-4 py-16">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+            <div>
+              <div className="text-4xl font-bold text-caramel mb-2">{totalReviews}+</div>
+              <div className="text-espresso-400 text-sm">Reviews Published</div>
+            </div>
+            <div>
+              <div className="text-4xl font-bold text-caramel mb-2">15+</div>
+              <div className="text-espresso-400 text-sm">Countries Visited</div>
+            </div>
+            <div>
+              <div className="text-4xl font-bold text-caramel mb-2">&#8734;</div>
+              <div className="text-espresso-400 text-sm">Espresso Martinis Consumed</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* CTA */}
+      <section className="max-w-6xl mx-auto px-4 py-16 text-center">
+        <h2 className="text-2xl md:text-3xl font-bold text-espresso-900 mb-4">
+          Know a bar we should visit?
+        </h2>
+        <p className="text-espresso-500 max-w-xl mx-auto mb-8">
+          We&apos;re always on the hunt for the next great espresso martini.
+          Drop us a recommendation and we&apos;ll add it to our list.
+        </p>
+        <Link
+          href="/about"
+          className="inline-flex items-center justify-center px-8 py-3 bg-espresso-800 text-cream font-semibold rounded-full hover:bg-espresso-700 transition-all"
+        >
+          Get in Touch
+        </Link>
+      </section>
     </div>
   );
 }
