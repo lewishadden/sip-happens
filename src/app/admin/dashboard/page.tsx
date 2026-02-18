@@ -37,7 +37,8 @@ export default function AdminDashboard() {
       setLoading(false);
     }
     load();
-  }, [router]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   async function handleDelete(id: number, title: string) {
     if (!confirm(`Delete "${title}"? This cannot be undone.`)) return;

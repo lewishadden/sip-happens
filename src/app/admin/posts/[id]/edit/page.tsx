@@ -27,6 +27,7 @@ export default function EditPostPage({ params }: { params: Promise<{ id: string 
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    let cancelled = false;
     async function load() {
       const meRes = await fetch("/api/auth/me");
       if (!meRes.ok) {
@@ -41,11 +42,15 @@ export default function EditPostPage({ params }: { params: Promise<{ id: string 
       }
 
       const postData = await postRes.json();
-      setPost(postData);
-      setLoading(false);
+      if (!cancelled) {
+        setPost(postData);
+        setLoading(false);
+      }
     }
     load();
-  }, [id, router]);
+    return () => { cancelled = true; };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [id]);
 
   if (loading || !post) {
     return (
