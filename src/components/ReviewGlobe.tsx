@@ -227,7 +227,8 @@ export default function ReviewGlobe({ markers }: ReviewGlobeProps) {
           controls.autoRotateSpeed = 0.6;
           controls.enableZoom = "ontouchstart" in window;
           controls.zoomSpeed = 0.5;
-          controls.touches = { ONE: 0, TWO: 3 };
+          controls.enablePan = false;
+          controls.rotateSpeed = 0.3;
           const cam = globeRef.current?.camera() as unknown as
             | {
                 near: number;
@@ -240,6 +241,7 @@ export default function ReviewGlobe({ markers }: ReviewGlobeProps) {
           }
           controls.minDistance = 100.002;
           changeHandler = () => {
+            if (controls.rotateSpeed !== 0.3) controls.rotateSpeed = 0.3;
             if (globeRef.current) {
               const alt = globeRef.current.pointOfView().altitude;
               scaleMarkersForAltitude(alt);
