@@ -286,7 +286,10 @@ export default function ReviewGlobe({ markers }: ReviewGlobeProps) {
     setAutoRotate(false);
     resumeTimer.current = setTimeout(() => {
       rotatePausedRef.current = false;
-      setAutoRotate(true);
+      const alt = globeRef.current?.pointOfView().altitude ?? DEFAULT_ALTITUDE;
+      if (alt > TILE_THRESHOLD) {
+        setAutoRotate(true);
+      }
     }, DRAG_PAUSE_MS);
   }, [setAutoRotate]);
 
