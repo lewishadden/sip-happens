@@ -1,13 +1,30 @@
 import Link from "next/link";
 import PostCard from "@/components/PostCard";
+import ReviewGlobe from "@/components/ReviewGlobe";
+import type { GlobeMarker } from "@/components/ReviewGlobe";
 import { getRecentPosts, getAllPosts, getUniqueCountryCount } from "@/lib/db";
 
 export const dynamic = "force-dynamic";
 
 export default async function Home() {
   const featuredPosts = await getRecentPosts(3);
-  const totalReviews = (await getAllPosts()).length;
+  const allPosts = await getAllPosts();
+  const totalReviews = allPosts.length;
   const countryCount = await getUniqueCountryCount();
+
+  const globeMarkers: GlobeMarker[] = allPosts
+    .filter((p) => p.location_data?.lat != null && p.location_data?.lng != null)
+    .map((p) => ({
+      lat: p.location_data!.lat,
+      lng: p.location_data!.lng,
+      title: p.title,
+      slug: p.slug,
+      bar_name: p.bar_name,
+      location: p.location,
+      rating: p.rating,
+      excerpt: p.excerpt,
+      image_url: p.image_url,
+    }));
 
   return (
     <div>
@@ -41,6 +58,9 @@ export default async function Home() {
           </div>
         </div>
       </section>
+
+      {/* Globe */}
+      <ReviewGlobe markers={globeMarkers} />
 
       {/* Latest Reviews */}
       <section className="max-w-6xl mx-auto px-4 py-16">
