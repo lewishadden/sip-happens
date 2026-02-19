@@ -45,13 +45,16 @@ export default function LocationSearch({
 
     autocompleteRef.current = new window.google.maps.places.Autocomplete(
       inputRef.current,
-      { types: ["establishment", "geocode"] }
+      { types: ["establishment", "geocode"] },
     );
 
     autocompleteRef.current.addListener("place_changed", () => {
       const place = autocompleteRef.current!.getPlace();
       if (!place.geometry || !place.address_components) {
-        onChangeRef.current({ display: inputRef.current?.value || "", data: null });
+        onChangeRef.current({
+          display: inputRef.current?.value || "",
+          data: null,
+        });
         return;
       }
 
@@ -60,6 +63,9 @@ export default function LocationSearch({
 
       for (const component of place.address_components) {
         if (component.types.includes("locality")) {
+          city = component.long_name;
+        }
+        if (!city && component.types.includes("postal_town")) {
           city = component.long_name;
         }
         if (!city && component.types.includes("administrative_area_level_1")) {
