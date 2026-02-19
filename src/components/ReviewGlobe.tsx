@@ -146,14 +146,21 @@ export default function ReviewGlobe({ markers }: ReviewGlobeProps) {
   useEffect(() => {
     let cancelled = false;
     (async () => {
-      const { CanvasTexture, SRGBColorSpace, ClampToEdgeWrapping } =
-        await import("three");
+      const {
+        CanvasTexture,
+        SRGBColorSpace,
+        ClampToEdgeWrapping,
+        LinearFilter,
+      } = await import("three");
       const compositor = new TileCompositor();
       compositorRef.current = compositor;
       const texture = new CanvasTexture(compositor.getCanvas());
       texture.colorSpace = SRGBColorSpace;
       texture.wrapS = ClampToEdgeWrapping;
       texture.wrapT = ClampToEdgeWrapping;
+      texture.generateMipmaps = false;
+      texture.minFilter = LinearFilter;
+      texture.magFilter = LinearFilter;
       textureRef.current = texture;
       compositor.setOnUpdate(() => {
         if (textureRef.current) textureRef.current.needsUpdate = true;
@@ -164,13 +171,6 @@ export default function ReviewGlobe({ markers }: ReviewGlobeProps) {
       cancelled = true;
       compositorRef.current?.dispose();
     };
-  }, []);
-
-  const scheduleUpdatesForAnimation = useCallback((durationMs: number) => {
-    const steps = Math.ceil(durationMs / 100);
-    for (let i = 1; i <= steps; i++) {
-      setTimeout(() => updateTilesRef.current(), i * 100);
-    }
   }, []);
 
   // Swap globe material map to/from canvas texture based on altitude
@@ -373,10 +373,25 @@ export default function ReviewGlobe({ markers }: ReviewGlobeProps) {
         direction === "in"
           ? Math.max(0.0000005, pov.altitude * 0.5)
           : Math.min(7, pov.altitude * 1.5);
+
+      if (
+        direction === "out" &&
+        newAlt > TILE_THRESHOLD &&
+        usingTilesRef.current
+      ) {
+        const mat = findGlobeMaterial(globeRef);
+        if (mat && originalMapRef.current) {
+          mat.map = originalMapRef.current;
+          mat.needsUpdate = true;
+        }
+        usingTilesRef.current = false;
+        setTilesActive(false);
+      }
+
       globeRef.current.pointOfView({ ...pov, altitude: newAlt }, 400);
-      scheduleUpdatesForAnimation(400);
+      setTimeout(() => updateTilesRef.current(), 500);
     },
-    [selected, pauseForDrag, scheduleUpdatesForAnimation],
+    [selected, pauseForDrag],
   );
 
   const handleGlobeClick = useCallback(() => {

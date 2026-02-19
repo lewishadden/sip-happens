@@ -1,4 +1,4 @@
-const CANVAS_SIZE = 2048;
+const CANVAS_SIZE = 4096;
 export const TILE_THRESHOLD = 0.4;
 const MAX_ZOOM = 19;
 const MIN_ZOOM = 3;
@@ -50,6 +50,7 @@ export class TileCompositor {
     this.canvas.width = CANVAS_SIZE;
     this.canvas.height = CANVAS_SIZE;
     this.ctx = this.canvas.getContext("2d")!;
+    this.ctx.imageSmoothingQuality = "high";
   }
 
   getCanvas(): HTMLCanvasElement {
@@ -93,6 +94,7 @@ export class TileCompositor {
   }
 
   private drawViewportBase(): void {
+    this.ctx.clearRect(0, 0, CANVAS_SIZE, CANVAS_SIZE);
     if (!this.baseImage) return;
     const bw = this.baseImage.naturalWidth;
     const bh = this.baseImage.naturalHeight;
@@ -102,17 +104,19 @@ export class TileCompositor {
     const srcW = (this.lngSpan / 360) * bw;
     const srcH = (this.latSpan / 180) * bh;
 
-    this.ctx.drawImage(
-      this.baseImage,
-      srcX,
-      srcY,
-      srcW,
-      srcH,
-      0,
-      0,
-      CANVAS_SIZE,
-      CANVAS_SIZE,
-    );
+    if (srcW >= 1 && srcH >= 1) {
+      this.ctx.drawImage(
+        this.baseImage,
+        srcX,
+        srcY,
+        srcW,
+        srcH,
+        0,
+        0,
+        CANVAS_SIZE,
+        CANVAS_SIZE,
+      );
+    }
   }
 
   private drawTile(
@@ -120,6 +124,7 @@ export class TileCompositor {
     tx: number,
     ty: number,
     z: number,
+    clearFirst = false,
   ): void {
     const westLng = this.tileXToLng(tx, z);
     const eastLng = this.tileXToLng(tx + 1, z);
@@ -136,6 +141,9 @@ export class TileCompositor {
     const x2 = Math.ceil((eastLng - vpWest) * pxPerDegLng);
     const y2 = Math.ceil((vpNorth - southLat) * pxPerDegLat);
 
+    if (clearFirst) {
+      this.ctx.clearRect(x, y, x2 - x, y2 - y);
+    }
     this.ctx.drawImage(img, x, y, x2 - x, y2 - y);
   }
 
@@ -221,7 +229,7 @@ export class TileCompositor {
         this.tileCache.set(key, img);
         this.pendingFetches.delete(key);
         if (z === this.lastZoom) {
-          this.drawTile(img, tx, ty, z);
+          this.drawTile(img, tx, ty, z, true);
           this.onUpdate?.();
         }
         this.drainQueue();
@@ -234,6 +242,25 @@ export class TileCompositor {
       const sub = SUBDOMAINS[subdomainIdx];
       subdomainIdx = (subdomainIdx + 1) % SUBDOMAINS.length;
       img.src = `https://${sub}.tile.openstreetmap.org/${z}/${tx}/${ty}.png`;
+    }
+  }
+
+  private drawFallbackTiles(currentZ: number): void {
+    for (let fallbackZ = currentZ - 1; fallbackZ >= MIN_ZOOM; fallbackZ--) {
+      const tiles = this.getVisibleTiles(
+        this.viewLat,
+        this.viewLng,
+        fallbackZ,
+      );
+      let drawn = 0;
+      for (const { tx, ty, key } of tiles) {
+        const cached = this.tileCache.get(key);
+        if (cached) {
+          this.drawTile(cached, tx, ty, fallbackZ);
+          drawn++;
+        }
+      }
+      if (drawn > 0) break;
     }
   }
 
@@ -265,11 +292,13 @@ export class TileCompositor {
     }
 
     this.drawViewportBase();
+    this.drawFallbackTiles(z);
+
     const tiles = this.getVisibleTiles(this.viewLat, this.viewLng, z);
     for (const { tx, ty, key } of tiles) {
       const cached = this.tileCache.get(key);
       if (cached) {
-        this.drawTile(cached, tx, ty, z);
+        this.drawTile(cached, tx, ty, z, true);
       } else {
         this.enqueue(key, tx, ty, z);
       }
