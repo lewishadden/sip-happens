@@ -225,7 +225,8 @@ export default function ReviewGlobe({ markers }: ReviewGlobeProps) {
         if (controls) {
           controls.autoRotate = true;
           controls.autoRotateSpeed = 0.6;
-          controls.enableZoom = false;
+          controls.enableZoom = "ontouchstart" in window;
+          controls.zoomSpeed = 0.5;
           const cam = globeRef.current?.camera() as unknown as
             | {
                 near: number;
