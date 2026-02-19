@@ -225,10 +225,14 @@ export default function ReviewGlobe({ markers }: ReviewGlobeProps) {
         if (controls) {
           controls.autoRotate = true;
           controls.autoRotateSpeed = 0.6;
-          controls.enableZoom = "ontouchstart" in window;
+          const isTouchDevice = "ontouchstart" in window;
+          controls.enableZoom = isTouchDevice;
           controls.zoomSpeed = 0.5;
           controls.enablePan = false;
           controls.rotateSpeed = 0.3;
+          if (isTouchDevice && controls.touches) {
+            controls.touches.TWO = 3; // DOLLY_ROTATE instead of DOLLY_PAN
+          }
           const cam = globeRef.current?.camera() as unknown as
             | {
                 near: number;
@@ -242,6 +246,8 @@ export default function ReviewGlobe({ markers }: ReviewGlobeProps) {
           controls.minDistance = 100.002;
           changeHandler = () => {
             if (controls.rotateSpeed !== 0.3) controls.rotateSpeed = 0.3;
+            if (controls.enablePan) controls.enablePan = false;
+            if (controls.touches && controls.touches.TWO !== 3) controls.touches.TWO = 3;
             if (globeRef.current) {
               const alt = globeRef.current.pointOfView().altitude;
               scaleMarkersForAltitude(alt);
