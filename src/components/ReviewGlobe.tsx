@@ -225,14 +225,8 @@ export default function ReviewGlobe({ markers }: ReviewGlobeProps) {
         if (controls) {
           controls.autoRotate = true;
           controls.autoRotateSpeed = 0.6;
-          const isTouchDevice = "ontouchstart" in window;
-          controls.enableZoom = isTouchDevice;
-          controls.zoomSpeed = 0.5;
+          controls.enableZoom = false;
           controls.enablePan = false;
-          controls.rotateSpeed = 0.3;
-          if (isTouchDevice && controls.touches) {
-            controls.touches.TWO = 3; // DOLLY_ROTATE instead of DOLLY_PAN
-          }
           const cam = globeRef.current?.camera() as unknown as
             | {
                 near: number;
@@ -245,9 +239,7 @@ export default function ReviewGlobe({ markers }: ReviewGlobeProps) {
           }
           controls.minDistance = 100.002;
           changeHandler = () => {
-            if (controls.rotateSpeed !== 0.3) controls.rotateSpeed = 0.3;
             if (controls.enablePan) controls.enablePan = false;
-            if (controls.touches && controls.touches.TWO !== 3) controls.touches.TWO = 3;
             if (globeRef.current) {
               const alt = globeRef.current.pointOfView().altitude;
               scaleMarkersForAltitude(alt);
@@ -361,6 +353,44 @@ export default function ReviewGlobe({ markers }: ReviewGlobeProps) {
     handleResize();
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  // Custom pinch-to-zoom (OrbitControls' built-in touch zoom pans downward)
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
+    let startDist = 0;
+    let startAlt = 0;
+
+    function getTouchDist(e: TouchEvent) {
+      const [a, b] = [e.touches[0], e.touches[1]];
+      return Math.hypot(a.clientX - b.clientX, a.clientY - b.clientY);
+    }
+
+    function onTouchStart(e: TouchEvent) {
+      if (e.touches.length === 2) {
+        startDist = getTouchDist(e);
+        startAlt = globeRef.current?.pointOfView().altitude ?? DEFAULT_ALTITUDE;
+      }
+    }
+
+    function onTouchMove(e: TouchEvent) {
+      if (e.touches.length !== 2 || !globeRef.current || startDist === 0)
+        return;
+      const dist = getTouchDist(e);
+      const rawScale = startDist / dist;
+      const scale = Math.pow(rawScale, 0.3);
+      const newAlt = Math.max(0.0000005, Math.min(7, startAlt * scale));
+      const pov = globeRef.current.pointOfView();
+      globeRef.current.pointOfView({ ...pov, altitude: newAlt });
+    }
+
+    el.addEventListener("touchstart", onTouchStart, { passive: true });
+    el.addEventListener("touchmove", onTouchMove, { passive: true });
+    return () => {
+      el.removeEventListener("touchstart", onTouchStart);
+      el.removeEventListener("touchmove", onTouchMove);
+    };
   }, []);
 
   const onGlobeReady = useCallback(() => {
