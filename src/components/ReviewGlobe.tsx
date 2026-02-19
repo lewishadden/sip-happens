@@ -361,6 +361,9 @@ export default function ReviewGlobe({ markers }: ReviewGlobeProps) {
     if (!el) return;
     let startDist = 0;
     let startAlt = 0;
+    let startLat = 0;
+    let startLng = 0;
+    let isPinching = false;
 
     function getTouchDist(e: TouchEvent) {
       const [a, b] = [e.touches[0], e.touches[1]];
@@ -368,28 +371,45 @@ export default function ReviewGlobe({ markers }: ReviewGlobeProps) {
     }
 
     function onTouchStart(e: TouchEvent) {
-      if (e.touches.length === 2) {
+      if (e.touches.length === 2 && globeRef.current) {
+        isPinching = true;
         startDist = getTouchDist(e);
-        startAlt = globeRef.current?.pointOfView().altitude ?? DEFAULT_ALTITUDE;
+        const pov = globeRef.current.pointOfView();
+        startAlt = pov.altitude;
+        startLat = pov.lat;
+        startLng = pov.lng;
       }
     }
 
     function onTouchMove(e: TouchEvent) {
-      if (e.touches.length !== 2 || !globeRef.current || startDist === 0)
-        return;
+      if (!isPinching || e.touches.length !== 2 || !globeRef.current) return;
       const dist = getTouchDist(e);
       const rawScale = startDist / dist;
       const scale = Math.pow(rawScale, 0.3);
       const newAlt = Math.max(0.0000005, Math.min(7, startAlt * scale));
-      const pov = globeRef.current.pointOfView();
-      globeRef.current.pointOfView({ ...pov, altitude: newAlt });
+      globeRef.current.pointOfView({
+        lat: startLat,
+        lng: startLng,
+        altitude: newAlt,
+      });
+    }
+
+    function onTouchEnd(e: TouchEvent) {
+      if (e.touches.length < 2) {
+        isPinching = false;
+        startDist = 0;
+      }
     }
 
     el.addEventListener("touchstart", onTouchStart, { passive: true });
     el.addEventListener("touchmove", onTouchMove, { passive: true });
+    el.addEventListener("touchend", onTouchEnd, { passive: true });
+    el.addEventListener("touchcancel", onTouchEnd, { passive: true });
     return () => {
       el.removeEventListener("touchstart", onTouchStart);
       el.removeEventListener("touchmove", onTouchMove);
+      el.removeEventListener("touchend", onTouchEnd);
+      el.removeEventListener("touchcancel", onTouchEnd);
     };
   }, []);
 
