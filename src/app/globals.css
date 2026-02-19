@@ -54,6 +54,10 @@ body {
   color: var(--color-espresso-900);
 }
 
+.globe-marker-icon:hover {
+  transform: scale(1.4) !important;
+}
+
 @keyframes fadeInUp {
   from {
     opacity: 0;

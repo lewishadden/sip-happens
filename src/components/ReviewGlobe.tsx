@@ -56,7 +56,7 @@ function RatingStarsInline({ rating }: { rating: number }) {
 const markerElements = new Set<HTMLElement>();
 let currentMarkerScale = 1;
 
-const MARKER_SCALE_START = 0.05;
+const MARKER_SCALE_START = 0.3;
 
 function scaleMarkersForAltitude(altitude: number) {
   const zoom =
@@ -84,21 +84,16 @@ function createMarkerElement(
     `width:${px}px;height:${px}px;margin:-${px / 2}px;`;
 
   const icon = document.createElement("span");
+  icon.className = "globe-marker-icon";
   icon.style.cssText =
     `font-size:${px}px;line-height:1;` +
     "filter:drop-shadow(0 2px 4px rgba(0,0,0,0.7));" +
-    "transition:transform 0.15s ease-out;transform-origin:center center;";
+    "transition:transform 0.15s ease-out;transform-origin:center center;" +
+    "display:block;";
   icon.textContent = "\u{1F378}";
   wrapper.appendChild(icon);
 
   markerElements.add(wrapper);
-
-  wrapper.addEventListener("mouseenter", () => {
-    icon.style.transform = "scale(1.4)";
-  });
-  wrapper.addEventListener("mouseleave", () => {
-    icon.style.transform = "scale(1)";
-  });
   wrapper.addEventListener("click", (e) => {
     e.stopPropagation();
     onClick(marker);
@@ -303,10 +298,10 @@ export default function ReviewGlobe({ markers }: ReviewGlobeProps) {
           { lat: marker.lat, lng: marker.lng, altitude: CITY_ALTITUDE },
           2000,
         );
-        scheduleUpdatesForAnimation(2000);
+        setTimeout(() => updateTilesRef.current(), 2050);
       }
     },
-    [setAutoRotate, scheduleUpdatesForAnimation],
+    [setAutoRotate],
   );
 
   // When card closes, zoom back out and resume rotation
@@ -346,9 +341,10 @@ export default function ReviewGlobe({ markers }: ReviewGlobeProps) {
     function handleResize() {
       if (containerRef.current) {
         const w = containerRef.current.clientWidth;
+        const maxH = window.innerHeight - 64;
         setDimensions({
           width: w,
-          height: Math.min(800, Math.max(500, w * 0.5)),
+          height: Math.min(maxH, Math.max(400, w * 0.5)),
         });
       }
     }
