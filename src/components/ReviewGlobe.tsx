@@ -388,7 +388,7 @@ export default function ReviewGlobe({ markers }: ReviewGlobeProps) {
       if (!isPinching || e.touches.length !== 2 || !globeRef.current) return;
       const dist = getTouchDist(e);
       const rawScale = startDist / dist;
-      const scale = Math.pow(rawScale, 0.6);
+      const scale = Math.pow(rawScale, 0.8);
       const newAlt = Math.max(0.0000005, Math.min(7, startAlt * scale));
       globeRef.current.pointOfView({
         lat: startLat,
