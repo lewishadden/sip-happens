@@ -16,7 +16,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint",
+    "lint": "eslint ./src",
     "seed": "npx tsx scripts/seed.ts"
   },
   "dependencies": {
@@ -31,6 +31,7 @@
     "react-globe.gl": "^2.37.0"
   },
   "devDependencies": {
+    "@eslint/eslintrc": "^3.3.3",
     "@tailwindcss/postcss": "^4",
     "@types/bcryptjs": "^2.4.6",
     "@types/google.maps": "^3.58.1",
@@ -39,8 +40,8 @@
     "@types/react-dom": "^19",
     "@types/three": "^0.182.0",
     "dotenv": "^17.3.1",
-    "eslint": "^4.1.1",
-    "eslint-config-next": "^0.2.4",
+    "eslint": "^8.57.0",
+    "eslint-config-next": "^14.2.2",
     "tailwindcss": "^4",
     "typescript": "^5"
   }
