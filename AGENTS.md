@@ -38,6 +38,28 @@ scripts/
 - The `published` field on posts is a Postgres `BOOLEAN`, not an integer.
 - The color palette uses custom Tailwind theme tokens: `espresso-50` through `espresso-950`, plus `cream`, `foam`, `caramel`, and `crema`.
 
+## Coding Standards
+
+### Variable Naming
+- All variables must use **camelCase**.
+- Variables that rely on React props must be defined at the **top of the component**.
+- Hardcoded values must be stored in a **constants file** (e.g., `src/lib/constants.ts`).
+
+### Import Organization
+Imports must be grouped together, separated by an empty line, in the following order:
+1. **External imports** (from `node_modules`)
+2. **Internal imports** (from project files)
+3. **Type imports** (using `import type`)
+4. **CSS imports**
+5. **Dynamic imports** (using `next/dynamic`)
+
+### Images
+- All images must use the **Next.js Image component** (`next/image`) instead of `<img>` tags.
+
+### Code Quality
+- All files must be **formatted with Prettier** before committing.
+- All files must **pass ESLint checks** before committing.
+
 ## Database
 
 - Connection string is in `POSTGRES_URL` env var (`.env.local` locally, Vercel env vars in production).
