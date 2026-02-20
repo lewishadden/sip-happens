@@ -41,12 +41,15 @@ scripts/
 ## Coding Standards
 
 ### Variable Naming
+
 - All variables must use **camelCase**.
 - Variables that rely on React props must be defined at the **top of the component**.
 - Hardcoded values must be stored in a **constants file** (e.g., `src/lib/constants.ts`).
 
 ### Import Organization
+
 Imports must be grouped together, separated by an empty line, in the following order:
+
 1. **External imports** (from `node_modules`)
 2. **Internal imports** (from project files)
 3. **Type imports** (using `import type`)
@@ -54,9 +57,11 @@ Imports must be grouped together, separated by an empty line, in the following o
 5. **Dynamic imports** (using `next/dynamic`)
 
 ### Images
+
 - All images must use the **Next.js Image component** (`next/image`) instead of `<img>` tags.
 
 ### Code Quality
+
 - All files must be **formatted with Prettier** before committing.
 - All files must **pass ESLint checks** before committing.
 
@@ -68,18 +73,21 @@ Imports must be grouped together, separated by an empty line, in the following o
 
 ## Environment Variables
 
-| Variable | Purpose |
-|----------|---------|
-| `POSTGRES_URL` | Neon Postgres connection string |
-| `JWT_SECRET` | Secret key for signing JWT tokens |
-| `ADMIN_EMAIL` | Default admin email (used by seed script) |
+| Variable         | Purpose                                      |
+| ---------------- | -------------------------------------------- |
+| `POSTGRES_URL`   | Neon Postgres connection string              |
+| `JWT_SECRET`     | Secret key for signing JWT tokens            |
+| `ADMIN_EMAIL`    | Default admin email (used by seed script)    |
 | `ADMIN_PASSWORD` | Default admin password (used by seed script) |
 
 ## Commands
 
-| Command | Purpose |
-|---------|---------|
-| `npm run dev` | Start dev server |
-| `npm run build` | Production build |
-| `npm run seed` | Create tables and insert seed data (requires `POSTGRES_URL` in `.env.local`) |
-| `npm run lint` | Run ESLint |
+| Command                  | Purpose                                                                      |
+| ------------------------ | ---------------------------------------------------------------------------- |
+| `npm run dev`            | Start dev server                                                             |
+| `npm run build`          | Production build                                                             |
+| `npm run start`          | Start production server (after `npm run build`)                              |
+| `npm run seed`           | Create tables and insert seed data (requires `POSTGRES_URL` in `.env.local`) |
+| `npm run lint`           | Run ESLint                                                                   |
+| `npm run prettier:check` | Check code formatting with Prettier                                          |
+| `npm run prettier:write` | Format code with Prettier                                                    |
