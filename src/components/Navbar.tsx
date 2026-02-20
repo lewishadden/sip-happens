@@ -1,17 +1,17 @@
-"use client";
+'use client';
 
-import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { useState } from "react";
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import { useState } from 'react';
 
 export default function Navbar() {
   const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
 
   const links = [
-    { href: "/", label: "Home" },
-    { href: "/reviews", label: "Reviews" },
-    { href: "/about", label: "About" },
+    { href: '/', label: 'Home' },
+    { href: '/reviews', label: 'Reviews' },
+    { href: '/about', label: 'About' },
   ];
 
   return (
@@ -32,8 +32,8 @@ export default function Navbar() {
                 href={link.href}
                 className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
                   pathname === link.href
-                    ? "bg-espresso-700 text-cream"
-                    : "text-espresso-200 hover:bg-espresso-800 hover:text-cream"
+                    ? 'bg-espresso-700 text-cream'
+                    : 'text-espresso-200 hover:bg-espresso-800 hover:text-cream'
                 }`}
               >
                 {link.label}
@@ -46,12 +46,7 @@ export default function Navbar() {
             onClick={() => setMenuOpen(!menuOpen)}
             aria-label="Toggle menu"
           >
-            <svg
-              className="w-6 h-6"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
+            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               {menuOpen ? (
                 <path
                   strokeLinecap="round"
@@ -80,8 +75,8 @@ export default function Navbar() {
                 onClick={() => setMenuOpen(false)}
                 className={`block px-4 py-2 rounded-lg text-sm font-medium transition-all ${
                   pathname === link.href
-                    ? "bg-espresso-700 text-cream"
-                    : "text-espresso-200 hover:bg-espresso-800 hover:text-cream"
+                    ? 'bg-espresso-700 text-cream'
+                    : 'text-espresso-200 hover:bg-espresso-800 hover:text-cream'
                 }`}
               >
                 {link.label}

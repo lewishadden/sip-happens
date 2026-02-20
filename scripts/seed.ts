@@ -1,8 +1,8 @@
-import dotenv from "dotenv";
-dotenv.config({ path: ".env.local" });
+import dotenv from 'dotenv';
+dotenv.config({ path: '.env.local' });
 
-import { neon } from "@neondatabase/serverless";
-import bcrypt from "bcryptjs";
+import { neon } from '@neondatabase/serverless';
+import bcrypt from 'bcryptjs';
 
 const sql = neon(process.env.POSTGRES_URL!);
 
@@ -41,31 +41,31 @@ async function createTables() {
     ALTER TABLE posts ADD COLUMN IF NOT EXISTS location_data JSONB
   `;
 
-  console.log("Tables created.");
+  console.log('Tables created.');
 }
 
 async function seedAdmin() {
   const rows = await sql`SELECT COUNT(*) as count FROM users`;
   if (Number(rows[0].count) > 0) {
-    console.log("Admin user already exists, skipping.");
+    console.log('Admin user already exists, skipping.');
     return;
   }
 
-  const hash = bcrypt.hashSync(process.env.ADMIN_PASSWORD || "espresso123", 12);
+  const hash = bcrypt.hashSync(process.env.ADMIN_PASSWORD || 'espresso123', 12);
   await sql`
     INSERT INTO users (email, password_hash, name)
-    VALUES (${process.env.ADMIN_EMAIL || "admin@siphappens.com"}, ${hash}, 'Sip Happens Admin')
+    VALUES (${process.env.ADMIN_EMAIL || 'admin@siphappens.com'}, ${hash}, 'Sip Happens Admin')
   `;
-  console.log("Admin user created.");
+  console.log('Admin user created.');
 }
 
 async function seedPosts() {
-
   const posts = [
     {
-      title: "The Perfect Pour at Bar Termini, London",
-      slug: "bar-termini-london",
-      excerpt: "Tucked away in Soho, Bar Termini serves an espresso martini that rivals the best in the world. Rich, velvety, and perfectly balanced.",
+      title: 'The Perfect Pour at Bar Termini, London',
+      slug: 'bar-termini-london',
+      excerpt:
+        'Tucked away in Soho, Bar Termini serves an espresso martini that rivals the best in the world. Rich, velvety, and perfectly balanced.',
       content: `# Bar Termini, London
 
 Bar Termini sits quietly on Old Compton Street in Soho, a slender Italian-inspired bar that feels like stepping into a Roman railway cafe from the 1960s. But don't let the modest exterior fool you — what they do with espresso and vodka here is nothing short of extraordinary.
@@ -85,18 +85,26 @@ The bar is intimate — perhaps 20 seats at most. The lighting is warm amber, th
 This is the espresso martini that all others should be measured against. It's sophisticated without being pretentious, strong without being harsh, and sweet without being cloying. If you're in London, this is a pilgrimage worth making.
 
 **Price:** £14 | **Serving Style:** Classic coupe glass | **Coffee Bean Garnish:** Three, perfectly placed`,
-      bar_name: "Bar Termini",
-      location: "London, United Kingdom",
-      location_data: { place_id: "ChIJdd4hrwug2EcRmSrV3Vo6llI", formatted_address: "7 Old Compton St, London W1D 5JE, UK", city: "London", country: "United Kingdom", lat: 51.5133, lng: -0.1312 },
+      bar_name: 'Bar Termini',
+      location: 'London, United Kingdom',
+      location_data: {
+        place_id: 'ChIJdd4hrwug2EcRmSrV3Vo6llI',
+        formatted_address: '7 Old Compton St, London W1D 5JE, UK',
+        city: 'London',
+        country: 'United Kingdom',
+        lat: 51.5133,
+        lng: -0.1312,
+      },
       rating: 4.8,
       price: 14,
-      currency: "GBP",
-      image_url: "https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?w=800&q=80",
+      currency: 'GBP',
+      image_url: 'https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?w=800&q=80',
     },
     {
       title: "Melbourne's Finest at Eau de Vie",
-      slug: "eau-de-vie-melbourne",
-      excerpt: "In a city obsessed with coffee culture, Eau de Vie delivers an espresso martini that lives up to Melbourne's exacting standards.",
+      slug: 'eau-de-vie-melbourne',
+      excerpt:
+        "In a city obsessed with coffee culture, Eau de Vie delivers an espresso martini that lives up to Melbourne's exacting standards.",
       content: `# Eau de Vie, Melbourne
 
 Melbourne takes its coffee more seriously than perhaps any other city on earth. So when a cocktail bar in this town claims to make a great espresso martini, they'd better deliver. Eau de Vie doesn't just deliver — they exceed every expectation.
@@ -116,18 +124,26 @@ The speakeasy vibe is strong here. Dark wood, leather banquettes, and bartenders
 This is Melbourne in a glass — unpretentious excellence. The quality of the coffee comes through in every sip, and the balance between bitter, sweet, and boozy is spot-on. A must-visit for any espresso martini enthusiast.
 
 **Price:** AUD $24 | **Serving Style:** Nick and Nora glass | **Coffee Bean Garnish:** Single bean, centred`,
-      bar_name: "Eau de Vie",
-      location: "Melbourne, Australia",
-      location_data: { place_id: "ChIJ90260mVG1moRkM2MIXVWBAQ", formatted_address: "1 Malthouse Ln, Melbourne VIC 3000, Australia", city: "Melbourne", country: "Australia", lat: -37.8136, lng: 144.9631 },
+      bar_name: 'Eau de Vie',
+      location: 'Melbourne, Australia',
+      location_data: {
+        place_id: 'ChIJ90260mVG1moRkM2MIXVWBAQ',
+        formatted_address: '1 Malthouse Ln, Melbourne VIC 3000, Australia',
+        city: 'Melbourne',
+        country: 'Australia',
+        lat: -37.8136,
+        lng: 144.9631,
+      },
       rating: 4.6,
       price: 24,
-      currency: "AUD",
-      image_url: "https://images.unsplash.com/photo-1551024709-8f23befc6f87?w=800&q=80",
+      currency: 'AUD',
+      image_url: 'https://images.unsplash.com/photo-1551024709-8f23befc6f87?w=800&q=80',
     },
     {
-      title: "A Disappointment in Paradise: Waikiki Beach Bar",
-      slug: "waikiki-beach-bar-hawaii",
-      excerpt: "Not every espresso martini can be a winner. This beachside attempt in Honolulu left much to be desired.",
+      title: 'A Disappointment in Paradise: Waikiki Beach Bar',
+      slug: 'waikiki-beach-bar-hawaii',
+      excerpt:
+        'Not every espresso martini can be a winner. This beachside attempt in Honolulu left much to be desired.',
       content: `# Waikiki Beach Bar, Honolulu
 
 Sometimes the setting writes a cheque that the drink can't cash. Watching the sunset over Waikiki Beach with a cocktail in hand sounds like paradise. And it is — until you take your first sip of their espresso martini.
@@ -149,18 +165,26 @@ To be fair, the view is spectacular. There's something magical about the warm Ha
 Skip the espresso martini here and order a Mai Tai instead — they do those well. This drink felt like an afterthought on the menu, made with pre-prepared ingredients and no love. At $22 USD, it's a hard pass.
 
 **Price:** $22 USD | **Serving Style:** Martini glass (warm) | **Coffee Bean Garnish:** None`,
-      bar_name: "Waikiki Beach Bar",
-      location: "Honolulu, Hawaii",
-      location_data: { place_id: "ChIJTUbDjDsYAHwRbJen81_1KEs", formatted_address: "2005 Kalia Rd, Honolulu, HI 96815, USA", city: "Honolulu", country: "United States", lat: 21.2769, lng: -157.8290 },
+      bar_name: 'Waikiki Beach Bar',
+      location: 'Honolulu, Hawaii',
+      location_data: {
+        place_id: 'ChIJTUbDjDsYAHwRbJen81_1KEs',
+        formatted_address: '2005 Kalia Rd, Honolulu, HI 96815, USA',
+        city: 'Honolulu',
+        country: 'United States',
+        lat: 21.2769,
+        lng: -157.829,
+      },
       rating: 1.5,
       price: 22,
-      currency: "USD",
-      image_url: "https://images.unsplash.com/photo-1507914372368-b2b085b925a1?w=800&q=80",
+      currency: 'USD',
+      image_url: 'https://images.unsplash.com/photo-1507914372368-b2b085b925a1?w=800&q=80',
     },
     {
-      title: "Nordic Perfection at Himkok, Oslo",
-      slug: "himkok-oslo",
-      excerpt: "In a city known for its innovative cocktail scene, Himkok brings Scandinavian precision to the classic espresso martini.",
+      title: 'Nordic Perfection at Himkok, Oslo',
+      slug: 'himkok-oslo',
+      excerpt:
+        'In a city known for its innovative cocktail scene, Himkok brings Scandinavian precision to the classic espresso martini.',
       content: `# Himkok, Oslo
 
 Oslo's cocktail scene has exploded in recent years, and Himkok sits at the very centre of it. This distillery-bar hybrid produces its own spirits on-site, and their approach to the espresso martini reflects this obsessive attention to craft.
@@ -182,18 +206,26 @@ Industrial chic done right. Exposed brick, copper stills visible behind glass, a
 This is innovation at its finest. By respecting the classic format while adding their own Nordic twist, Himkok has created something truly special. It's not the traditional espresso martini, but it might be the best evolution of it I've ever tasted.
 
 **Price:** NOK 195 | **Serving Style:** Custom ceramic cup | **Coffee Bean Garnish:** Grated tonka bean`,
-      bar_name: "Himkok",
-      location: "Oslo, Norway",
-      location_data: { place_id: "ChIJOfBn8mFuQUYRmh4j019gkn4", formatted_address: "Storgata 27, 0184 Oslo, Norway", city: "Oslo", country: "Norway", lat: 59.9139, lng: 10.7522 },
+      bar_name: 'Himkok',
+      location: 'Oslo, Norway',
+      location_data: {
+        place_id: 'ChIJOfBn8mFuQUYRmh4j019gkn4',
+        formatted_address: 'Storgata 27, 0184 Oslo, Norway',
+        city: 'Oslo',
+        country: 'Norway',
+        lat: 59.9139,
+        lng: 10.7522,
+      },
       rating: 4.9,
       price: 195,
-      currency: "NOK",
-      image_url: "https://images.unsplash.com/photo-1559056199-641a0ac8b55e?w=800&q=80",
+      currency: 'NOK',
+      image_url: 'https://images.unsplash.com/photo-1559056199-641a0ac8b55e?w=800&q=80',
     },
     {
-      title: "The Original at Brasserie Pushkin, Moscow",
-      slug: "brasserie-pushkin-moscow",
-      excerpt: "Where better to review an espresso martini than in the city where vodka flows like water? Brasserie Pushkin delivers old-world charm.",
+      title: 'The Original at Brasserie Pushkin, Moscow',
+      slug: 'brasserie-pushkin-moscow',
+      excerpt:
+        'Where better to review an espresso martini than in the city where vodka flows like water? Brasserie Pushkin delivers old-world charm.',
       content: `# Brasserie Pushkin, Moscow
 
 There's a certain logic to drinking an espresso martini in Moscow. The vodka is going to be excellent — that's a given. The question is whether the rest of the drink can keep up. At Brasserie Pushkin, housed in a stunning 19th-century baroque mansion, the answer is a resounding yes.
@@ -213,13 +245,20 @@ Brasserie Pushkin is pure theatre. Crystal chandeliers, leather-bound menus, and
 No frills, no twists, no molecular gastronomy — just an exceptionally well-made classic. The quality of the vodka elevates everything, and the attention to detail is evident in every element. If you want to understand what a traditional espresso martini should taste like, this is your benchmark.
 
 **Price:** RUB 890 | **Serving Style:** Frosted coupe glass | **Coffee Bean Garnish:** Three beans in a triangle`,
-      bar_name: "Brasserie Pushkin",
-      location: "Moscow, Russia",
-      location_data: { place_id: "ChIJh2E2GKNKtUYRSQLOwBhMAAQ", formatted_address: "Tverskoy Blvd, 26А, Moscow, Russia, 125009", city: "Moscow", country: "Russia", lat: 55.7648, lng: 37.6043 },
+      bar_name: 'Brasserie Pushkin',
+      location: 'Moscow, Russia',
+      location_data: {
+        place_id: 'ChIJh2E2GKNKtUYRSQLOwBhMAAQ',
+        formatted_address: 'Tverskoy Blvd, 26А, Moscow, Russia, 125009',
+        city: 'Moscow',
+        country: 'Russia',
+        lat: 55.7648,
+        lng: 37.6043,
+      },
       rating: 4.4,
       price: 890,
-      currency: "RUB",
-      image_url: "https://images.unsplash.com/photo-1536935338788-846bb9981813?w=800&q=80",
+      currency: 'RUB',
+      image_url: 'https://images.unsplash.com/photo-1536935338788-846bb9981813?w=800&q=80',
     },
   ];
 
@@ -246,14 +285,14 @@ No frills, no twists, no molecular gastronomy — just an exceptionally well-mad
 }
 
 async function main() {
-  console.log("Seeding database...");
+  console.log('Seeding database...');
   await createTables();
   await seedAdmin();
   await seedPosts();
-  console.log("Done!");
+  console.log('Done!');
 }
 
 main().catch((err) => {
-  console.error("Seed failed:", err);
+  console.error('Seed failed:', err);
   process.exit(1);
 });

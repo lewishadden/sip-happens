@@ -1,10 +1,10 @@
-import Link from "next/link";
-import PostCard from "@/components/PostCard";
-import ReviewGlobe from "@/components/ReviewGlobe";
-import type { GlobeMarker } from "@/components/ReviewGlobe";
-import { getRecentPosts, getAllPosts, getUniqueCountryCount } from "@/lib/db";
+import Link from 'next/link';
+import PostCard from '@/components/PostCard';
+import ReviewGlobe from '@/components/ReviewGlobe';
+import type { GlobeMarker } from '@/components/ReviewGlobe';
+import { getRecentPosts, getAllPosts, getUniqueCountryCount } from '@/lib/db';
 
-export const dynamic = "force-dynamic";
+export const dynamic = 'force-dynamic';
 
 export default async function Home() {
   const featuredPosts = await getRecentPosts(3);
@@ -33,15 +33,11 @@ export default async function Home() {
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--color-espresso-700)_0%,_var(--color-espresso-950)_70%)]" />
         <div className="relative max-w-6xl mx-auto px-4 py-24 md:py-36 text-center">
           <span className="text-6xl md:text-8xl block mb-6">&#127864;</span>
-          <h1 className="text-4xl md:text-6xl font-bold mb-4 tracking-tight">
-            Sip Happens
-          </h1>
+          <h1 className="text-4xl md:text-6xl font-bold mb-4 tracking-tight">Sip Happens</h1>
           <p className="text-lg md:text-xl text-espresso-300 max-w-2xl mx-auto mb-4">
             Reviewing espresso martinis around the globe, one sip at a time.
           </p>
-          <p className="text-sm text-espresso-400 mb-8">
-            {totalReviews} reviews and counting
-          </p>
+          <p className="text-sm text-espresso-400 mb-8">{totalReviews} reviews and counting</p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
               href="/reviews"
@@ -66,9 +62,7 @@ export default async function Home() {
       <section className="max-w-6xl mx-auto px-4 py-16">
         <div className="flex items-end justify-between mb-10">
           <div>
-            <h2 className="text-3xl font-bold text-espresso-900">
-              Latest Reviews
-            </h2>
+            <h2 className="text-3xl font-bold text-espresso-900">Latest Reviews</h2>
             <p className="text-espresso-500 mt-1">Fresh from the glass</p>
           </div>
           <Link
@@ -100,24 +94,16 @@ export default async function Home() {
         <div className="max-w-6xl mx-auto px-4 py-16">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
             <div>
-              <div className="text-4xl font-bold text-caramel mb-2">
-                {totalReviews}
-              </div>
+              <div className="text-4xl font-bold text-caramel mb-2">{totalReviews}</div>
               <div className="text-espresso-400 text-sm">Reviews Published</div>
             </div>
             <div>
-              <div className="text-4xl font-bold text-caramel mb-2">
-                {countryCount}
-              </div>
+              <div className="text-4xl font-bold text-caramel mb-2">{countryCount}</div>
               <div className="text-espresso-400 text-sm">Countries Visited</div>
             </div>
             <div>
-              <div className="text-4xl font-bold text-caramel mb-2">
-                &#8734;
-              </div>
-              <div className="text-espresso-400 text-sm">
-                Espresso Martinis Consumed
-              </div>
+              <div className="text-4xl font-bold text-caramel mb-2">&#8734;</div>
+              <div className="text-espresso-400 text-sm">Espresso Martinis Consumed</div>
             </div>
           </div>
         </div>
@@ -129,8 +115,8 @@ export default async function Home() {
           Know a bar we should visit?
         </h2>
         <p className="text-espresso-500 max-w-xl mx-auto mb-8">
-          We&apos;re always on the hunt for the next great espresso martini.
-          Drop us a recommendation and we&apos;ll add it to our list.
+          We&apos;re always on the hunt for the next great espresso martini. Drop us a
+          recommendation and we&apos;ll add it to our list.
         </p>
         <Link
           href="/about"

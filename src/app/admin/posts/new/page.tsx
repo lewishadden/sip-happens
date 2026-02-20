@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
-import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
-import Link from "next/link";
-import PostForm from "@/components/PostForm";
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import Link from 'next/link';
+import PostForm from '@/components/PostForm';
 
 export default function NewPostPage() {
   const router = useRouter();
@@ -11,15 +11,15 @@ export default function NewPostPage() {
 
   useEffect(() => {
     async function check() {
-      const res = await fetch("/api/auth/me");
+      const res = await fetch('/api/auth/me');
       if (!res.ok) {
-        router.push("/admin/login");
+        router.push('/admin/login');
         return;
       }
       setAuthorized(true);
     }
     check();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   if (!authorized) {

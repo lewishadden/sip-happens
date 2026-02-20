@@ -1,8 +1,9 @@
-import Link from "next/link";
+import Link from 'next/link';
 
 export const metadata = {
-  title: "About | Sip Happens",
-  description: "The story behind Sip Happens — our mission to find the world's best espresso martini.",
+  title: 'About | Sip Happens',
+  description:
+    "The story behind Sip Happens — our mission to find the world's best espresso martini.",
 };
 
 export default function AboutPage() {
@@ -19,14 +20,16 @@ export default function AboutPage() {
             decided someone needed to start keeping score.
           </p>
           <p className="text-espresso-700 leading-relaxed mb-4">
-            <strong className="text-espresso-900">Sip Happens</strong> is a blog dedicated to reviewing
-            espresso martinis from bars, restaurants, and hidden speakeasies around the world. We believe
-            that a great espresso martini is one of life&apos;s simple pleasures — fresh espresso,
-            quality vodka, a touch of sweetness, and that perfect layer of crema on top.
+            <strong className="text-espresso-900">Sip Happens</strong> is a blog dedicated to
+            reviewing espresso martinis from bars, restaurants, and hidden speakeasies around the
+            world. We believe that a great espresso martini is one of life&apos;s simple pleasures —
+            fresh espresso, quality vodka, a touch of sweetness, and that perfect layer of crema on
+            top.
           </p>
           <p className="text-espresso-700 leading-relaxed">
             We rate each drink on a five-star scale, considering everything from the quality of the
-            espresso to the presentation, the atmosphere of the venue, and of course, the overall taste.
+            espresso to the presentation, the atmosphere of the venue, and of course, the overall
+            taste.
           </p>
         </div>
 
@@ -34,13 +37,32 @@ export default function AboutPage() {
           <h2 className="text-2xl font-semibold text-espresso-800 mb-4">What We Look For</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
             {[
-              { icon: "&#9749;", title: "Fresh Espresso", desc: "Pulled to order, not pre-brewed. The coffee should be the star of the show." },
-              { icon: "&#127864;", title: "Quality Spirits", desc: "Premium vodka (or a creative substitute) that complements rather than overpowers." },
-              { icon: "&#10024;", title: "The Crema", desc: "That thick, persistent foam on top is non-negotiable. It should hold a coffee bean." },
-              { icon: "&#9878;", title: "Balance", desc: "Sweet, bitter, and boozy in perfect harmony. No single element should dominate." },
+              {
+                icon: '&#9749;',
+                title: 'Fresh Espresso',
+                desc: 'Pulled to order, not pre-brewed. The coffee should be the star of the show.',
+              },
+              {
+                icon: '&#127864;',
+                title: 'Quality Spirits',
+                desc: 'Premium vodka (or a creative substitute) that complements rather than overpowers.',
+              },
+              {
+                icon: '&#10024;',
+                title: 'The Crema',
+                desc: 'That thick, persistent foam on top is non-negotiable. It should hold a coffee bean.',
+              },
+              {
+                icon: '&#9878;',
+                title: 'Balance',
+                desc: 'Sweet, bitter, and boozy in perfect harmony. No single element should dominate.',
+              },
             ].map((item) => (
               <div key={item.title} className="flex gap-4">
-                <span className="text-3xl flex-shrink-0" dangerouslySetInnerHTML={{ __html: item.icon }} />
+                <span
+                  className="text-3xl flex-shrink-0"
+                  dangerouslySetInnerHTML={{ __html: item.icon }}
+                />
                 <div>
                   <h3 className="font-semibold text-espresso-900">{item.title}</h3>
                   <p className="text-sm text-espresso-600 mt-1">{item.desc}</p>
@@ -54,14 +76,35 @@ export default function AboutPage() {
           <h2 className="text-2xl font-semibold text-espresso-800 mb-4">Our Rating Scale</h2>
           <div className="space-y-3">
             {[
-              { stars: "5.0", label: "Transcendent", desc: "A life-changing espresso martini. Pilgrimage-worthy." },
-              { stars: "4.0 - 4.9", label: "Excellent", desc: "Outstanding drink — well worth seeking out." },
-              { stars: "3.0 - 3.9", label: "Good", desc: "Solid espresso martini, enjoyable but not remarkable." },
-              { stars: "2.0 - 2.9", label: "Mediocre", desc: "Drinkable, but won't remember it tomorrow." },
-              { stars: "1.0 - 1.9", label: "Poor", desc: "Order something else. Anything else." },
+              {
+                stars: '5.0',
+                label: 'Transcendent',
+                desc: 'A life-changing espresso martini. Pilgrimage-worthy.',
+              },
+              {
+                stars: '4.0 - 4.9',
+                label: 'Excellent',
+                desc: 'Outstanding drink — well worth seeking out.',
+              },
+              {
+                stars: '3.0 - 3.9',
+                label: 'Good',
+                desc: 'Solid espresso martini, enjoyable but not remarkable.',
+              },
+              {
+                stars: '2.0 - 2.9',
+                label: 'Mediocre',
+                desc: "Drinkable, but won't remember it tomorrow.",
+              },
+              { stars: '1.0 - 1.9', label: 'Poor', desc: 'Order something else. Anything else.' },
             ].map((item) => (
-              <div key={item.label} className="flex items-start gap-4 p-3 rounded-lg hover:bg-espresso-50 transition-colors">
-                <span className="text-caramel font-bold text-sm w-16 flex-shrink-0 pt-0.5">{item.stars}</span>
+              <div
+                key={item.label}
+                className="flex items-start gap-4 p-3 rounded-lg hover:bg-espresso-50 transition-colors"
+              >
+                <span className="text-caramel font-bold text-sm w-16 flex-shrink-0 pt-0.5">
+                  {item.stars}
+                </span>
                 <div>
                   <span className="font-semibold text-espresso-900">{item.label}</span>
                   <span className="text-espresso-500 text-sm ml-2">{item.desc}</span>

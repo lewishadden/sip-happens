@@ -1,12 +1,12 @@
-"use client";
+'use client';
 
-import { useState, useEffect, useRef, useCallback, useMemo } from "react";
-import dynamic from "next/dynamic";
-import Link from "next/link";
-import type { GlobeMethods } from "react-globe.gl";
-import { TileCompositor, TILE_THRESHOLD } from "@/lib/tileCompositor";
+import { useState, useEffect, useRef, useCallback, useMemo } from 'react';
+import dynamic from 'next/dynamic';
+import Link from 'next/link';
+import type { GlobeMethods } from 'react-globe.gl';
+import { TileCompositor, TILE_THRESHOLD } from '@/lib/tileCompositor';
 
-const Globe = dynamic(() => import("react-globe.gl"), { ssr: false });
+const Globe = dynamic(() => import('react-globe.gl'), { ssr: false });
 
 const DEFAULT_ALTITUDE = 2.0;
 const CITY_ALTITUDE = 0.0001;
@@ -46,9 +46,7 @@ function RatingStarsInline({ rating }: { rating: number }) {
           &#9733;
         </span>
       ))}
-      <span className="ml-1 text-xs font-semibold text-espresso-400">
-        {rating.toFixed(1)}
-      </span>
+      <span className="ml-1 text-xs font-semibold text-espresso-400">{rating.toFixed(1)}</span>
     </span>
   );
 }
@@ -59,8 +57,7 @@ let currentMarkerScale = 1;
 const MARKER_SCALE_START = 0.3;
 
 function scaleMarkersForAltitude(altitude: number) {
-  const zoom =
-    altitude >= MARKER_SCALE_START ? 0 : 1 - altitude / MARKER_SCALE_START;
+  const zoom = altitude >= MARKER_SCALE_START ? 0 : 1 - altitude / MARKER_SCALE_START;
   currentMarkerScale = 1 + Math.max(0, Math.min(1, zoom)) * 1.5;
   const px = Math.round(24 * currentMarkerScale);
   for (const wrapper of markerElements) {
@@ -72,29 +69,26 @@ function scaleMarkersForAltitude(altitude: number) {
   }
 }
 
-function createMarkerElement(
-  marker: GlobeMarker,
-  onClick: (m: GlobeMarker) => void,
-): HTMLElement {
+function createMarkerElement(marker: GlobeMarker, onClick: (m: GlobeMarker) => void): HTMLElement {
   const px = Math.round(24 * currentMarkerScale);
-  const wrapper = document.createElement("div");
+  const wrapper = document.createElement('div');
   wrapper.style.cssText =
-    "pointer-events:auto;position:relative;z-index:10;cursor:pointer;" +
-    "display:flex;align-items:center;justify-content:center;" +
+    'pointer-events:auto;position:relative;z-index:10;cursor:pointer;' +
+    'display:flex;align-items:center;justify-content:center;' +
     `width:${px}px;height:${px}px;margin:-${px / 2}px;`;
 
-  const icon = document.createElement("span");
-  icon.className = "globe-marker-icon";
+  const icon = document.createElement('span');
+  icon.className = 'globe-marker-icon';
   icon.style.cssText =
     `font-size:${px}px;line-height:1;` +
-    "filter:drop-shadow(0 2px 4px rgba(0,0,0,0.7));" +
-    "transition:transform 0.15s ease-out;transform-origin:center center;" +
-    "display:block;";
-  icon.textContent = "\u{1F378}";
+    'filter:drop-shadow(0 2px 4px rgba(0,0,0,0.7));' +
+    'transition:transform 0.15s ease-out;transform-origin:center center;' +
+    'display:block;';
+  icon.textContent = '\u{1F378}';
   wrapper.appendChild(icon);
 
   markerElements.add(wrapper);
-  wrapper.addEventListener("click", (e) => {
+  wrapper.addEventListener('click', (e) => {
     e.stopPropagation();
     onClick(marker);
   });
@@ -103,9 +97,7 @@ function createMarkerElement(
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-function findGlobeMaterial(
-  globeRef: React.RefObject<GlobeMethods | undefined>,
-): any {
+function findGlobeMaterial(globeRef: React.RefObject<GlobeMethods | undefined>): any {
   if (!globeRef.current) return null;
   try {
     const scene = globeRef.current.scene();
@@ -146,12 +138,8 @@ export default function ReviewGlobe({ markers }: ReviewGlobeProps) {
   useEffect(() => {
     let cancelled = false;
     (async () => {
-      const {
-        CanvasTexture,
-        SRGBColorSpace,
-        ClampToEdgeWrapping,
-        LinearFilter,
-      } = await import("three");
+      const { CanvasTexture, SRGBColorSpace, ClampToEdgeWrapping, LinearFilter } =
+        await import('three');
       const compositor = new TileCompositor();
       compositorRef.current = compositor;
       const texture = new CanvasTexture(compositor.getCanvas());
@@ -165,7 +153,7 @@ export default function ReviewGlobe({ markers }: ReviewGlobeProps) {
       compositor.setOnUpdate(() => {
         if (textureRef.current) textureRef.current.needsUpdate = true;
       });
-      if (!cancelled) await compositor.init("/textures/earth-4k.jpg");
+      if (!cancelled) await compositor.init('/textures/earth-4k.jpg');
     })();
     return () => {
       cancelled = true;
@@ -176,8 +164,7 @@ export default function ReviewGlobe({ markers }: ReviewGlobeProps) {
   // Swap globe material map to/from canvas texture based on altitude
   const updateTiles = useCallback(() => {
     const compositor = compositorRef.current;
-    if (!globeRef.current || !compositor?.isReady() || !textureRef.current)
-      return;
+    if (!globeRef.current || !compositor?.isReady() || !textureRef.current) return;
     const pov = globeRef.current.pointOfView();
     if (pov.altitude > TILE_THRESHOLD) {
       if (usingTilesRef.current) {
@@ -254,7 +241,7 @@ export default function ReviewGlobe({ markers }: ReviewGlobeProps) {
             if (tileDebounceRef.current) clearTimeout(tileDebounceRef.current);
             tileDebounceRef.current = setTimeout(updateTiles, 100);
           };
-          controls.addEventListener("change", changeHandler);
+          controls.addEventListener('change', changeHandler);
           activeControls = controls;
           clearInterval(id);
         }
@@ -266,7 +253,7 @@ export default function ReviewGlobe({ markers }: ReviewGlobeProps) {
       clearInterval(id);
       if (tileDebounceRef.current) clearTimeout(tileDebounceRef.current);
       if (activeControls && changeHandler) {
-        activeControls.removeEventListener("change", changeHandler);
+        activeControls.removeEventListener('change', changeHandler);
       }
     };
   }, [globeReady, updateTiles]);
@@ -301,12 +288,12 @@ export default function ReviewGlobe({ markers }: ReviewGlobeProps) {
       if (globeRef.current) {
         globeRef.current.pointOfView(
           { lat: marker.lat, lng: marker.lng, altitude: CITY_ALTITUDE },
-          2000,
+          2000
         );
         setTimeout(() => updateTilesRef.current(), 2050);
       }
     },
-    [setAutoRotate],
+    [setAutoRotate]
   );
 
   // When card closes, zoom back out and resume rotation
@@ -354,8 +341,8 @@ export default function ReviewGlobe({ markers }: ReviewGlobeProps) {
       }
     }
     handleResize();
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
   }, []);
 
   // Custom pinch-to-zoom (OrbitControls' built-in touch zoom pans downward)
@@ -404,15 +391,15 @@ export default function ReviewGlobe({ markers }: ReviewGlobeProps) {
       }
     }
 
-    el.addEventListener("touchstart", onTouchStart, { passive: true });
-    el.addEventListener("touchmove", onTouchMove, { passive: true });
-    el.addEventListener("touchend", onTouchEnd, { passive: true });
-    el.addEventListener("touchcancel", onTouchEnd, { passive: true });
+    el.addEventListener('touchstart', onTouchStart, { passive: true });
+    el.addEventListener('touchmove', onTouchMove, { passive: true });
+    el.addEventListener('touchend', onTouchEnd, { passive: true });
+    el.addEventListener('touchcancel', onTouchEnd, { passive: true });
     return () => {
-      el.removeEventListener("touchstart", onTouchStart);
-      el.removeEventListener("touchmove", onTouchMove);
-      el.removeEventListener("touchend", onTouchEnd);
-      el.removeEventListener("touchcancel", onTouchEnd);
+      el.removeEventListener('touchstart', onTouchStart);
+      el.removeEventListener('touchmove', onTouchMove);
+      el.removeEventListener('touchend', onTouchEnd);
+      el.removeEventListener('touchcancel', onTouchEnd);
     };
   }, []);
 
@@ -428,20 +415,16 @@ export default function ReviewGlobe({ markers }: ReviewGlobeProps) {
   }, [selected, pauseForDrag]);
 
   const handleZoom = useCallback(
-    (direction: "in" | "out") => {
+    (direction: 'in' | 'out') => {
       if (!globeRef.current) return;
       if (!selected) pauseForDrag();
       const pov = globeRef.current.pointOfView();
       const newAlt =
-        direction === "in"
+        direction === 'in'
           ? Math.max(0.0000005, pov.altitude * 0.5)
           : Math.min(7, pov.altitude * 1.5);
 
-      if (
-        direction === "out" &&
-        newAlt > TILE_THRESHOLD &&
-        usingTilesRef.current
-      ) {
+      if (direction === 'out' && newAlt > TILE_THRESHOLD && usingTilesRef.current) {
         const mat = findGlobeMaterial(globeRef);
         if (mat && originalMapRef.current) {
           mat.map = originalMapRef.current;
@@ -454,7 +437,7 @@ export default function ReviewGlobe({ markers }: ReviewGlobeProps) {
       globeRef.current.pointOfView({ ...pov, altitude: newAlt }, 400);
       setTimeout(() => updateTilesRef.current(), 500);
     },
-    [selected, pauseForDrag],
+    [selected, pauseForDrag]
   );
 
   const handleGlobeClick = useCallback(() => {
@@ -463,7 +446,7 @@ export default function ReviewGlobe({ markers }: ReviewGlobeProps) {
 
   const htmlElement = useCallback(
     (d: object) => createMarkerElement(d as GlobeMarker, handleMarkerClick),
-    [handleMarkerClick],
+    [handleMarkerClick]
   );
 
   const ringsData = useMemo(() => {
@@ -477,9 +460,7 @@ export default function ReviewGlobe({ markers }: ReviewGlobeProps) {
     <section className="relative bg-espresso-950 overflow-hidden">
       <div className="max-w-6xl mx-auto px-4 pt-16 pb-4 text-center">
         <h2 className="text-3xl font-bold text-cream mb-2">Around the World</h2>
-        <p className="text-espresso-400 text-sm">
-          Tap a marker to preview a review
-        </p>
+        <p className="text-espresso-400 text-sm">Tap a marker to preview a review</p>
       </div>
 
       <div
@@ -520,14 +501,14 @@ export default function ReviewGlobe({ markers }: ReviewGlobeProps) {
           {/* Zoom controls */}
           <div className="absolute right-5 top-1/2 -translate-y-1/2 z-10 flex flex-col gap-2">
             <button
-              onClick={() => handleZoom("in")}
+              onClick={() => handleZoom('in')}
               className="w-11 h-11 flex items-center justify-center rounded-full bg-espresso-800/80 backdrop-blur-md text-cream shadow-xl hover:bg-espresso-700 transition-colors text-xl font-bold leading-none border border-espresso-600/30"
               aria-label="Zoom in"
             >
               +
             </button>
             <button
-              onClick={() => handleZoom("out")}
+              onClick={() => handleZoom('out')}
               className="w-11 h-11 flex items-center justify-center rounded-full bg-espresso-800/80 backdrop-blur-md text-cream shadow-xl hover:bg-espresso-700 transition-colors text-xl font-bold leading-none border border-espresso-600/30"
               aria-label="Zoom out"
             >
@@ -572,9 +553,7 @@ export default function ReviewGlobe({ markers }: ReviewGlobeProps) {
                         </p>
                       )}
                       {selected.location && (
-                        <p className="text-xs text-espresso-500 mt-0.5">
-                          {selected.location}
-                        </p>
+                        <p className="text-xs text-espresso-500 mt-0.5">{selected.location}</p>
                       )}
                     </div>
                     <button

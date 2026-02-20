@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
-import Link from "next/link";
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 
 interface Post {
   id: number;
@@ -19,21 +19,19 @@ export default function AdminDashboard() {
   const router = useRouter();
   const [posts, setPosts] = useState<Post[]>([]);
   const [loading, setLoading] = useState(true);
-  const [user, setUser] = useState<{ name: string; email: string } | null>(
-    null,
-  );
+  const [user, setUser] = useState<{ name: string; email: string } | null>(null);
 
   useEffect(() => {
     async function load() {
-      const meRes = await fetch("/api/auth/me");
+      const meRes = await fetch('/api/auth/me');
       if (!meRes.ok) {
-        router.push("/admin/login");
+        router.push('/admin/login');
         return;
       }
       const meData = await meRes.json();
       setUser(meData.user);
 
-      const postsRes = await fetch("/api/posts");
+      const postsRes = await fetch('/api/posts');
       const postsData = await postsRes.json();
       setPosts(postsData);
       setLoading(false);
@@ -45,15 +43,15 @@ export default function AdminDashboard() {
   async function handleDelete(id: number, title: string) {
     if (!confirm(`Delete "${title}"? This cannot be undone.`)) return;
 
-    const res = await fetch(`/api/posts/${id}`, { method: "DELETE" });
+    const res = await fetch(`/api/posts/${id}`, { method: 'DELETE' });
     if (res.ok) {
       setPosts(posts.filter((p) => p.id !== id));
     }
   }
 
   async function handleLogout() {
-    await fetch("/api/auth/logout", { method: "POST" });
-    router.push("/admin/login");
+    await fetch('/api/auth/logout', { method: 'POST' });
+    router.push('/admin/login');
   }
 
   if (loading) {
@@ -69,9 +67,7 @@ export default function AdminDashboard() {
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-10 gap-4">
         <div>
           <h1 className="text-3xl font-bold text-espresso-900">Dashboard</h1>
-          {user && (
-            <p className="text-espresso-500 mt-1">Welcome back, {user.name}</p>
-          )}
+          {user && <p className="text-espresso-500 mt-1">Welcome back, {user.name}</p>}
         </div>
         <div className="flex gap-3">
           <Link
@@ -91,9 +87,7 @@ export default function AdminDashboard() {
 
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-10">
         <div className="bg-white rounded-xl p-6 border border-espresso-100 shadow-sm">
-          <div className="text-3xl font-bold text-espresso-800">
-            {posts.length}
-          </div>
+          <div className="text-3xl font-bold text-espresso-800">{posts.length}</div>
           <div className="text-sm text-espresso-500 mt-1">Total Posts</div>
         </div>
         <div className="bg-white rounded-xl p-6 border border-espresso-100 shadow-sm">
@@ -118,9 +112,7 @@ export default function AdminDashboard() {
         {posts.length === 0 ? (
           <div className="text-center py-12">
             <span className="text-4xl block mb-3">&#127864;</span>
-            <p className="text-espresso-500">
-              No posts yet. Time to write your first review!
-            </p>
+            <p className="text-espresso-500">No posts yet. Time to write your first review!</p>
           </div>
         ) : (
           <div className="divide-y divide-espresso-50">
@@ -131,17 +123,15 @@ export default function AdminDashboard() {
               >
                 <div className="min-w-0 flex-1">
                   <div className="flex items-center gap-2">
-                    <h3 className="font-medium text-espresso-900 truncate">
-                      {post.title}
-                    </h3>
+                    <h3 className="font-medium text-espresso-900 truncate">{post.title}</h3>
                     <span
                       className={`flex-shrink-0 px-2 py-0.5 text-xs rounded-full font-medium ${
                         post.published
-                          ? "bg-green-100 text-green-700"
-                          : "bg-espresso-100 text-espresso-500"
+                          ? 'bg-green-100 text-green-700'
+                          : 'bg-espresso-100 text-espresso-500'
                       }`}
                     >
-                      {post.published ? "Published" : "Draft"}
+                      {post.published ? 'Published' : 'Draft'}
                     </span>
                   </div>
                   <div className="flex items-center gap-2 text-xs text-espresso-400 mt-1">
@@ -151,9 +141,7 @@ export default function AdminDashboard() {
                     {post.rating !== null && (
                       <>
                         <span>&#8226;</span>
-                        <span className="text-caramel">
-                          &#9733; {post.rating}
-                        </span>
+                        <span className="text-caramel">&#9733; {post.rating}</span>
                       </>
                     )}
                   </div>

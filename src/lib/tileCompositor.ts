@@ -4,7 +4,7 @@ const MAX_ZOOM = 19;
 const MIN_ZOOM = 3;
 const MAX_LAT = 85.051;
 const MAX_CONCURRENT = 12;
-const SUBDOMAINS = ["a", "b", "c"];
+const SUBDOMAINS = ['a', 'b', 'c'];
 let subdomainIdx = 0;
 
 interface TileEntry {
@@ -46,11 +46,11 @@ export class TileCompositor {
   private lastZoom = -1;
 
   constructor() {
-    this.canvas = document.createElement("canvas");
+    this.canvas = document.createElement('canvas');
     this.canvas.width = CANVAS_SIZE;
     this.canvas.height = CANVAS_SIZE;
-    this.ctx = this.canvas.getContext("2d")!;
-    this.ctx.imageSmoothingQuality = "high";
+    this.ctx = this.canvas.getContext('2d')!;
+    this.ctx.imageSmoothingQuality = 'high';
   }
 
   getCanvas(): HTMLCanvasElement {
@@ -68,7 +68,7 @@ export class TileCompositor {
   async init(baseImageUrl: string): Promise<void> {
     return new Promise((resolve, reject) => {
       const img = new Image();
-      img.crossOrigin = "anonymous";
+      img.crossOrigin = 'anonymous';
       img.onload = () => {
         this.baseImage = img;
         this._ready = true;
@@ -87,7 +87,6 @@ export class TileCompositor {
     return { uMin, uMax, vMin, vMax };
   }
 
-
   private computeZoom(): number {
     const z = Math.round(Math.log2((360 * CANVAS_SIZE) / (256 * this.lngSpan)));
     return Math.min(MAX_ZOOM, Math.max(MIN_ZOOM, z));
@@ -105,17 +104,7 @@ export class TileCompositor {
     const srcH = (this.latSpan / 180) * bh;
 
     if (srcW >= 1 && srcH >= 1) {
-      this.ctx.drawImage(
-        this.baseImage,
-        srcX,
-        srcY,
-        srcW,
-        srcH,
-        0,
-        0,
-        CANVAS_SIZE,
-        CANVAS_SIZE,
-      );
+      this.ctx.drawImage(this.baseImage, srcX, srcY, srcW, srcH, 0, 0, CANVAS_SIZE, CANVAS_SIZE);
     }
   }
 
@@ -124,7 +113,7 @@ export class TileCompositor {
     tx: number,
     ty: number,
     z: number,
-    clearFirst = false,
+    clearFirst = false
   ): void {
     const westLng = this.tileXToLng(tx, z);
     const eastLng = this.tileXToLng(tx + 1, z);
@@ -155,8 +144,7 @@ export class TileCompositor {
     const clamped = Math.max(-MAX_LAT, Math.min(MAX_LAT, lat));
     const latRad = (clamped * Math.PI) / 180;
     return Math.floor(
-      ((1 - Math.log(Math.tan(latRad) + 1 / Math.cos(latRad)) / Math.PI) / 2) *
-        (1 << z),
+      ((1 - Math.log(Math.tan(latRad) + 1 / Math.cos(latRad)) / Math.PI) / 2) * (1 << z)
     );
   }
 
@@ -169,11 +157,7 @@ export class TileCompositor {
     return (180 / Math.PI) * Math.atan(0.5 * (Math.exp(n) - Math.exp(-n)));
   }
 
-  private getVisibleTiles(
-    centerLat: number,
-    centerLng: number,
-    z: number,
-  ): TileEntry[] {
+  private getVisibleTiles(centerLat: number, centerLng: number, z: number): TileEntry[] {
     const maxIdx = (1 << z) - 1;
     const centerTx = this.lngToTileX(centerLng, z);
     const centerTy = this.latToTileY(centerLat, z);
@@ -198,11 +182,7 @@ export class TileCompositor {
   }
 
   private enqueue(key: string, tx: number, ty: number, z: number): void {
-    if (
-      this.tileCache.has(key) ||
-      this.pendingFetches.has(key) ||
-      this.failedTiles.has(key)
-    )
+    if (this.tileCache.has(key) || this.pendingFetches.has(key) || this.failedTiles.has(key))
       return;
     if (this.fetchQueue.some((q) => q.key === key)) return;
     this.fetchQueue.push({ key, tx, ty, z });
@@ -210,16 +190,13 @@ export class TileCompositor {
   }
 
   private drainQueue(): void {
-    while (
-      this.pendingFetches.size < MAX_CONCURRENT &&
-      this.fetchQueue.length > 0
-    ) {
+    while (this.pendingFetches.size < MAX_CONCURRENT && this.fetchQueue.length > 0) {
       const item = this.fetchQueue.shift()!;
       if (this.tileCache.has(item.key)) continue;
       this.pendingFetches.add(item.key);
 
       const img = new Image();
-      img.crossOrigin = "anonymous";
+      img.crossOrigin = 'anonymous';
       const z = item.z;
       const tx = item.tx;
       const ty = item.ty;
@@ -247,11 +224,7 @@ export class TileCompositor {
 
   private drawFallbackTiles(currentZ: number): void {
     for (let fallbackZ = currentZ - 1; fallbackZ >= MIN_ZOOM; fallbackZ--) {
-      const tiles = this.getVisibleTiles(
-        this.viewLat,
-        this.viewLng,
-        fallbackZ,
-      );
+      const tiles = this.getVisibleTiles(this.viewLat, this.viewLng, fallbackZ);
       let drawn = 0;
       for (const { tx, ty, key } of tiles) {
         const cached = this.tileCache.get(key);

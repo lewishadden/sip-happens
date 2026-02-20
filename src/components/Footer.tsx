@@ -1,4 +1,4 @@
-import Link from "next/link";
+import Link from 'next/link';
 
 export default function Footer() {
   return (
@@ -11,8 +11,8 @@ export default function Footer() {
               <span className="text-lg font-bold text-foam">Sip Happens</span>
             </div>
             <p className="text-sm text-espresso-400 leading-relaxed">
-              Reviewing espresso martinis around the globe, one sip at a time.
-              Because life&apos;s too short for bad cocktails.
+              Reviewing espresso martinis around the globe, one sip at a time. Because life&apos;s
+              too short for bad cocktails.
             </p>
           </div>
 
@@ -25,18 +25,12 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
-                <Link
-                  href="/reviews"
-                  className="hover:text-caramel transition-colors"
-                >
+                <Link href="/reviews" className="hover:text-caramel transition-colors">
                   All Reviews
                 </Link>
               </li>
               <li>
-                <Link
-                  href="/about"
-                  className="hover:text-caramel transition-colors"
-                >
+                <Link href="/about" className="hover:text-caramel transition-colors">
                   About
                 </Link>
               </li>
@@ -47,10 +41,7 @@ export default function Footer() {
             <h3 className="font-semibold text-foam mb-4">Admin</h3>
             <ul className="space-y-2 text-sm">
               <li>
-                <Link
-                  href="/admin/login"
-                  className="hover:text-caramel transition-colors"
-                >
+                <Link href="/admin/login" className="hover:text-caramel transition-colors">
                   Admin Login
                 </Link>
               </li>
@@ -60,8 +51,7 @@ export default function Footer() {
 
         <div className="border-t border-espresso-800 mt-8 pt-8 text-center text-xs text-espresso-500">
           <p>
-            &copy; {new Date().getFullYear()} Sip Happens. All rights reserved.
-            Drink responsibly.
+            &copy; {new Date().getFullYear()} Sip Happens. All rights reserved. Drink responsibly.
           </p>
         </div>
       </div>

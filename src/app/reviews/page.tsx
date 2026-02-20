@@ -1,12 +1,11 @@
-import PostCard from "@/components/PostCard";
-import { getAllPosts } from "@/lib/db";
+import PostCard from '@/components/PostCard';
+import { getAllPosts } from '@/lib/db';
 
-export const dynamic = "force-dynamic";
+export const dynamic = 'force-dynamic';
 
 export const metadata = {
-  title: "All Reviews | Sip Happens",
-  description:
-    "Browse all our espresso martini reviews from bars around the world.",
+  title: 'All Reviews | Sip Happens',
+  description: 'Browse all our espresso martini reviews from bars around the world.',
 };
 
 export default async function ReviewsPage() {
@@ -17,17 +16,15 @@ export default async function ReviewsPage() {
       <div className="mb-10">
         <h1 className="text-4xl font-bold text-espresso-900">All Reviews</h1>
         <p className="text-espresso-500 mt-2">
-          {posts.length} espresso martini{" "}
-          {posts.length === 1 ? "review" : "reviews"} from around the world
+          {posts.length} espresso martini {posts.length === 1 ? 'review' : 'reviews'} from around
+          the world
         </p>
       </div>
 
       {posts.length === 0 ? (
         <div className="text-center py-20">
           <span className="text-6xl block mb-4">&#127864;</span>
-          <p className="text-espresso-500 text-lg">
-            No reviews yet. Check back soon!
-          </p>
+          <p className="text-espresso-500 text-lg">No reviews yet. Check back soon!</p>
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">

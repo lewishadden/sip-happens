@@ -1,24 +1,24 @@
-import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
-import { Analytics } from "@vercel/analytics/react";
-import { SpeedInsights } from "@vercel/speed-insights/next";
-import { GoogleAnalyticsDeferred } from "@/components/GoogleAnalyticsDeferred";
-import "./globals.css";
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
+import type { Metadata } from 'next';
+import { Geist, Geist_Mono } from 'next/font/google';
+import { Analytics } from '@vercel/analytics/react';
+import { SpeedInsights } from '@vercel/speed-insights/next';
+import { GoogleAnalyticsDeferred } from '@/components/GoogleAnalyticsDeferred';
+import './globals.css';
+import Navbar from '@/components/Navbar';
+import Footer from '@/components/Footer';
 
 const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
+  variable: '--font-geist-sans',
+  subsets: ['latin'],
 });
 
 const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+  variable: '--font-geist-mono',
+  subsets: ['latin'],
 });
 
 export const metadata: Metadata = {
-  title: "Sip Happens | Espresso Martini Reviews",
+  title: 'Sip Happens | Espresso Martini Reviews',
   description:
     "Reviewing espresso martinis around the globe, one sip at a time. Honest reviews from the world's best (and worst) bars.",
 };
@@ -36,9 +36,7 @@ export default function RootLayout({
         <Navbar />
         <main className="flex-1">{children}</main>
         <Footer />
-        <GoogleAnalyticsDeferred
-          gaId={process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_ID || ""}
-        />
+        <GoogleAnalyticsDeferred gaId={process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_ID || ''} />
         <Analytics />
         <SpeedInsights />
       </body>

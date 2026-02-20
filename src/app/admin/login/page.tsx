@@ -1,21 +1,21 @@
-"use client";
+'use client';
 
-import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 
 export default function AdminLoginPage() {
   const router = useRouter();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const [checking, setChecking] = useState(true);
 
   useEffect(() => {
     async function checkSession() {
-      const res = await fetch("/api/auth/me");
+      const res = await fetch('/api/auth/me');
       if (res.ok) {
-        router.replace("/admin/dashboard");
+        router.replace('/admin/dashboard');
         return;
       }
       setChecking(false);
@@ -33,25 +33,25 @@ export default function AdminLoginPage() {
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    setError("");
+    setError('');
     setLoading(true);
 
     try {
-      const res = await fetch("/api/auth/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
+      const res = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password }),
       });
 
       if (!res.ok) {
         const data = await res.json();
-        setError(data.error || "Login failed");
+        setError(data.error || 'Login failed');
         return;
       }
 
-      router.push("/admin/dashboard");
+      router.push('/admin/dashboard');
     } catch {
-      setError("Something went wrong. Please try again.");
+      setError('Something went wrong. Please try again.');
     } finally {
       setLoading(false);
     }
@@ -63,9 +63,7 @@ export default function AdminLoginPage() {
         <div className="text-center mb-8">
           <span className="text-5xl block mb-4">&#127864;</span>
           <h1 className="text-3xl font-bold text-espresso-900">Admin Login</h1>
-          <p className="text-espresso-500 mt-2">
-            Sign in to manage your reviews
-          </p>
+          <p className="text-espresso-500 mt-2">Sign in to manage your reviews</p>
         </div>
 
         <form
@@ -79,10 +77,7 @@ export default function AdminLoginPage() {
           )}
 
           <div className="mb-5">
-            <label
-              htmlFor="email"
-              className="block text-sm font-medium text-espresso-700 mb-2"
-            >
+            <label htmlFor="email" className="block text-sm font-medium text-espresso-700 mb-2">
               Email
             </label>
             <input
@@ -97,10 +92,7 @@ export default function AdminLoginPage() {
           </div>
 
           <div className="mb-6">
-            <label
-              htmlFor="password"
-              className="block text-sm font-medium text-espresso-700 mb-2"
-            >
+            <label htmlFor="password" className="block text-sm font-medium text-espresso-700 mb-2">
               Password
             </label>
             <input
@@ -119,7 +111,7 @@ export default function AdminLoginPage() {
             disabled={loading}
             className="w-full py-3 bg-espresso-800 text-cream font-semibold rounded-xl hover:bg-espresso-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            {loading ? "Signing in..." : "Sign In"}
+            {loading ? 'Signing in...' : 'Sign In'}
           </button>
         </form>
       </div>

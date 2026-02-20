@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import { useRouter } from "next/navigation";
-import LocationSearch, { type LocationData } from "./LocationSearch";
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import LocationSearch, { type LocationData } from './LocationSearch';
 
 interface PostFormProps {
   initialData?: {
@@ -20,48 +20,48 @@ interface PostFormProps {
     image_url: string;
     published: boolean;
   };
-  mode: "create" | "edit";
+  mode: 'create' | 'edit';
 }
 
 export default function PostForm({ initialData, mode }: PostFormProps) {
   const router = useRouter();
   const [saving, setSaving] = useState(false);
-  const [error, setError] = useState("");
+  const [error, setError] = useState('');
 
-  const [title, setTitle] = useState(initialData?.title || "");
-  const [slug, setSlug] = useState(initialData?.slug || "");
-  const [excerpt, setExcerpt] = useState(initialData?.excerpt || "");
-  const [content, setContent] = useState(initialData?.content || "");
-  const [barName, setBarName] = useState(initialData?.bar_name || "");
-  const [location, setLocation] = useState(initialData?.location || "");
+  const [title, setTitle] = useState(initialData?.title || '');
+  const [slug, setSlug] = useState(initialData?.slug || '');
+  const [excerpt, setExcerpt] = useState(initialData?.excerpt || '');
+  const [content, setContent] = useState(initialData?.content || '');
+  const [barName, setBarName] = useState(initialData?.bar_name || '');
+  const [location, setLocation] = useState(initialData?.location || '');
   const [locationData, setLocationData] = useState<LocationData | null>(
     initialData?.location_data ?? null
   );
-  const [rating, setRating] = useState(String(initialData?.rating ?? ""));
-  const [price, setPrice] = useState(String(initialData?.price ?? ""));
-  const [currency, setCurrency] = useState(initialData?.currency || "USD");
-  const [imageUrl, setImageUrl] = useState(initialData?.image_url || "");
+  const [rating, setRating] = useState(String(initialData?.rating ?? ''));
+  const [price, setPrice] = useState(String(initialData?.price ?? ''));
+  const [currency, setCurrency] = useState(initialData?.currency || 'USD');
+  const [imageUrl, setImageUrl] = useState(initialData?.image_url || '');
   const [published, setPublished] = useState(initialData?.published || false);
 
   function generateSlug(text: string) {
     return text
       .toLowerCase()
-      .replace(/[^a-z0-9\s-]/g, "")
-      .replace(/\s+/g, "-")
-      .replace(/-+/g, "-")
+      .replace(/[^a-z0-9\s-]/g, '')
+      .replace(/\s+/g, '-')
+      .replace(/-+/g, '-')
       .trim();
   }
 
   function handleTitleChange(value: string) {
     setTitle(value);
-    if (mode === "create") {
+    if (mode === 'create') {
       setSlug(generateSlug(value));
     }
   }
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    setError("");
+    setError('');
     setSaving(true);
 
     const body = {
@@ -72,33 +72,32 @@ export default function PostForm({ initialData, mode }: PostFormProps) {
       bar_name: barName,
       location,
       location_data: locationData,
-      rating: rating === "" ? 0 : parseFloat(rating),
-      price: price === "" ? null : parseFloat(price),
+      rating: rating === '' ? 0 : parseFloat(rating),
+      price: price === '' ? null : parseFloat(price),
       currency,
       image_url: imageUrl,
       published,
     };
 
     try {
-      const url =
-        mode === "create" ? "/api/posts" : `/api/posts/${initialData?.id}`;
-      const method = mode === "create" ? "POST" : "PUT";
+      const url = mode === 'create' ? '/api/posts' : `/api/posts/${initialData?.id}`;
+      const method = mode === 'create' ? 'POST' : 'PUT';
 
       const res = await fetch(url, {
         method,
-        headers: { "Content-Type": "application/json" },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(body),
       });
 
       if (!res.ok) {
         const data = await res.json();
-        setError(data.error || "Failed to save");
+        setError(data.error || 'Failed to save');
         return;
       }
 
-      router.push("/admin/dashboard");
+      router.push('/admin/dashboard');
     } catch {
-      setError("Something went wrong. Please try again.");
+      setError('Something went wrong. Please try again.');
     } finally {
       setSaving(false);
     }
@@ -114,10 +113,7 @@ export default function PostForm({ initialData, mode }: PostFormProps) {
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div>
-          <label
-            htmlFor="title"
-            className="block text-sm font-medium text-espresso-700 mb-2"
-          >
+          <label htmlFor="title" className="block text-sm font-medium text-espresso-700 mb-2">
             Title *
           </label>
           <input
@@ -132,10 +128,7 @@ export default function PostForm({ initialData, mode }: PostFormProps) {
         </div>
 
         <div>
-          <label
-            htmlFor="slug"
-            className="block text-sm font-medium text-espresso-700 mb-2"
-          >
+          <label htmlFor="slug" className="block text-sm font-medium text-espresso-700 mb-2">
             URL Slug *
           </label>
           <input
@@ -152,10 +145,7 @@ export default function PostForm({ initialData, mode }: PostFormProps) {
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div>
-          <label
-            htmlFor="bar_name"
-            className="block text-sm font-medium text-espresso-700 mb-2"
-          >
+          <label htmlFor="bar_name" className="block text-sm font-medium text-espresso-700 mb-2">
             Bar / Venue Name
           </label>
           <input
@@ -169,14 +159,11 @@ export default function PostForm({ initialData, mode }: PostFormProps) {
         </div>
 
         <div>
-          <label
-            htmlFor="location"
-            className="block text-sm font-medium text-espresso-700 mb-2"
-          >
+          <label htmlFor="location" className="block text-sm font-medium text-espresso-700 mb-2">
             Location
           </label>
           <LocationSearch
-            initialValue={initialData?.location || ""}
+            initialValue={initialData?.location || ''}
             initialLocationData={initialData?.location_data}
             onChange={({ display, data }) => {
               setLocation(display);
@@ -188,10 +175,7 @@ export default function PostForm({ initialData, mode }: PostFormProps) {
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div>
-          <label
-            htmlFor="rating"
-            className="block text-sm font-medium text-espresso-700 mb-2"
-          >
+          <label htmlFor="rating" className="block text-sm font-medium text-espresso-700 mb-2">
             Rating (0-5)
           </label>
           <input
@@ -207,10 +191,7 @@ export default function PostForm({ initialData, mode }: PostFormProps) {
         </div>
 
         <div>
-          <label
-            htmlFor="image_url"
-            className="block text-sm font-medium text-espresso-700 mb-2"
-          >
+          <label htmlFor="image_url" className="block text-sm font-medium text-espresso-700 mb-2">
             Image URL
           </label>
           <input
@@ -226,10 +207,7 @@ export default function PostForm({ initialData, mode }: PostFormProps) {
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div>
-          <label
-            htmlFor="price"
-            className="block text-sm font-medium text-espresso-700 mb-2"
-          >
+          <label htmlFor="price" className="block text-sm font-medium text-espresso-700 mb-2">
             Price
           </label>
           <input
@@ -245,10 +223,7 @@ export default function PostForm({ initialData, mode }: PostFormProps) {
         </div>
 
         <div>
-          <label
-            htmlFor="currency"
-            className="block text-sm font-medium text-espresso-700 mb-2"
-          >
+          <label htmlFor="currency" className="block text-sm font-medium text-espresso-700 mb-2">
             Currency
           </label>
           <select
@@ -282,10 +257,7 @@ export default function PostForm({ initialData, mode }: PostFormProps) {
       </div>
 
       <div>
-        <label
-          htmlFor="excerpt"
-          className="block text-sm font-medium text-espresso-700 mb-2"
-        >
+        <label htmlFor="excerpt" className="block text-sm font-medium text-espresso-700 mb-2">
           Excerpt
         </label>
         <textarea
@@ -299,11 +271,8 @@ export default function PostForm({ initialData, mode }: PostFormProps) {
       </div>
 
       <div>
-        <label
-          htmlFor="content"
-          className="block text-sm font-medium text-espresso-700 mb-2"
-        >
-          Content *{" "}
+        <label htmlFor="content" className="block text-sm font-medium text-espresso-700 mb-2">
+          Content *{' '}
           <span className="font-normal text-espresso-400">
             (Markdown supported: # for headings, ** for bold)
           </span>
@@ -327,10 +296,7 @@ export default function PostForm({ initialData, mode }: PostFormProps) {
           onChange={(e) => setPublished(e.target.checked)}
           className="w-5 h-5 rounded border-espresso-300 text-caramel focus:ring-caramel"
         />
-        <label
-          htmlFor="published"
-          className="text-sm font-medium text-espresso-700"
-        >
+        <label htmlFor="published" className="text-sm font-medium text-espresso-700">
           Publish this review (visible to everyone)
         </label>
       </div>
@@ -341,15 +307,11 @@ export default function PostForm({ initialData, mode }: PostFormProps) {
           disabled={saving}
           className="px-8 py-3 bg-espresso-800 text-cream font-semibold rounded-xl hover:bg-espresso-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          {saving
-            ? "Saving..."
-            : mode === "create"
-              ? "Create Review"
-              : "Update Review"}
+          {saving ? 'Saving...' : mode === 'create' ? 'Create Review' : 'Update Review'}
         </button>
         <button
           type="button"
-          onClick={() => router.push("/admin/dashboard")}
+          onClick={() => router.push('/admin/dashboard')}
           className="px-8 py-3 border border-espresso-300 text-espresso-600 font-medium rounded-xl hover:bg-espresso-50 transition-all"
         >
           Cancel

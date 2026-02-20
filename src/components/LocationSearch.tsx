@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import { useEffect, useRef, useState, useCallback } from "react";
-import Script from "next/script";
+import { useEffect, useRef, useState, useCallback } from 'react';
+import Script from 'next/script';
 
 export interface LocationData {
   place_id: string;
@@ -26,7 +26,7 @@ declare global {
 }
 
 export default function LocationSearch({
-  initialValue = "",
+  initialValue = '',
   initialLocationData,
   onChange,
 }: LocationSearchProps) {
@@ -43,43 +43,42 @@ export default function LocationSearch({
     if (!inputRef.current || !window.google?.maps?.places) return;
     if (autocompleteRef.current) return;
 
-    autocompleteRef.current = new window.google.maps.places.Autocomplete(
-      inputRef.current,
-      { types: ["establishment", "geocode"] },
-    );
+    autocompleteRef.current = new window.google.maps.places.Autocomplete(inputRef.current, {
+      types: ['establishment', 'geocode'],
+    });
 
-    autocompleteRef.current.addListener("place_changed", () => {
+    autocompleteRef.current.addListener('place_changed', () => {
       const place = autocompleteRef.current!.getPlace();
       if (!place.geometry || !place.address_components) {
         onChangeRef.current({
-          display: inputRef.current?.value || "",
+          display: inputRef.current?.value || '',
           data: null,
         });
         return;
       }
 
-      let city = "";
-      let country = "";
+      let city = '';
+      let country = '';
 
       for (const component of place.address_components) {
-        if (component.types.includes("locality")) {
+        if (component.types.includes('locality')) {
           city = component.long_name;
         }
-        if (!city && component.types.includes("postal_town")) {
+        if (!city && component.types.includes('postal_town')) {
           city = component.long_name;
         }
-        if (!city && component.types.includes("administrative_area_level_1")) {
+        if (!city && component.types.includes('administrative_area_level_1')) {
           city = component.long_name;
         }
-        if (component.types.includes("country")) {
+        if (component.types.includes('country')) {
           country = component.long_name;
         }
       }
 
-      const display = [city, country].filter(Boolean).join(", ");
+      const display = [city, country].filter(Boolean).join(', ');
       const data: LocationData = {
-        place_id: place.place_id || "",
-        formatted_address: place.formatted_address || "",
+        place_id: place.place_id || '',
+        formatted_address: place.formatted_address || '',
         city,
         country,
         lat: place.geometry.location!.lat(),

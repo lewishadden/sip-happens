@@ -1,5 +1,5 @@
-import Link from "next/link";
-import RatingStars from "./RatingStars";
+import Link from 'next/link';
+import RatingStars from './RatingStars';
 
 interface PostCardProps {
   title: string;
@@ -14,11 +14,22 @@ interface PostCardProps {
   created_at: string;
 }
 
-export default function PostCard({ title, slug, excerpt, bar_name, location, rating, price, currency, image_url, created_at }: PostCardProps) {
-  const date = new Date(created_at + "Z").toLocaleDateString("en-US", {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
+export default function PostCard({
+  title,
+  slug,
+  excerpt,
+  bar_name,
+  location,
+  rating,
+  price,
+  currency,
+  image_url,
+  created_at,
+}: PostCardProps) {
+  const date = new Date(created_at + 'Z').toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
   });
 
   return (
@@ -48,17 +59,15 @@ export default function PostCard({ title, slug, excerpt, bar_name, location, rat
             {title}
           </h3>
 
-          {bar_name && (
-            <p className="text-sm font-medium text-caramel mb-2">{bar_name}</p>
-          )}
+          {bar_name && <p className="text-sm font-medium text-caramel mb-2">{bar_name}</p>}
 
           <div className="flex items-center gap-3">
             {rating !== null && <RatingStars rating={rating} size="sm" />}
             {price !== null && (
               <span className="text-sm font-medium text-espresso-500">
-                {new Intl.NumberFormat("en", {
-                  style: "currency",
-                  currency: currency || "USD",
+                {new Intl.NumberFormat('en', {
+                  style: 'currency',
+                  currency: currency || 'USD',
                   minimumFractionDigits: 0,
                   maximumFractionDigits: 2,
                 }).format(price)}
@@ -67,9 +76,7 @@ export default function PostCard({ title, slug, excerpt, bar_name, location, rat
           </div>
 
           {excerpt && (
-            <p className="mt-3 text-sm text-espresso-600 leading-relaxed line-clamp-3">
-              {excerpt}
-            </p>
+            <p className="mt-3 text-sm text-espresso-600 leading-relaxed line-clamp-3">{excerpt}</p>
           )}
 
           <div className="mt-4 text-sm font-semibold text-espresso-700 group-hover:text-caramel transition-colors">

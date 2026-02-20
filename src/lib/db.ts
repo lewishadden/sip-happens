@@ -1,4 +1,4 @@
-import { neon } from "@neondatabase/serverless";
+import { neon } from '@neondatabase/serverless';
 
 const sql = neon(process.env.POSTGRES_URL!);
 
@@ -126,7 +126,8 @@ export async function deletePost(id: number): Promise<void> {
 }
 
 export async function getRecentPosts(limit: number = 3): Promise<Post[]> {
-  const rows = await sql`SELECT * FROM posts WHERE published = true ORDER BY created_at DESC LIMIT ${limit}`;
+  const rows =
+    await sql`SELECT * FROM posts WHERE published = true ORDER BY created_at DESC LIMIT ${limit}`;
   return rows as Post[];
 }
 

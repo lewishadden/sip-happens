@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
-import { useEffect, useState, use } from "react";
-import { useRouter } from "next/navigation";
-import Link from "next/link";
-import PostForm from "@/components/PostForm";
+import { useEffect, useState, use } from 'react';
+import { useRouter } from 'next/navigation';
+import Link from 'next/link';
+import PostForm from '@/components/PostForm';
 
 interface LocationData {
   place_id: string;
@@ -39,15 +39,15 @@ export default function EditPostPage({ params }: { params: Promise<{ id: string 
   useEffect(() => {
     let cancelled = false;
     async function load() {
-      const meRes = await fetch("/api/auth/me");
+      const meRes = await fetch('/api/auth/me');
       if (!meRes.ok) {
-        router.push("/admin/login");
+        router.push('/admin/login');
         return;
       }
 
       const postRes = await fetch(`/api/posts/${id}`);
       if (!postRes.ok) {
-        router.push("/admin/dashboard");
+        router.push('/admin/dashboard');
         return;
       }
 
@@ -58,8 +58,10 @@ export default function EditPostPage({ params }: { params: Promise<{ id: string 
       }
     }
     load();
-    return () => { cancelled = true; };
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    return () => {
+      cancelled = true;
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
   if (loading || !post) {
@@ -86,15 +88,15 @@ export default function EditPostPage({ params }: { params: Promise<{ id: string 
             id: post.id,
             title: post.title,
             slug: post.slug,
-            excerpt: post.excerpt || "",
+            excerpt: post.excerpt || '',
             content: post.content,
-            bar_name: post.bar_name || "",
-            location: post.location || "",
+            bar_name: post.bar_name || '',
+            location: post.location || '',
             location_data: post.location_data || null,
             rating: post.rating || 0,
             price: post.price,
-            currency: post.currency || "USD",
-            image_url: post.image_url || "",
+            currency: post.currency || 'USD',
+            image_url: post.image_url || '',
             published: !!post.published,
           }}
         />
