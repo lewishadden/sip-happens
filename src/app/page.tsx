@@ -29,7 +29,7 @@ export default async function Home() {
   return (
     <div>
       {/* Hero */}
-      <section className="relative bg-espresso-900 text-cream overflow-hidden">
+      <section className="relative bg-espresso-900 text-cream overflow-hidden h-screen min-h-[632px]">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--color-espresso-700)_0%,_var(--color-espresso-950)_70%)]" />
         <div className="relative max-w-6xl mx-auto px-4 py-24 md:py-36 text-center">
           <span className="text-6xl md:text-8xl block mb-6">&#127864;</span>
@@ -54,9 +54,6 @@ export default async function Home() {
           </div>
         </div>
       </section>
-
-      {/* Globe */}
-      <ReviewGlobe markers={globeMarkers} />
 
       {/* Latest Reviews */}
       <section className="max-w-6xl mx-auto px-4 py-16">
@@ -88,6 +85,9 @@ export default async function Home() {
           </Link>
         </div>
       </section>
+
+      {/* Globe */}
+      <ReviewGlobe markers={globeMarkers} />
 
       {/* Stats */}
       <section className="bg-espresso-900 text-cream">
