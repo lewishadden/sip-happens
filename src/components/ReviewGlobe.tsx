@@ -40,7 +40,12 @@ function RatingStarsInline({ rating }: { rating: number }) {
           &#9733;
         </span>
       ))}
-      {hasHalf && <span className="text-caramel opacity-60">&#9733;</span>}
+      {hasHalf && (
+        <div className="relative h-[stretch] w-(--text-sm)">
+          <div className="absolute text-espresso-300">&#9733;</div>
+          <div className="absolute text-caramel [clip-path:inset(0_50%_0_0)]">&#9733;</div>
+        </div>
+      )}
       {Array.from({ length: empty }).map((_, i) => (
         <span key={`e-${i}`} className="text-espresso-300">
           &#9733;

@@ -14,6 +14,11 @@ export default function RatingStars({ rating, size = 'md', showNumber = true }: 
     md: 'text-lg',
     lg: 'text-2xl',
   }[size];
+  const sizeClassHalfStar = {
+    sm: 'w-(--text-sm)',
+    md: 'w-(--text-lg)',
+    lg: 'w-(--text-2xl)',
+  }[size];
 
   return (
     <div className="flex items-center gap-1.5">
@@ -23,7 +28,12 @@ export default function RatingStars({ rating, size = 'md', showNumber = true }: 
             &#9733;
           </span>
         ))}
-        {hasHalf && <span className="text-caramel opacity-60">&#9733;</span>}
+        {hasHalf && (
+          <div className={`relative ${sizeClassHalfStar}`}>
+            <div className="absolute text-espresso-300">&#9733;</div>
+            <div className="absolute text-caramel [clip-path:inset(0_50%_0_0)]">&#9733;</div>
+          </div>
+        )}
         {Array.from({ length: emptyStars }).map((_, i) => (
           <span key={`empty-${i}`} className="text-espresso-300">
             &#9733;
