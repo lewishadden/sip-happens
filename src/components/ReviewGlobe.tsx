@@ -172,6 +172,7 @@ export default function ReviewGlobe({ markers }: ReviewGlobeProps) {
   const originalMapRef = useRef<Texture | null>(null);
   const usingTilesRef = useRef(false);
   const rotatePausedRef = useRef(false);
+  const preClickAltitudeRef = useRef<number>(reviewGlobeDefaultAltitude);
   const tileDebounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const updateTilesRef = useRef<() => void>(() => {});
   const [tilesActive, setTilesActive] = useState(false);
@@ -325,6 +326,9 @@ export default function ReviewGlobe({ markers }: ReviewGlobeProps) {
     (marker: GlobeMarker) => {
       if (resumeTimer.current) clearTimeout(resumeTimer.current);
       setAutoRotate(false);
+      if (globeRef.current) {
+        preClickAltitudeRef.current = globeRef.current.pointOfView().altitude;
+      }
       setSelected(marker);
       if (globeRef.current) {
         globeRef.current.pointOfView(
@@ -352,8 +356,9 @@ export default function ReviewGlobe({ markers }: ReviewGlobeProps) {
         setTilesActive(false);
       }
       if (globeRef.current) {
-        globeRef.current.pointOfView({ altitude: reviewGlobeDefaultAltitude }, 2000);
+        globeRef.current.pointOfView({ altitude: preClickAltitudeRef.current }, 2000);
       }
+      preClickAltitudeRef.current = reviewGlobeDefaultAltitude;
       setAutoRotate(true);
     }
     if (selected) {
