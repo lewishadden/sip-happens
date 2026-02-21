@@ -521,7 +521,38 @@ export default function ReviewGlobe({ markers }: ReviewGlobeProps) {
         onMouseDown={handleInteraction}
         onTouchStart={handleInteraction}
       >
-        <div className="relative">
+        <div
+          className="relative"
+          style={{ minHeight: globeReady ? undefined : dimensions.height || 400 }}
+        >
+          {/* Loading overlay */}
+          {!globeReady && (
+            <div className="absolute inset-0 z-30 flex flex-col items-center justify-center bg-espresso-950">
+              <div className="relative flex flex-col items-center gap-6">
+                <div className="animate-[globeSpin_2s_ease-in-out_infinite] text-6xl">
+                  \uD83C\uDF0D
+                </div>
+                <div className="flex items-center gap-1.5">
+                  <div
+                    className="h-2 w-2 rounded-full bg-caramel animate-[globeBounce_1.4s_ease-in-out_infinite]"
+                    style={{ animationDelay: '0ms' }}
+                  />
+                  <div
+                    className="h-2 w-2 rounded-full bg-caramel animate-[globeBounce_1.4s_ease-in-out_infinite]"
+                    style={{ animationDelay: '200ms' }}
+                  />
+                  <div
+                    className="h-2 w-2 rounded-full bg-caramel animate-[globeBounce_1.4s_ease-in-out_infinite]"
+                    style={{ animationDelay: '400ms' }}
+                  />
+                </div>
+                <p className="text-espresso-400 text-2xl font-semibold tracking-wide animate-pulse">
+                  Loading the globe&hellip;
+                </p>
+              </div>
+            </div>
+          )}
+
           {mounted && dimensions.width > 0 && (
             <Globe
               ref={globeRef}
@@ -551,7 +582,7 @@ export default function ReviewGlobe({ markers }: ReviewGlobeProps) {
           )}
 
           {/* Zoom controls */}
-          <div className="absolute right-5 top-1/2 -translate-y-1/2 z-10 flex flex-col gap-2">
+          <div className={`absolute right-5 top-1/2 -translate-y-1/2 z-10 flex flex-col gap-2 transition-opacity duration-300 ${globeReady ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
             <button
               onClick={() => handleZoom('in')}
               className="w-11 h-11 flex items-center justify-center rounded-full bg-espresso-800/80 backdrop-blur-md text-cream shadow-xl hover:bg-espresso-700 transition-colors text-xl font-bold leading-none border border-espresso-600/30"
