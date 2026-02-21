@@ -5,16 +5,21 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 
+import {
+  halfStarThreshold,
+  maxStarCount,
+  reviewGlobeBaseMarkerSizePx,
+  reviewGlobeCityAltitude,
+  reviewGlobeDefaultAltitude,
+  reviewGlobeDragPauseMs,
+  reviewGlobeMarkerScaleStart,
+} from '@/lib/constants';
 import { TileCompositor, TILE_THRESHOLD } from '@/lib/tileCompositor';
 
 import type { GlobeMethods } from 'react-globe.gl';
 import type { Object3D, Texture } from 'three';
 
 const Globe = dynamic(() => import('react-globe.gl'), { ssr: false });
-
-const DEFAULT_ALTITUDE = 2.0;
-const CITY_ALTITUDE = 0.0001;
-const DRAG_PAUSE_MS = 4000;
 
 export interface GlobeMarker {
   lat: number;
@@ -34,8 +39,8 @@ interface ReviewGlobeProps {
 
 function RatingStarsInline({ rating }: { rating: number }) {
   const full = Math.floor(rating);
-  const hasHalf = rating - full >= 0.3;
-  const empty = 5 - full - (hasHalf ? 1 : 0);
+  const hasHalf = rating - full >= halfStarThreshold;
+  const empty = maxStarCount - full - (hasHalf ? 1 : 0);
 
   return (
     <span className="inline-flex items-center gap-0.5 text-sm">
@@ -63,12 +68,11 @@ function RatingStarsInline({ rating }: { rating: number }) {
 const markerElements = new Set<HTMLElement>();
 let currentMarkerScale = 1;
 
-const MARKER_SCALE_START = 0.3;
-
 function scaleMarkersForAltitude(altitude: number) {
-  const zoom = altitude >= MARKER_SCALE_START ? 0 : 1 - altitude / MARKER_SCALE_START;
+  const zoom =
+    altitude >= reviewGlobeMarkerScaleStart ? 0 : 1 - altitude / reviewGlobeMarkerScaleStart;
   currentMarkerScale = 1 + Math.max(0, Math.min(1, zoom)) * 1.5;
-  const px = Math.round(24 * currentMarkerScale);
+  const px = Math.round(reviewGlobeBaseMarkerSizePx * currentMarkerScale);
   for (const wrapper of markerElements) {
     wrapper.style.width = `${px}px`;
     wrapper.style.height = `${px}px`;
@@ -79,7 +83,7 @@ function scaleMarkersForAltitude(altitude: number) {
 }
 
 function createMarkerElement(marker: GlobeMarker, onClick: (m: GlobeMarker) => void): HTMLElement {
-  const px = Math.round(24 * currentMarkerScale);
+  const px = Math.round(reviewGlobeBaseMarkerSizePx * currentMarkerScale);
   const wrapper = document.createElement('div');
   wrapper.style.cssText =
     'pointer-events:auto;position:relative;z-index:10;cursor:pointer;' +
@@ -304,11 +308,11 @@ export default function ReviewGlobe({ markers }: ReviewGlobeProps) {
     setAutoRotate(false);
     resumeTimer.current = setTimeout(() => {
       rotatePausedRef.current = false;
-      const alt = globeRef.current?.pointOfView().altitude ?? DEFAULT_ALTITUDE;
+      const alt = globeRef.current?.pointOfView().altitude ?? reviewGlobeDefaultAltitude;
       if (alt > TILE_THRESHOLD) {
         setAutoRotate(true);
       }
-    }, DRAG_PAUSE_MS);
+    }, reviewGlobeDragPauseMs);
   }, [setAutoRotate]);
 
   const handleMarkerClick = useCallback(
@@ -318,7 +322,7 @@ export default function ReviewGlobe({ markers }: ReviewGlobeProps) {
       setSelected(marker);
       if (globeRef.current) {
         globeRef.current.pointOfView(
-          { lat: marker.lat, lng: marker.lng, altitude: CITY_ALTITUDE },
+          { lat: marker.lat, lng: marker.lng, altitude: reviewGlobeCityAltitude },
           2000
         );
         setTimeout(() => updateTilesRef.current(), 2050);
@@ -342,7 +346,7 @@ export default function ReviewGlobe({ markers }: ReviewGlobeProps) {
         setTilesActive(false);
       }
       if (globeRef.current) {
-        globeRef.current.pointOfView({ altitude: DEFAULT_ALTITUDE }, 2000);
+        globeRef.current.pointOfView({ altitude: reviewGlobeDefaultAltitude }, 2000);
       }
       setAutoRotate(true);
     }
@@ -437,7 +441,7 @@ export default function ReviewGlobe({ markers }: ReviewGlobeProps) {
   const onGlobeReady = useCallback(() => {
     setGlobeReady(true);
     if (globeRef.current) {
-      globeRef.current.pointOfView({ altitude: DEFAULT_ALTITUDE });
+      globeRef.current.pointOfView({ altitude: reviewGlobeDefaultAltitude });
     }
   }, []);
 
