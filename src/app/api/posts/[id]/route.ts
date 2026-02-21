@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getPostById, updatePost, deletePost } from '@/lib/db';
+
 import { getSession } from '@/lib/auth';
+import { getPostById, updatePost, deletePost } from '@/lib/db';
 
 interface RouteContext {
   params: Promise<{ id: string }>;

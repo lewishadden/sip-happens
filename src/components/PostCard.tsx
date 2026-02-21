@@ -1,4 +1,6 @@
+import Image from 'next/image';
 import Link from 'next/link';
+
 import RatingStars from './RatingStars';
 
 interface PostCardProps {
@@ -36,10 +38,13 @@ export default function PostCard({
     <Link href={`/reviews/${slug}`} className="group block">
       <article className="bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 border border-espresso-100 group-hover:-translate-y-1">
         {image_url && (
-          <div className="aspect-[16/10] overflow-hidden bg-espresso-100">
-            <img
+          <div className="relative aspect-[16/10] overflow-hidden bg-espresso-100">
+            <Image
               src={image_url}
               alt={title}
+              fill
+              unoptimized
+              sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
               className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
             />
           </div>

@@ -1,11 +1,14 @@
-import type { Metadata } from 'next';
-import { Geist, Geist_Mono } from 'next/font/google';
 import { Analytics } from '@vercel/analytics/react';
 import { SpeedInsights } from '@vercel/speed-insights/next';
-import { GoogleAnalyticsDeferred } from '@/components/GoogleAnalyticsDeferred';
-import './globals.css';
-import Navbar from '@/components/Navbar';
+import { Geist, Geist_Mono } from 'next/font/google';
+
 import Footer from '@/components/Footer';
+import { GoogleAnalyticsDeferred } from '@/components/GoogleAnalyticsDeferred';
+import Navbar from '@/components/Navbar';
+
+import type { Metadata } from 'next';
+
+import './globals.css';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',

@@ -1,7 +1,7 @@
 'use client';
 
-import { useEffect, useRef, useState, useCallback } from 'react';
 import Script from 'next/script';
+import { useEffect, useRef, useState, useCallback } from 'react';
 
 export interface LocationData {
   place_id: string;

@@ -1,6 +1,7 @@
+import bcrypt from 'bcryptjs';
 import { SignJWT, jwtVerify } from 'jose';
 import { cookies } from 'next/headers';
-import bcrypt from 'bcryptjs';
+
 import { getUserByEmail } from './db';
 
 const SECRET = new TextEncoder().encode(process.env.JWT_SECRET || 'fallback-secret-key');

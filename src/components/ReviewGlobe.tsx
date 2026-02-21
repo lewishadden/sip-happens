@@ -1,10 +1,14 @@
 'use client';
 
-import { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import dynamic from 'next/dynamic';
+import Image from 'next/image';
 import Link from 'next/link';
-import type { GlobeMethods } from 'react-globe.gl';
+import { useState, useEffect, useRef, useCallback, useMemo } from 'react';
+
 import { TileCompositor, TILE_THRESHOLD } from '@/lib/tileCompositor';
+
+import type { GlobeMethods } from 'react-globe.gl';
+import type { Object3D, Texture } from 'three';
 
 const Globe = dynamic(() => import('react-globe.gl'), { ssr: false });
 
@@ -101,15 +105,40 @@ function createMarkerElement(marker: GlobeMarker, onClick: (m: GlobeMarker) => v
   return wrapper;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-function findGlobeMaterial(globeRef: React.RefObject<GlobeMethods | undefined>): any {
+interface GlobeMaterialLike {
+  map: Texture | null;
+  needsUpdate: boolean;
+}
+
+interface GlobeControlsLike {
+  autoRotate: boolean;
+  autoRotateSpeed: number;
+  enableZoom: boolean;
+  enablePan: boolean;
+  minDistance: number;
+  addEventListener: (event: 'change', handler: () => void) => void;
+  removeEventListener: (event: 'change', handler: () => void) => void;
+}
+
+function getMaterialWithMap(material: unknown): GlobeMaterialLike | null {
+  if (!material || typeof material !== 'object') return null;
+  const candidate = material as Partial<GlobeMaterialLike>;
+  if (!('map' in candidate) || !('needsUpdate' in candidate)) return null;
+  return candidate as GlobeMaterialLike;
+}
+
+function findGlobeMaterial(
+  globeRef: React.RefObject<GlobeMethods | undefined>
+): GlobeMaterialLike | null {
   if (!globeRef.current) return null;
   try {
-    const scene = globeRef.current.scene();
-    let mat: any = null;
-    scene.traverse((obj: any) => {
-      if (!mat && obj.isMesh && obj.material?.map) {
-        mat = obj.material;
+    const scene = globeRef.current.scene() as Object3D;
+    let mat: GlobeMaterialLike | null = null;
+    scene.traverse((obj) => {
+      const mesh = obj as Object3D & { isMesh?: boolean; material?: unknown };
+      if (!mat && mesh.isMesh) {
+        const candidate = getMaterialWithMap(mesh.material);
+        if (candidate?.map) mat = candidate;
       }
     });
     return mat;
@@ -129,10 +158,8 @@ export default function ReviewGlobe({ markers }: ReviewGlobeProps) {
   const [globeReady, setGlobeReady] = useState(false);
   const resumeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const compositorRef = useRef<TileCompositor | null>(null);
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const textureRef = useRef<any>(null);
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const originalMapRef = useRef<any>(null);
+  const textureRef = useRef<Texture | null>(null);
+  const originalMapRef = useRef<Texture | null>(null);
   const usingTilesRef = useRef(false);
   const rotatePausedRef = useRef(false);
   const tileDebounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -208,12 +235,11 @@ export default function ReviewGlobe({ markers }: ReviewGlobeProps) {
   // Poll until controls exist then enable auto-rotate + tile change listener
   useEffect(() => {
     if (!globeReady) return;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    let activeControls: any = null;
+    let activeControls: GlobeControlsLike | null = null;
     let changeHandler: (() => void) | null = null;
     const id = setInterval(() => {
       try {
-        const controls = globeRef.current?.controls();
+        const controls = globeRef.current?.controls() as GlobeControlsLike | undefined;
         if (controls) {
           controls.autoRotate = true;
           controls.autoRotateSpeed = 0.6;
@@ -538,10 +564,13 @@ export default function ReviewGlobe({ markers }: ReviewGlobeProps) {
             <div className="absolute top-4 left-4 z-20 w-72 animate-[fadeInUp_0.3s_ease-out]">
               <div className="bg-white/95 backdrop-blur-md rounded-2xl shadow-2xl border border-espresso-200 overflow-hidden">
                 {selected.image_url && (
-                  <div className="h-32 overflow-hidden">
-                    <img
+                  <div className="relative h-32 overflow-hidden">
+                    <Image
                       src={selected.image_url}
                       alt={selected.title}
+                      fill
+                      unoptimized
+                      sizes="288px"
                       className="w-full h-full object-cover"
                     />
                   </div>

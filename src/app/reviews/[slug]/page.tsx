@@ -1,7 +1,9 @@
-import { notFound } from 'next/navigation';
+import Image from 'next/image';
 import Link from 'next/link';
-import { getPostBySlug, getAllPosts } from '@/lib/db';
+import { notFound } from 'next/navigation';
+
 import RatingStars from '@/components/RatingStars';
+import { getPostBySlug, getAllPosts } from '@/lib/db';
 
 export const dynamic = 'force-dynamic';
 
@@ -87,8 +89,15 @@ export default async function ReviewPage({ params }: PageProps) {
       </Link>
 
       {post.image_url && (
-        <div className="aspect-[21/9] rounded-2xl overflow-hidden mb-8 shadow-lg">
-          <img src={post.image_url} alt={post.title} className="w-full h-full object-cover" />
+        <div className="relative aspect-[21/9] rounded-2xl overflow-hidden mb-8 shadow-lg">
+          <Image
+            src={post.image_url}
+            alt={post.title}
+            fill
+            unoptimized
+            sizes="(max-width: 1024px) 100vw, 896px"
+            className="w-full h-full object-cover"
+          />
         </div>
       )}
 
