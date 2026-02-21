@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 
 import RatingStars from '@/components/RatingStars';
+
 import { markdownBoldMarkerLength, markdownH2PrefixLength } from '@/lib/constants';
 import { getPostBySlug, getAllPosts } from '@/lib/db';
 

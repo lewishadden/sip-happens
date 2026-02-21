@@ -1,4 +1,5 @@
 import PostCard from '@/components/PostCard';
+
 import { getAllPosts } from '@/lib/db';
 
 export const dynamic = 'force-dynamic';

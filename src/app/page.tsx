@@ -3,6 +3,7 @@ import Link from 'next/link';
 import PostCard from '@/components/PostCard';
 import ReviewGlobe from '@/components/ReviewGlobe';
 import type { GlobeMarker } from '@/components/ReviewGlobe';
+
 import { featuredPostLimit } from '@/lib/constants';
 import { getRecentPosts, getAllPosts, getUniqueCountryCount } from '@/lib/db';
 

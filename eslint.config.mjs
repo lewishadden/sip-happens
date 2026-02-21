@@ -35,6 +35,11 @@ export default [
           ],
           pathGroups: [
             {
+              pattern: "@/components/**",
+              group: "internal",
+              position: "before",
+            },
+            {
               pattern: "@/**",
               group: "internal",
               position: "after",
@@ -45,6 +50,7 @@ export default [
               position: "after",
             },
           ],
+          distinctGroup: true,
           pathGroupsExcludedImportTypes: ["builtin"],
           "newlines-between": "always",
           alphabetize: { order: "asc", caseInsensitive: true },
