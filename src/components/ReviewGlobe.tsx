@@ -174,6 +174,7 @@ export default function ReviewGlobe({ markers }: ReviewGlobeProps) {
   const rotatePausedRef = useRef(false);
   const preClickAltitudeRef = useRef<number>(reviewGlobeDefaultAltitude);
   const tileDebounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const tileThrottleRef = useRef<number>(0);
   const tileAnimationRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const updateTilesRef = useRef<() => void>(() => {});
   const [tilesActive, setTilesActive] = useState(false);
@@ -293,8 +294,15 @@ export default function ReviewGlobe({ markers }: ReviewGlobeProps) {
                 }
               }
             }
+            // Throttle tile updates to at most once per 100ms during rotation,
+            // with a trailing call to catch the final resting position.
+            const now = performance.now();
+            if (now - tileThrottleRef.current >= 100) {
+              tileThrottleRef.current = now;
+              updateTilesRef.current();
+            }
             if (tileDebounceRef.current) clearTimeout(tileDebounceRef.current);
-            tileDebounceRef.current = setTimeout(updateTiles, 100);
+            tileDebounceRef.current = setTimeout(() => updateTilesRef.current(), 120);
           };
           controls.addEventListener('change', changeHandler);
           activeControls = controls;

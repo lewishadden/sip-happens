@@ -3,7 +3,7 @@ export const tileThreshold = 0.4;
 const maxZoom = 19;
 const minZoom = 3;
 const maxLat = 85.051;
-const maxConcurrent = 12;
+const maxConcurrent = 16;
 const subdomains = ['a', 'b', 'c'];
 let subdomainIdx = 0;
 
