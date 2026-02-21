@@ -2,6 +2,7 @@ import bcrypt from 'bcryptjs';
 import { SignJWT, jwtVerify } from 'jose';
 import { cookies } from 'next/headers';
 
+import { JWT_MAX_AGE_SECONDS } from './constants';
 import { getUserByEmail } from './db';
 
 const SECRET = new TextEncoder().encode(process.env.JWT_SECRET || 'fallback-secret-key');
@@ -28,7 +29,7 @@ export async function signIn(
     httpOnly: true,
     secure: process.env.NODE_ENV === 'production',
     sameSite: 'lax',
-    maxAge: 60 * 60 * 24 * 7,
+    maxAge: JWT_MAX_AGE_SECONDS,
     path: '/',
   });
 

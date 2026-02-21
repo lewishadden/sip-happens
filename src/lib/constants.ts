@@ -1,0 +1,12 @@
+export const FEATURED_POST_LIMIT = 3;
+
+export const MARKDOWN_H2_PREFIX_LENGTH = 3;
+export const MARKDOWN_BOLD_MARKER_LENGTH = 2;
+
+export const GOOGLE_ANALYTICS_IDLE_TIMEOUT_MS = 4000;
+export const GOOGLE_ANALYTICS_FALLBACK_TIMEOUT_MS = 3500;
+
+export const HALF_STAR_THRESHOLD = 0.3;
+export const MAX_STAR_COUNT = 5;
+
+export const JWT_MAX_AGE_SECONDS = 60 * 60 * 24 * 7;

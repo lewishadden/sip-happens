@@ -3,12 +3,13 @@ import Link from 'next/link';
 import PostCard from '@/components/PostCard';
 import ReviewGlobe from '@/components/ReviewGlobe';
 import type { GlobeMarker } from '@/components/ReviewGlobe';
+import { FEATURED_POST_LIMIT } from '@/lib/constants';
 import { getRecentPosts, getAllPosts, getUniqueCountryCount } from '@/lib/db';
 
 export const dynamic = 'force-dynamic';
 
 export default async function Home() {
-  const featuredPosts = await getRecentPosts(3);
+  const featuredPosts = await getRecentPosts(FEATURED_POST_LIMIT);
   const allPosts = await getAllPosts();
   const totalReviews = allPosts.length;
   const countryCount = await getUniqueCountryCount();
