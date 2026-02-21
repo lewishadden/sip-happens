@@ -23,8 +23,8 @@
 }
 
 body {
-  background-color: var(--color-espresso-50);
-  color: var(--color-espresso-950);
+  background-color: var(--color-espresso-100);
+  color: var(--color-espresso-800);
   font-family: var(--font-sans), system-ui, sans-serif;
 }
 

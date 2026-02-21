@@ -12,7 +12,7 @@ export default function AboutPage() {
       <h1 className="text-4xl font-bold text-espresso-900 mb-8">About Sip Happens</h1>
 
       <div className="prose max-w-none space-y-6">
-        <div className="bg-white rounded-2xl p-8 shadow-sm border border-espresso-100">
+        <div className="bg-espresso-50 rounded-2xl p-8 shadow-sm border border-espresso-100">
           <h2 className="text-2xl font-semibold text-espresso-800 mb-4">The Mission</h2>
           <p className="text-espresso-700 leading-relaxed mb-4">
             It started with a bad espresso martini at an airport bar. You know the type — lukewarm,
@@ -33,7 +33,7 @@ export default function AboutPage() {
           </p>
         </div>
 
-        <div className="bg-white rounded-2xl p-8 shadow-sm border border-espresso-100">
+        <div className="bg-espresso-50 rounded-2xl p-8 shadow-sm border border-espresso-100">
           <h2 className="text-2xl font-semibold text-espresso-800 mb-4">What We Look For</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
             {[
@@ -72,7 +72,7 @@ export default function AboutPage() {
           </div>
         </div>
 
-        <div className="bg-white rounded-2xl p-8 shadow-sm border border-espresso-100">
+        <div className="bg-espresso-50 rounded-2xl p-8 shadow-sm border border-espresso-100">
           <h2 className="text-2xl font-semibold text-espresso-800 mb-4">Our Rating Scale</h2>
           <div className="space-y-3">
             {[
@@ -100,7 +100,7 @@ export default function AboutPage() {
             ].map((item) => (
               <div
                 key={item.label}
-                className="flex items-start gap-4 p-3 rounded-lg hover:bg-espresso-50 transition-colors"
+                className="flex items-start gap-4 p-3 rounded-lg hover:bg-espresso-100 transition-colors"
               >
                 <span className="text-caramel font-bold text-sm w-16 flex-shrink-0 pt-0.5">
                   {item.stars}

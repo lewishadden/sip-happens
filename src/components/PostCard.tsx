@@ -36,7 +36,7 @@ export default function PostCard({
 
   return (
     <Link href={`/reviews/${slug}`} className="group block">
-      <article className="bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 border border-espresso-100 group-hover:-translate-y-1">
+      <article className="bg-espresso-50 rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 border border-espresso-100 group-hover:-translate-y-1">
         {image_url && (
           <div className="relative aspect-[16/10] overflow-hidden bg-espresso-100">
             <Image
