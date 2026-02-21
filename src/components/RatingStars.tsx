@@ -1,4 +1,4 @@
-import { HALF_STAR_THRESHOLD, MAX_STAR_COUNT } from '@/lib/constants';
+import { halfStarThreshold, maxStarCount } from '@/lib/constants';
 
 interface RatingStarsProps {
   rating: number;
@@ -8,8 +8,8 @@ interface RatingStarsProps {
 
 export default function RatingStars({ rating, size = 'md', showNumber = true }: RatingStarsProps) {
   const fullStars = Math.floor(rating);
-  const hasHalf = rating - fullStars >= HALF_STAR_THRESHOLD;
-  const emptyStars = MAX_STAR_COUNT - fullStars - (hasHalf ? 1 : 0);
+  const hasHalf = rating - fullStars >= halfStarThreshold;
+  const emptyStars = maxStarCount - fullStars - (hasHalf ? 1 : 0);
 
   const sizeClass = {
     sm: 'text-sm',

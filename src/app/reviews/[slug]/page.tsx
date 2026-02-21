@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 
 import RatingStars from '@/components/RatingStars';
-import { MARKDOWN_BOLD_MARKER_LENGTH, MARKDOWN_H2_PREFIX_LENGTH } from '@/lib/constants';
+import { markdownBoldMarkerLength, markdownH2PrefixLength } from '@/lib/constants';
 import { getPostBySlug, getAllPosts } from '@/lib/db';
 
 export const dynamic = 'force-dynamic';
@@ -38,13 +38,13 @@ function renderContent(content: string) {
     } else if (line.startsWith('## ')) {
       elements.push(
         <h2 key={i} className="text-2xl font-semibold text-espresso-800 mb-3 mt-8">
-          {line.slice(MARKDOWN_H2_PREFIX_LENGTH)}
+          {line.slice(markdownH2PrefixLength)}
         </h2>
       );
     } else if (line.startsWith('**') && line.endsWith('**')) {
       elements.push(
         <p key={i} className="text-espresso-800 font-bold mb-4 leading-relaxed">
-          {line.slice(MARKDOWN_BOLD_MARKER_LENGTH, -MARKDOWN_BOLD_MARKER_LENGTH)}
+          {line.slice(markdownBoldMarkerLength, -markdownBoldMarkerLength)}
         </p>
       );
     } else if (line.trim() === '') {

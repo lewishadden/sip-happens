@@ -43,6 +43,7 @@ scripts/
 ### Variable Naming
 
 - All variables must use **camelCase**.
+- All constants must use **camelCase** (do not use `UPPER_SNAKE_CASE`).
 - Variables that rely on React props must be defined at the **top of the component**.
 - Hardcoded values must be stored in a **constants file** (e.g., `src/lib/constants.ts`).
 
@@ -51,10 +52,13 @@ scripts/
 Imports must be grouped together, separated by an empty line, in the following order:
 
 1. **External imports** (from `node_modules`)
-2. **Internal imports** (from project files)
-3. **Type imports** (using `import type`)
-4. **CSS imports**
-5. **Dynamic imports** (using `next/dynamic`)
+2. **Internal component imports** (e.g., `@/components/*`)
+3. **Other internal imports** (from project files)
+4. **Type imports** (using `import type`)
+5. **CSS imports**
+6. **Dynamic imports** (using `next/dynamic`)
+
+Component imports must come before any other internal imports and be separated by a blank line.
 
 ### Images
 
