@@ -1,10 +1,10 @@
-const CANVAS_SIZE = 4096;
-export const TILE_THRESHOLD = 0.4;
-const MAX_ZOOM = 19;
-const MIN_ZOOM = 3;
-const MAX_LAT = 85.051;
-const MAX_CONCURRENT = 12;
-const SUBDOMAINS = ['a', 'b', 'c'];
+const canvasSize = 4096;
+export const tileThreshold = 0.4;
+const maxZoom = 19;
+const minZoom = 3;
+const maxLat = 85.051;
+const maxConcurrent = 12;
+const subdomains = ['a', 'b', 'c'];
 let subdomainIdx = 0;
 
 interface TileEntry {
@@ -47,8 +47,8 @@ export class TileCompositor {
 
   constructor() {
     this.canvas = document.createElement('canvas');
-    this.canvas.width = CANVAS_SIZE;
-    this.canvas.height = CANVAS_SIZE;
+    this.canvas.width = canvasSize;
+    this.canvas.height = canvasSize;
     this.ctx = this.canvas.getContext('2d')!;
     this.ctx.imageSmoothingQuality = 'high';
   }
@@ -88,12 +88,12 @@ export class TileCompositor {
   }
 
   private computeZoom(): number {
-    const z = Math.round(Math.log2((360 * CANVAS_SIZE) / (256 * this.lngSpan)));
-    return Math.min(MAX_ZOOM, Math.max(MIN_ZOOM, z));
+    const z = Math.round(Math.log2((360 * canvasSize) / (256 * this.lngSpan)));
+    return Math.min(maxZoom, Math.max(minZoom, z));
   }
 
   private drawViewportBase(): void {
-    this.ctx.clearRect(0, 0, CANVAS_SIZE, CANVAS_SIZE);
+    this.ctx.clearRect(0, 0, canvasSize, canvasSize);
     if (!this.baseImage) return;
     const bw = this.baseImage.naturalWidth;
     const bh = this.baseImage.naturalHeight;
@@ -104,7 +104,7 @@ export class TileCompositor {
     const srcH = (this.latSpan / 180) * bh;
 
     if (srcW >= 1 && srcH >= 1) {
-      this.ctx.drawImage(this.baseImage, srcX, srcY, srcW, srcH, 0, 0, CANVAS_SIZE, CANVAS_SIZE);
+      this.ctx.drawImage(this.baseImage, srcX, srcY, srcW, srcH, 0, 0, canvasSize, canvasSize);
     }
   }
 
@@ -122,8 +122,8 @@ export class TileCompositor {
 
     const vpWest = this.viewLng - this.lngSpan / 2;
     const vpNorth = this.viewLat + this.latSpan / 2;
-    const pxPerDegLng = CANVAS_SIZE / this.lngSpan;
-    const pxPerDegLat = CANVAS_SIZE / this.latSpan;
+    const pxPerDegLng = canvasSize / this.lngSpan;
+    const pxPerDegLat = canvasSize / this.latSpan;
 
     const x = Math.floor((westLng - vpWest) * pxPerDegLng);
     const y = Math.floor((vpNorth - northLat) * pxPerDegLat);
@@ -141,7 +141,7 @@ export class TileCompositor {
   }
 
   private latToTileY(lat: number, z: number): number {
-    const clamped = Math.max(-MAX_LAT, Math.min(MAX_LAT, lat));
+    const clamped = Math.max(-maxLat, Math.min(maxLat, lat));
     const latRad = (clamped * Math.PI) / 180;
     return Math.floor(
       ((1 - Math.log(Math.tan(latRad) + 1 / Math.cos(latRad)) / Math.PI) / 2) * (1 << z)
@@ -190,7 +190,7 @@ export class TileCompositor {
   }
 
   private drainQueue(): void {
-    while (this.pendingFetches.size < MAX_CONCURRENT && this.fetchQueue.length > 0) {
+    while (this.pendingFetches.size < maxConcurrent && this.fetchQueue.length > 0) {
       const item = this.fetchQueue.shift()!;
       if (this.tileCache.has(item.key)) continue;
       this.pendingFetches.add(item.key);
@@ -216,14 +216,14 @@ export class TileCompositor {
         this.failedTiles.add(key);
         this.drainQueue();
       };
-      const sub = SUBDOMAINS[subdomainIdx];
-      subdomainIdx = (subdomainIdx + 1) % SUBDOMAINS.length;
+      const sub = subdomains[subdomainIdx];
+      subdomainIdx = (subdomainIdx + 1) % subdomains.length;
       img.src = `https://${sub}.tile.openstreetmap.org/${z}/${tx}/${ty}.png`;
     }
   }
 
   private drawFallbackTiles(currentZ: number): void {
-    for (let fallbackZ = currentZ - 1; fallbackZ >= MIN_ZOOM; fallbackZ--) {
+    for (let fallbackZ = currentZ - 1; fallbackZ >= minZoom; fallbackZ--) {
       const tiles = this.getVisibleTiles(this.viewLat, this.viewLng, fallbackZ);
       let drawn = 0;
       for (const { tx, ty, key } of tiles) {

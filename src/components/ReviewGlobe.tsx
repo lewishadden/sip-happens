@@ -8,13 +8,19 @@ import { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import {
   halfStarThreshold,
   maxStarCount,
+  reviewGlobeAutoRotateSpeed,
   reviewGlobeBaseMarkerSizePx,
+  reviewGlobeCameraNear,
   reviewGlobeCityAltitude,
+  reviewGlobeControlsMinDistance,
   reviewGlobeDefaultAltitude,
   reviewGlobeDragPauseMs,
   reviewGlobeMarkerScaleStart,
+  headerHeight,
+  reviewGlobeMaxAltitude,
+  reviewGlobeMinAltitude,
 } from '@/lib/constants';
-import { TileCompositor, TILE_THRESHOLD } from '@/lib/tileCompositor';
+import { TileCompositor, tileThreshold } from '@/lib/tileCompositor';
 
 import type { GlobeMethods } from 'react-globe.gl';
 import type { Object3D, Texture } from 'three';
@@ -202,7 +208,7 @@ export default function ReviewGlobe({ markers }: ReviewGlobeProps) {
     const compositor = compositorRef.current;
     if (!globeRef.current || !compositor?.isReady() || !textureRef.current) return;
     const pov = globeRef.current.pointOfView();
-    if (pov.altitude > TILE_THRESHOLD) {
+    if (pov.altitude > tileThreshold) {
       if (usingTilesRef.current) {
         const mat = findGlobeMaterial(globeRef);
         if (mat && originalMapRef.current) {
@@ -246,7 +252,7 @@ export default function ReviewGlobe({ markers }: ReviewGlobeProps) {
         const controls = globeRef.current?.controls() as GlobeControlsLike | undefined;
         if (controls) {
           controls.autoRotate = true;
-          controls.autoRotateSpeed = 0.6;
+          controls.autoRotateSpeed = reviewGlobeAutoRotateSpeed;
           controls.enableZoom = false;
           controls.enablePan = false;
           const cam = globeRef.current?.camera() as unknown as
@@ -256,19 +262,19 @@ export default function ReviewGlobe({ markers }: ReviewGlobeProps) {
               }
             | undefined;
           if (cam) {
-            cam.near = 0.001;
+            cam.near = reviewGlobeCameraNear;
             cam.updateProjectionMatrix();
           }
-          controls.minDistance = 100.002;
+          controls.minDistance = reviewGlobeControlsMinDistance;
           changeHandler = () => {
             if (controls.enablePan) controls.enablePan = false;
             if (globeRef.current) {
               const alt = globeRef.current.pointOfView().altitude;
               scaleMarkersForAltitude(alt);
               if (!selectedRef.current && !rotatePausedRef.current) {
-                if (alt <= TILE_THRESHOLD && controls.autoRotate) {
+                if (alt <= tileThreshold && controls.autoRotate) {
                   controls.autoRotate = false;
-                } else if (alt > TILE_THRESHOLD && !controls.autoRotate) {
+                } else if (alt > tileThreshold && !controls.autoRotate) {
                   controls.autoRotate = true;
                 }
               }
@@ -309,7 +315,7 @@ export default function ReviewGlobe({ markers }: ReviewGlobeProps) {
     resumeTimer.current = setTimeout(() => {
       rotatePausedRef.current = false;
       const alt = globeRef.current?.pointOfView().altitude ?? reviewGlobeDefaultAltitude;
-      if (alt > TILE_THRESHOLD) {
+      if (alt > tileThreshold) {
         setAutoRotate(true);
       }
     }, reviewGlobeDragPauseMs);
@@ -368,7 +374,7 @@ export default function ReviewGlobe({ markers }: ReviewGlobeProps) {
     function handleResize() {
       if (containerRef.current) {
         const w = containerRef.current.clientWidth;
-        const maxH = window.innerHeight - 64;
+        const maxH = window.innerHeight - headerHeight;
         setDimensions({
           width: w,
           height: Math.min(maxH, Math.max(400, w * 0.5)),
@@ -456,10 +462,10 @@ export default function ReviewGlobe({ markers }: ReviewGlobeProps) {
       const pov = globeRef.current.pointOfView();
       const newAlt =
         direction === 'in'
-          ? Math.max(0.0000005, pov.altitude * 0.5)
-          : Math.min(7, pov.altitude * 1.5);
+          ? Math.max(reviewGlobeMinAltitude, pov.altitude * 0.5)
+          : Math.min(reviewGlobeMaxAltitude, pov.altitude * 1.5);
 
-      if (direction === 'out' && newAlt > TILE_THRESHOLD && usingTilesRef.current) {
+      if (direction === 'out' && newAlt > tileThreshold && usingTilesRef.current) {
         const mat = findGlobeMaterial(globeRef);
         if (mat && originalMapRef.current) {
           mat.map = originalMapRef.current;
