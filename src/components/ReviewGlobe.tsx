@@ -174,6 +174,7 @@ export default function ReviewGlobe({ markers }: ReviewGlobeProps) {
   const rotatePausedRef = useRef(false);
   const preClickAltitudeRef = useRef<number>(reviewGlobeDefaultAltitude);
   const tileDebounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const tileAnimationRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const updateTilesRef = useRef<() => void>(() => {});
   const [tilesActive, setTilesActive] = useState(false);
 
@@ -242,6 +243,18 @@ export default function ReviewGlobe({ markers }: ReviewGlobeProps) {
     }
   }, []);
   updateTilesRef.current = updateTiles;
+
+  const animateTiles = useCallback((durationMs: number) => {
+    if (tileAnimationRef.current) clearInterval(tileAnimationRef.current);
+    tileAnimationRef.current = setInterval(() => updateTilesRef.current(), 100);
+    setTimeout(() => {
+      if (tileAnimationRef.current) {
+        clearInterval(tileAnimationRef.current);
+        tileAnimationRef.current = null;
+      }
+      updateTilesRef.current();
+    }, durationMs + 100);
+  }, []);
 
   // Poll until controls exist then enable auto-rotate + tile change listener
   useEffect(() => {
@@ -335,10 +348,10 @@ export default function ReviewGlobe({ markers }: ReviewGlobeProps) {
           { lat: marker.lat, lng: marker.lng, altitude: reviewGlobeCityAltitude },
           2000
         );
-        setTimeout(() => updateTilesRef.current(), 2050);
+        animateTiles(2000);
       }
     },
-    [setAutoRotate]
+    [setAutoRotate, animateTiles]
   );
 
   // When card closes, zoom back out and resume rotation
@@ -359,8 +372,8 @@ export default function ReviewGlobe({ markers }: ReviewGlobeProps) {
         setTilesActive(false);
         setTimeout(() => setAutoRotate(true), 3050);
       } else {
-        // Otherwise let tiles update after the animation finishes
-        setTimeout(() => updateTilesRef.current(), 2050);
+        // Otherwise let tiles update throughout the animation
+        animateTiles(2000);
       }
 
       if (globeRef.current) {
@@ -372,7 +385,7 @@ export default function ReviewGlobe({ markers }: ReviewGlobeProps) {
       setAutoRotate(false);
     }
     prevSelected.current = selected;
-  }, [selected, setAutoRotate]);
+  }, [selected, setAutoRotate, animateTiles]);
 
   useEffect(() => {
     setMounted(true);
@@ -487,7 +500,7 @@ export default function ReviewGlobe({ markers }: ReviewGlobeProps) {
       }
 
       globeRef.current.pointOfView({ ...pov, altitude: newAlt }, 400);
-      setTimeout(() => updateTilesRef.current(), 500);
+      setTimeout(() => updateTilesRef.current(), 400);
     },
     [selected, pauseForDrag]
   );
@@ -582,7 +595,9 @@ export default function ReviewGlobe({ markers }: ReviewGlobeProps) {
           )}
 
           {/* Zoom controls */}
-          <div className={`absolute right-5 top-1/2 -translate-y-1/2 z-10 flex flex-col gap-2 transition-opacity duration-300 ${globeReady ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
+          <div
+            className={`absolute right-5 top-1/2 -translate-y-1/2 z-10 flex flex-col gap-2 transition-opacity duration-300 ${globeReady ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}
+          >
             <button
               onClick={() => handleZoom('in')}
               className="w-11 h-11 flex items-center justify-center rounded-full bg-espresso-800/80 backdrop-blur-md text-cream shadow-xl hover:bg-espresso-700 transition-colors text-xl font-bold leading-none border border-espresso-600/30"
