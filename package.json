@@ -14,10 +14,11 @@
   },
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "next build && npm run sitemap",
     "start": "next start",
     "lint": "eslint ./src",
     "seed": "npx tsx scripts/seed.ts",
+    "sitemap": "npx tsx scripts/generate-sitemap.ts",
     "prettier:check": "prettier --check \"**/*.{ts,tsx,js,json,css,yml,md}\"",
     "prettier:write": "prettier --write \"**/*.{ts,tsx,js,json,css,scss,yml,md}\"",
     "verify": "npm run prettier:check && npm run lint"
