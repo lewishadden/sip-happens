@@ -345,8 +345,11 @@ export default function ReviewGlobe({ markers }: ReviewGlobeProps) {
   const prevSelected = useRef<GlobeMarker | null>(null);
   useEffect(() => {
     if (prevSelected.current && !selected) {
-      // Immediately swap back to original texture before zoom-out animation
-      if (usingTilesRef.current && globeRef.current) {
+      const restoreAlt = preClickAltitudeRef.current;
+      preClickAltitudeRef.current = reviewGlobeDefaultAltitude;
+
+      // If zooming out above the tile threshold, swap texture immediately
+      if (restoreAlt > tileThreshold && usingTilesRef.current) {
         const mat = findGlobeMaterial(globeRef);
         if (mat && originalMapRef.current) {
           mat.map = originalMapRef.current;
@@ -354,12 +357,15 @@ export default function ReviewGlobe({ markers }: ReviewGlobeProps) {
         }
         usingTilesRef.current = false;
         setTilesActive(false);
+        setTimeout(() => setAutoRotate(true), 3050);
+      } else {
+        // Otherwise let tiles update after the animation finishes
+        setTimeout(() => updateTilesRef.current(), 2050);
       }
+
       if (globeRef.current) {
-        globeRef.current.pointOfView({ altitude: preClickAltitudeRef.current }, 2000);
+        globeRef.current.pointOfView({ altitude: restoreAlt }, 2000);
       }
-      preClickAltitudeRef.current = reviewGlobeDefaultAltitude;
-      setAutoRotate(true);
     }
     if (selected) {
       if (resumeTimer.current) clearTimeout(resumeTimer.current);
