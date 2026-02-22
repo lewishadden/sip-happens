@@ -551,7 +551,7 @@ export default function ReviewGlobe({ markers }: ReviewGlobeProps) {
             <div className="absolute inset-0 z-30 flex flex-col items-center justify-center bg-espresso-950">
               <div className="relative flex flex-col items-center gap-6">
                 <div className="animate-[globeSpin_2s_ease-in-out_infinite] text-6xl">
-                  \uD83C\uDF0D
+                  {'\uD83C\uDF0D'}
                 </div>
                 <div className="flex items-center gap-1.5">
                   <div
