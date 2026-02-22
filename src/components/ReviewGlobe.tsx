@@ -634,10 +634,11 @@ export default function ReviewGlobe({ markers }: ReviewGlobeProps) {
               </a>
             </div>
           )}
+        </div>
 
-          {selected && (
-            <div className="absolute top-4 left-4 z-20 w-72 animate-[fadeInUp_0.3s_ease-out]">
-              <div className="bg-white/95 backdrop-blur-md rounded-2xl shadow-2xl border border-ivory-mist-dark overflow-hidden">
+        {selected && (
+          <div className="mx-4 mt-4 w-auto md:absolute md:top-4 md:left-4 md:mt-0 md:w-72 z-20 animate-[fadeInUp_0.3s_ease-out]">
+            <div className="bg-white/95 backdrop-blur-md rounded-2xl shadow-2xl border border-ivory-mist-dark overflow-hidden">
                 {selected.image_url && (
                   <div className="relative h-32 overflow-hidden">
                     <Image
@@ -699,7 +700,6 @@ export default function ReviewGlobe({ markers }: ReviewGlobeProps) {
               </div>
             </div>
           )}
-        </div>
       </div>
     </section>
   );
