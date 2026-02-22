@@ -639,67 +639,65 @@ export default function ReviewGlobe({ markers }: ReviewGlobeProps) {
         {selected && (
           <div className="mx-4 mt-4 w-auto md:absolute md:top-4 md:left-4 md:mt-0 md:w-72 z-20 animate-[fadeInUp_0.3s_ease-out]">
             <div className="bg-white/95 backdrop-blur-md rounded-2xl shadow-2xl border border-ivory-mist-dark overflow-hidden">
-                {selected.image_url && (
-                  <div className="relative h-32 overflow-hidden">
-                    <Image
-                      src={selected.image_url}
-                      alt={selected.title}
-                      fill
-                      unoptimized
-                      sizes="288px"
-                      className="w-full h-full object-cover"
-                    />
+              {selected.image_url && (
+                <div className="relative h-32 overflow-hidden">
+                  <Image
+                    src={selected.image_url}
+                    alt={selected.title}
+                    fill
+                    unoptimized
+                    sizes="288px"
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+              )}
+              <div className="p-4">
+                <div className="flex items-start justify-between gap-2">
+                  <div className="min-w-0">
+                    <h3 className="font-bold text-dark-espresso text-sm leading-tight line-clamp-2">
+                      {selected.title}
+                    </h3>
+                    {selected.bar_name && (
+                      <p className="text-xs font-medium text-caramel mt-0.5">{selected.bar_name}</p>
+                    )}
+                    {selected.location && (
+                      <p className="text-xs text-light-espresso mt-0.5">{selected.location}</p>
+                    )}
+                  </div>
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setSelected(null);
+                    }}
+                    className="shrink-0 w-6 h-6 flex items-center justify-center rounded-full text-light-espresso/70 hover:text-espresso hover:bg-ivory-mist-dark transition-colors text-lg leading-none"
+                    aria-label="Close preview"
+                  >
+                    &times;
+                  </button>
+                </div>
+
+                {selected.rating !== null && (
+                  <div className="mt-2">
+                    <RatingStarsInline rating={selected.rating} />
                   </div>
                 )}
-                <div className="p-4">
-                  <div className="flex items-start justify-between gap-2">
-                    <div className="min-w-0">
-                      <h3 className="font-bold text-dark-espresso text-sm leading-tight line-clamp-2">
-                        {selected.title}
-                      </h3>
-                      {selected.bar_name && (
-                        <p className="text-xs font-medium text-caramel mt-0.5">
-                          {selected.bar_name}
-                        </p>
-                      )}
-                      {selected.location && (
-                        <p className="text-xs text-light-espresso mt-0.5">{selected.location}</p>
-                      )}
-                    </div>
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        setSelected(null);
-                      }}
-                      className="shrink-0 w-6 h-6 flex items-center justify-center rounded-full text-light-espresso/70 hover:text-espresso hover:bg-ivory-mist-dark transition-colors text-lg leading-none"
-                      aria-label="Close preview"
-                    >
-                      &times;
-                    </button>
-                  </div>
 
-                  {selected.rating !== null && (
-                    <div className="mt-2">
-                      <RatingStarsInline rating={selected.rating} />
-                    </div>
-                  )}
+                {selected.excerpt && (
+                  <p className="mt-2 text-xs text-light-espresso leading-relaxed line-clamp-2">
+                    {selected.excerpt}
+                  </p>
+                )}
 
-                  {selected.excerpt && (
-                    <p className="mt-2 text-xs text-light-espresso leading-relaxed line-clamp-2">
-                      {selected.excerpt}
-                    </p>
-                  )}
-
-                  <Link
-                    href={`/reviews/${selected.slug}`}
-                    className="mt-3 block w-full text-center text-xs font-semibold px-4 py-2 bg-espresso text-ivory-mist rounded-xl hover:bg-dark-espresso transition-colors"
-                  >
-                    Read Full Review &rarr;
-                  </Link>
-                </div>
+                <Link
+                  href={`/reviews/${selected.slug}`}
+                  className="mt-3 block w-full text-center text-xs font-semibold px-4 py-2 bg-espresso text-ivory-mist rounded-xl hover:bg-dark-espresso transition-colors"
+                >
+                  Read Full Review &rarr;
+                </Link>
               </div>
             </div>
-          )}
+          </div>
+        )}
       </div>
     </section>
   );
