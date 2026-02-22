@@ -2,14 +2,15 @@ import Link from 'next/link';
 
 import PostCard from '@/components/PostCard';
 import ReviewGlobe from '@/components/ReviewGlobe';
-import type { GlobeMarker } from '@/components/ReviewGlobe';
 
 import { featuredPostLimit } from '@/lib/constants';
 import { getRecentPosts, getAllPosts, getUniqueCountryCount } from '@/lib/db';
 
+import type { GlobeMarker } from '@/components/ReviewGlobe';
+
 export const dynamic = 'force-dynamic';
 
-export default async function Home() {
+const Home = async () => {
   const featuredPosts = await getRecentPosts(featuredPostLimit);
   const allPosts = await getAllPosts();
   const totalReviews = allPosts.length;
@@ -130,4 +131,6 @@ export default async function Home() {
       </section>
     </div>
   );
-}
+};
+
+export default Home;
