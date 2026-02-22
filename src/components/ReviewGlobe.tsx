@@ -57,16 +57,16 @@ function RatingStarsInline({ rating }: { rating: number }) {
       ))}
       {hasHalf && (
         <div className="relative h-[stretch] w-(--text-sm)">
-          <div className="absolute text-espresso-300">&#9733;</div>
+          <div className="absolute text-light-espresso/40">&#9733;</div>
           <div className="absolute text-caramel [clip-path:inset(0_50%_0_0)]">&#9733;</div>
         </div>
       )}
       {Array.from({ length: empty }).map((_, i) => (
-        <span key={`e-${i}`} className="text-espresso-300">
+        <span key={`e-${i}`} className="text-light-espresso/40">
           &#9733;
         </span>
       ))}
-      <span className="ml-1 text-xs font-semibold text-espresso-400">{rating.toFixed(1)}</span>
+      <span className="ml-1 text-xs font-semibold text-light-espresso/70">{rating.toFixed(1)}</span>
     </span>
   );
 }
@@ -530,10 +530,10 @@ export default function ReviewGlobe({ markers }: ReviewGlobeProps) {
   if (markers.length === 0) return null;
 
   return (
-    <section className="relative bg-espresso-950 overflow-hidden">
+    <section className="relative bg-dark-espresso overflow-hidden">
       <div className="max-w-6xl mx-auto px-4 pt-16 pb-4 text-center">
-        <h2 className="text-3xl font-bold text-cream mb-2">Around the World</h2>
-        <p className="text-espresso-400 text-sm">Tap a marker to preview a review</p>
+        <h2 className="text-3xl font-bold text-ivory-mist mb-2">Around the World</h2>
+        <p className="text-light-espresso text-sm">Tap a marker to preview a review</p>
       </div>
 
       <div
@@ -548,7 +548,7 @@ export default function ReviewGlobe({ markers }: ReviewGlobeProps) {
         >
           {/* Loading overlay */}
           {!globeReady && (
-            <div className="absolute inset-0 z-30 flex flex-col items-center justify-center bg-espresso-950">
+            <div className="absolute inset-0 z-30 flex flex-col items-center justify-center bg-dark-espresso">
               <div className="relative flex flex-col items-center gap-6">
                 <div className="animate-[globeSpin_2s_ease-in-out_infinite] text-6xl">
                   {'\uD83C\uDF0D'}
@@ -567,7 +567,7 @@ export default function ReviewGlobe({ markers }: ReviewGlobeProps) {
                     style={{ animationDelay: '400ms' }}
                   />
                 </div>
-                <p className="text-espresso-400 text-2xl font-semibold tracking-wide animate-pulse">
+                <p className="text-light-espresso/70 text-2xl font-semibold tracking-wide animate-pulse">
                   Loading the globe&hellip;
                 </p>
               </div>
@@ -608,14 +608,14 @@ export default function ReviewGlobe({ markers }: ReviewGlobeProps) {
           >
             <button
               onClick={() => handleZoom('in')}
-              className="w-11 h-11 flex items-center justify-center rounded-full bg-espresso-800/80 backdrop-blur-md text-cream shadow-xl hover:bg-espresso-700 transition-colors text-xl font-bold leading-none border border-espresso-600/30"
+              className="w-11 h-11 flex items-center justify-center rounded-full bg-espresso/80 backdrop-blur-md text-ivory-mist shadow-xl hover:bg-espresso transition-colors text-xl font-bold leading-none border border-espresso/30"
               aria-label="Zoom in"
             >
               +
             </button>
             <button
               onClick={() => handleZoom('out')}
-              className="w-11 h-11 flex items-center justify-center rounded-full bg-espresso-800/80 backdrop-blur-md text-cream shadow-xl hover:bg-espresso-700 transition-colors text-xl font-bold leading-none border border-espresso-600/30"
+              className="w-11 h-11 flex items-center justify-center rounded-full bg-espresso/80 backdrop-blur-md text-ivory-mist shadow-xl hover:bg-espresso transition-colors text-xl font-bold leading-none border border-espresso/30"
               aria-label="Zoom out"
             >
               &minus;
@@ -628,7 +628,7 @@ export default function ReviewGlobe({ markers }: ReviewGlobeProps) {
                 href="https://www.openstreetmap.org/copyright"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-[10px] text-espresso-400/60 hover:text-espresso-300 transition-colors"
+                className="text-[10px] text-light-espresso/40 hover:text-light-espresso transition-colors"
               >
                 &copy; OpenStreetMap
               </a>
@@ -637,7 +637,7 @@ export default function ReviewGlobe({ markers }: ReviewGlobeProps) {
 
           {selected && (
             <div className="absolute top-4 left-4 z-20 w-72 animate-[fadeInUp_0.3s_ease-out]">
-              <div className="bg-white/95 backdrop-blur-md rounded-2xl shadow-2xl border border-espresso-200 overflow-hidden">
+              <div className="bg-white/95 backdrop-blur-md rounded-2xl shadow-2xl border border-ivory-mist-dark overflow-hidden">
                 {selected.image_url && (
                   <div className="relative h-32 overflow-hidden">
                     <Image
@@ -653,7 +653,7 @@ export default function ReviewGlobe({ markers }: ReviewGlobeProps) {
                 <div className="p-4">
                   <div className="flex items-start justify-between gap-2">
                     <div className="min-w-0">
-                      <h3 className="font-bold text-espresso-900 text-sm leading-tight line-clamp-2">
+                      <h3 className="font-bold text-dark-espresso text-sm leading-tight line-clamp-2">
                         {selected.title}
                       </h3>
                       {selected.bar_name && (
@@ -662,7 +662,7 @@ export default function ReviewGlobe({ markers }: ReviewGlobeProps) {
                         </p>
                       )}
                       {selected.location && (
-                        <p className="text-xs text-espresso-500 mt-0.5">{selected.location}</p>
+                        <p className="text-xs text-light-espresso mt-0.5">{selected.location}</p>
                       )}
                     </div>
                     <button
@@ -670,7 +670,7 @@ export default function ReviewGlobe({ markers }: ReviewGlobeProps) {
                         e.stopPropagation();
                         setSelected(null);
                       }}
-                      className="shrink-0 w-6 h-6 flex items-center justify-center rounded-full text-espresso-400 hover:text-espresso-700 hover:bg-espresso-100 transition-colors text-lg leading-none"
+                      className="shrink-0 w-6 h-6 flex items-center justify-center rounded-full text-light-espresso/70 hover:text-espresso hover:bg-ivory-mist-dark transition-colors text-lg leading-none"
                       aria-label="Close preview"
                     >
                       &times;
@@ -684,14 +684,14 @@ export default function ReviewGlobe({ markers }: ReviewGlobeProps) {
                   )}
 
                   {selected.excerpt && (
-                    <p className="mt-2 text-xs text-espresso-600 leading-relaxed line-clamp-2">
+                    <p className="mt-2 text-xs text-light-espresso leading-relaxed line-clamp-2">
                       {selected.excerpt}
                     </p>
                   )}
 
                   <Link
                     href={`/reviews/${selected.slug}`}
-                    className="mt-3 block w-full text-center text-xs font-semibold px-4 py-2 bg-espresso-800 text-cream rounded-xl hover:bg-espresso-700 transition-colors"
+                    className="mt-3 block w-full text-center text-xs font-semibold px-4 py-2 bg-espresso text-ivory-mist rounded-xl hover:bg-dark-espresso transition-colors"
                   >
                     Read Full Review &rarr;
                   </Link>

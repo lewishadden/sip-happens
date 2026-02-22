@@ -15,12 +15,12 @@ export default function Navbar() {
   ];
 
   return (
-    <nav className="bg-espresso-900 text-cream sticky top-0 z-50 shadow-lg">
+    <nav className="bg-espresso text-ivory-mist sticky top-0 z-50 shadow-lg">
       <div className="max-w-6xl mx-auto px-4">
-        <div className="flex items-center justify-between h-16">
+        <div className="flex items-center justify-between h-(--height-header)">
           <Link href="/" className="flex items-center gap-2 group">
             <span className="text-2xl">&#127864;</span>
-            <span className="text-xl font-bold tracking-tight text-foam group-hover:text-caramel transition-colors">
+            <span className="text-xl font-bold tracking-tight text-ivory-mist group-hover:text-caramel transition-colors">
               Sip Happens
             </span>
           </Link>
@@ -32,8 +32,8 @@ export default function Navbar() {
                 href={link.href}
                 className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
                   pathname === link.href
-                    ? 'bg-espresso-700 text-cream'
-                    : 'text-espresso-200 hover:bg-espresso-800 hover:text-cream'
+                    ? 'bg-espresso/50 text-ivory-mist'
+                    : 'text-ivory-mist hover:bg-espresso hover:text-ivory-mist'
                 }`}
               >
                 {link.label}
@@ -42,7 +42,7 @@ export default function Navbar() {
           </div>
 
           <button
-            className="md:hidden p-2 rounded-lg hover:bg-espresso-800 transition-colors"
+            className="md:hidden p-2 rounded-lg hover:bg-espresso transition-colors"
             onClick={() => setMenuOpen(!menuOpen)}
             aria-label="Toggle menu"
           >
@@ -75,8 +75,8 @@ export default function Navbar() {
                 onClick={() => setMenuOpen(false)}
                 className={`block px-4 py-2 rounded-lg text-sm font-medium transition-all ${
                   pathname === link.href
-                    ? 'bg-espresso-700 text-cream'
-                    : 'text-espresso-200 hover:bg-espresso-800 hover:text-cream'
+                    ? 'bg-espresso/50 text-ivory-mist'
+                    : 'text-ivory-mist/80 hover:bg-espresso hover:text-ivory-mist'
                 }`}
               >
                 {link.label}

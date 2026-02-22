@@ -32,18 +32,18 @@ export default function RatingStars({ rating, size = 'md', showNumber = true }: 
         ))}
         {hasHalf && (
           <div className={`relative ${sizeClassHalfStar}`}>
-            <div className="absolute text-espresso-300">&#9733;</div>
+            <div className="absolute text-light-espresso/40">&#9733;</div>
             <div className="absolute text-caramel [clip-path:inset(0_50%_0_0)]">&#9733;</div>
           </div>
         )}
         {Array.from({ length: emptyStars }).map((_, i) => (
-          <span key={`empty-${i}`} className="text-espresso-300">
+          <span key={`empty-${i}`} className="text-light-espresso/40">
             &#9733;
           </span>
         ))}
       </div>
       {showNumber && (
-        <span className="text-sm font-semibold text-espresso-600">{rating.toFixed(1)}</span>
+        <span className="text-sm font-semibold text-light-espresso">{rating.toFixed(1)}</span>
       )}
     </div>
   );

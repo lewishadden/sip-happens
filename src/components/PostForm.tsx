@@ -114,7 +114,7 @@ export default function PostForm({ initialData, mode }: PostFormProps) {
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div>
-          <label htmlFor="title" className="block text-sm font-medium text-espresso-700 mb-2">
+          <label htmlFor="title" className="block text-sm font-medium text-espresso mb-2">
             Title *
           </label>
           <input
@@ -123,13 +123,13 @@ export default function PostForm({ initialData, mode }: PostFormProps) {
             value={title}
             onChange={(e) => handleTitleChange(e.target.value)}
             required
-            className="w-full px-4 py-3 rounded-xl border border-espresso-200 focus:outline-none focus:ring-2 focus:ring-caramel focus:border-transparent text-espresso-900"
+            className="w-full px-4 py-3 rounded-xl border border-ivory-mist-dark focus:outline-none focus:ring-2 focus:ring-caramel focus:border-transparent text-dark-espresso"
             placeholder="The Perfect Pour at Bar Termini"
           />
         </div>
 
         <div>
-          <label htmlFor="slug" className="block text-sm font-medium text-espresso-700 mb-2">
+          <label htmlFor="slug" className="block text-sm font-medium text-espresso mb-2">
             URL Slug *
           </label>
           <input
@@ -138,7 +138,7 @@ export default function PostForm({ initialData, mode }: PostFormProps) {
             value={slug}
             onChange={(e) => setSlug(e.target.value)}
             required
-            className="w-full px-4 py-3 rounded-xl border border-espresso-200 focus:outline-none focus:ring-2 focus:ring-caramel focus:border-transparent text-espresso-900 font-mono text-sm"
+            className="w-full px-4 py-3 rounded-xl border border-ivory-mist-dark focus:outline-none focus:ring-2 focus:ring-caramel focus:border-transparent text-dark-espresso font-mono text-sm"
             placeholder="the-perfect-pour-at-bar-termini"
           />
         </div>
@@ -146,7 +146,7 @@ export default function PostForm({ initialData, mode }: PostFormProps) {
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div>
-          <label htmlFor="bar_name" className="block text-sm font-medium text-espresso-700 mb-2">
+          <label htmlFor="bar_name" className="block text-sm font-medium text-espresso mb-2">
             Bar / Venue Name
           </label>
           <input
@@ -154,13 +154,13 @@ export default function PostForm({ initialData, mode }: PostFormProps) {
             type="text"
             value={barName}
             onChange={(e) => setBarName(e.target.value)}
-            className="w-full px-4 py-3 rounded-xl border border-espresso-200 focus:outline-none focus:ring-2 focus:ring-caramel focus:border-transparent text-espresso-900"
+            className="w-full px-4 py-3 rounded-xl border border-ivory-mist-dark focus:outline-none focus:ring-2 focus:ring-caramel focus:border-transparent text-dark-espresso"
             placeholder="Bar Termini"
           />
         </div>
 
         <div>
-          <label htmlFor="location" className="block text-sm font-medium text-espresso-700 mb-2">
+          <label htmlFor="location" className="block text-sm font-medium text-espresso mb-2">
             Location
           </label>
           <LocationSearch
@@ -176,7 +176,7 @@ export default function PostForm({ initialData, mode }: PostFormProps) {
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div>
-          <label htmlFor="rating" className="block text-sm font-medium text-espresso-700 mb-2">
+          <label htmlFor="rating" className="block text-sm font-medium text-espresso mb-2">
             Rating (0-5)
           </label>
           <input
@@ -187,12 +187,12 @@ export default function PostForm({ initialData, mode }: PostFormProps) {
             step="0.1"
             value={rating}
             onChange={(e) => setRating(e.target.value)}
-            className="w-full px-4 py-3 rounded-xl border border-espresso-200 focus:outline-none focus:ring-2 focus:ring-caramel focus:border-transparent text-espresso-900"
+            className="w-full px-4 py-3 rounded-xl border border-ivory-mist-dark focus:outline-none focus:ring-2 focus:ring-caramel focus:border-transparent text-dark-espresso"
           />
         </div>
 
         <div>
-          <label htmlFor="image_url" className="block text-sm font-medium text-espresso-700 mb-2">
+          <label htmlFor="image_url" className="block text-sm font-medium text-espresso mb-2">
             Image URL
           </label>
           <input
@@ -200,7 +200,7 @@ export default function PostForm({ initialData, mode }: PostFormProps) {
             type="url"
             value={imageUrl}
             onChange={(e) => setImageUrl(e.target.value)}
-            className="w-full px-4 py-3 rounded-xl border border-espresso-200 focus:outline-none focus:ring-2 focus:ring-caramel focus:border-transparent text-espresso-900"
+            className="w-full px-4 py-3 rounded-xl border border-ivory-mist-dark focus:outline-none focus:ring-2 focus:ring-caramel focus:border-transparent text-dark-espresso"
             placeholder="https://images.unsplash.com/..."
           />
         </div>
@@ -208,7 +208,7 @@ export default function PostForm({ initialData, mode }: PostFormProps) {
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div>
-          <label htmlFor="price" className="block text-sm font-medium text-espresso-700 mb-2">
+          <label htmlFor="price" className="block text-sm font-medium text-espresso mb-2">
             Price
           </label>
           <input
@@ -218,20 +218,20 @@ export default function PostForm({ initialData, mode }: PostFormProps) {
             step="0.01"
             value={price}
             onChange={(e) => setPrice(e.target.value)}
-            className="w-full px-4 py-3 rounded-xl border border-espresso-200 focus:outline-none focus:ring-2 focus:ring-caramel focus:border-transparent text-espresso-900"
+            className="w-full px-4 py-3 rounded-xl border border-ivory-mist-dark focus:outline-none focus:ring-2 focus:ring-caramel focus:border-transparent text-dark-espresso"
             placeholder="14.00"
           />
         </div>
 
         <div>
-          <label htmlFor="currency" className="block text-sm font-medium text-espresso-700 mb-2">
+          <label htmlFor="currency" className="block text-sm font-medium text-espresso mb-2">
             Currency
           </label>
           <select
             id="currency"
             value={currency}
             onChange={(e) => setCurrency(e.target.value)}
-            className="w-full px-4 py-3 rounded-xl border border-espresso-200 focus:outline-none focus:ring-2 focus:ring-caramel focus:border-transparent text-espresso-900 bg-white"
+            className="w-full px-4 py-3 rounded-xl border border-ivory-mist-dark focus:outline-none focus:ring-2 focus:ring-caramel focus:border-transparent text-dark-espresso bg-white"
           >
             <option value="USD">USD ($)</option>
             <option value="EUR">EUR (&euro;)</option>
@@ -258,7 +258,7 @@ export default function PostForm({ initialData, mode }: PostFormProps) {
       </div>
 
       <div>
-        <label htmlFor="excerpt" className="block text-sm font-medium text-espresso-700 mb-2">
+        <label htmlFor="excerpt" className="block text-sm font-medium text-espresso mb-2">
           Excerpt
         </label>
         <textarea
@@ -266,15 +266,15 @@ export default function PostForm({ initialData, mode }: PostFormProps) {
           value={excerpt}
           onChange={(e) => setExcerpt(e.target.value)}
           rows={2}
-          className="w-full px-4 py-3 rounded-xl border border-espresso-200 focus:outline-none focus:ring-2 focus:ring-caramel focus:border-transparent text-espresso-900 resize-y"
+          className="w-full px-4 py-3 rounded-xl border border-ivory-mist-dark focus:outline-none focus:ring-2 focus:ring-caramel focus:border-transparent text-dark-espresso resize-y"
           placeholder="A short summary that appears on the listing page..."
         />
       </div>
 
       <div>
-        <label htmlFor="content" className="block text-sm font-medium text-espresso-700 mb-2">
+        <label htmlFor="content" className="block text-sm font-medium text-espresso mb-2">
           Content *{' '}
-          <span className="font-normal text-espresso-400">
+          <span className="font-normal text-light-espresso/70">
             (Markdown supported: # for headings, ** for bold)
           </span>
         </label>
@@ -284,20 +284,20 @@ export default function PostForm({ initialData, mode }: PostFormProps) {
           onChange={(e) => setContent(e.target.value)}
           required
           rows={18}
-          className="w-full px-4 py-3 rounded-xl border border-espresso-200 focus:outline-none focus:ring-2 focus:ring-caramel focus:border-transparent text-espresso-900 font-mono text-sm resize-y"
+          className="w-full px-4 py-3 rounded-xl border border-ivory-mist-dark focus:outline-none focus:ring-2 focus:ring-caramel focus:border-transparent text-dark-espresso font-mono text-sm resize-y"
           placeholder="# Bar Name, City&#10;&#10;Write your full review here..."
         />
       </div>
 
-      <div className="flex items-center gap-3 p-4 bg-espresso-50 rounded-xl">
+      <div className="flex items-center gap-3 p-4 bg-ivory-mist rounded-xl">
         <input
           id="published"
           type="checkbox"
           checked={published}
           onChange={(e) => setPublished(e.target.checked)}
-          className="w-5 h-5 rounded border-espresso-300 text-caramel focus:ring-caramel"
+          className="w-5 h-5 rounded border-ivory-mist-dark text-caramel focus:ring-caramel"
         />
-        <label htmlFor="published" className="text-sm font-medium text-espresso-700">
+        <label htmlFor="published" className="text-sm font-medium text-espresso">
           Publish this review (visible to everyone)
         </label>
       </div>
@@ -306,14 +306,14 @@ export default function PostForm({ initialData, mode }: PostFormProps) {
         <button
           type="submit"
           disabled={saving}
-          className="px-8 py-3 bg-espresso-800 text-cream font-semibold rounded-xl hover:bg-espresso-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+          className="px-8 py-3 bg-espresso text-ivory-mist font-semibold rounded-xl hover:bg-dark-espresso transition-all disabled:opacity-50 disabled:cursor-not-allowed"
         >
           {saving ? 'Saving...' : mode === 'create' ? 'Create Review' : 'Update Review'}
         </button>
         <button
           type="button"
           onClick={() => router.push('/admin/dashboard')}
-          className="px-8 py-3 border border-espresso-300 text-espresso-600 font-medium rounded-xl hover:bg-espresso-50 transition-all"
+          className="px-8 py-3 border border-light-espresso/40 text-light-espresso font-medium rounded-xl hover:bg-ivory-mist transition-all"
         >
           Cancel
         </button>

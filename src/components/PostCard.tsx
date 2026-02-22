@@ -36,9 +36,9 @@ export default function PostCard({
 
   return (
     <Link href={`/reviews/${slug}`} className="group block">
-      <article className="bg-espresso-50 rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 border border-espresso-100 group-hover:-translate-y-1">
+      <article className="bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 border border-ivory-mist-dark group-hover:-translate-y-1">
         {image_url && (
-          <div className="relative aspect-[16/10] overflow-hidden bg-espresso-100">
+          <div className="relative aspect-[16/10] overflow-hidden bg-ivory-mist-dark">
             <Image
               src={image_url}
               alt={title}
@@ -50,17 +50,17 @@ export default function PostCard({
           </div>
         )}
         <div className="p-6">
-          <div className="flex items-center gap-2 text-xs text-espresso-500 mb-2">
+          <div className="flex items-center gap-2 text-xs text-light-espresso mb-2">
             <time>{date}</time>
             {location && (
               <>
-                <span className="text-espresso-300">&#8226;</span>
+                <span className="text-light-espresso/40">&#8226;</span>
                 <span>{location}</span>
               </>
             )}
           </div>
 
-          <h3 className="text-lg font-bold text-espresso-900 group-hover:text-espresso-600 transition-colors mb-2 line-clamp-2">
+          <h3 className="text-lg font-bold text-dark-espresso group-hover:text-espresso transition-colors mb-2 line-clamp-2">
             {title}
           </h3>
 
@@ -69,7 +69,7 @@ export default function PostCard({
           <div className="flex items-center gap-3">
             {rating !== null && <RatingStars rating={rating} size="sm" />}
             {price !== null && (
-              <span className="text-sm font-medium text-espresso-500">
+              <span className="text-sm font-medium text-light-espresso">
                 {new Intl.NumberFormat('en', {
                   style: 'currency',
                   currency: currency || 'USD',
@@ -81,10 +81,12 @@ export default function PostCard({
           </div>
 
           {excerpt && (
-            <p className="mt-3 text-sm text-espresso-600 leading-relaxed line-clamp-3">{excerpt}</p>
+            <p className="mt-3 text-sm text-light-espresso leading-relaxed line-clamp-3">
+              {excerpt}
+            </p>
           )}
 
-          <div className="mt-4 text-sm font-semibold text-espresso-700 group-hover:text-caramel transition-colors">
+          <div className="mt-4 text-sm font-semibold text-espresso group-hover:text-caramel transition-colors">
             Read full review &rarr;
           </div>
         </div>

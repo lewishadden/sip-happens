@@ -1,30 +1,22 @@
 @import 'tailwindcss';
 
 @theme inline {
-  --color-espresso-50: #faf6f1;
-  --color-espresso-100: #f2e6d9;
-  --color-espresso-200: #e4cbb3;
-  --color-espresso-300: #d4a97e;
-  --color-espresso-400: #c08a56;
-  --color-espresso-500: #a0785a;
-  --color-espresso-600: #8b5e3c;
-  --color-espresso-700: #6b4731;
-  --color-espresso-800: #3c2415;
-  --color-espresso-900: #2c1810;
-  --color-espresso-950: #1a0e0a;
-
-  --color-cream: #faf6f1;
-  --color-foam: #f2e6d9;
+  --color-espresso: #36251e;
+  --color-dark-espresso: #1a0e0a;
+  --color-light-espresso: #8b5e3c;
+  --color-ivory-mist: #faf3e0;
+  --color-ivory-mist-dark: #f9edd7;
   --color-caramel: #c08a56;
-  --color-crema: #d4a97e;
 
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+
+  --height-header: calc(var(--spacing) * 16);
 }
 
 body {
-  background-color: var(--color-espresso-100);
-  color: var(--color-espresso-800);
+  background-color: var(--color-ivory-mist);
+  color: var(--color-espresso);
   font-family: var(--font-sans), system-ui, sans-serif;
 }
 
@@ -57,7 +49,7 @@ body {
   font-size: 2rem;
   font-weight: 700;
   margin-bottom: 1rem;
-  color: var(--color-espresso-900);
+  color: var(--color-dark-espresso);
 }
 
 .prose h2 {
@@ -65,18 +57,18 @@ body {
   font-weight: 600;
   margin-top: 2rem;
   margin-bottom: 0.75rem;
-  color: var(--color-espresso-800);
+  color: var(--color-espresso);
 }
 
 .prose p {
   margin-bottom: 1rem;
   line-height: 1.75;
-  color: var(--color-espresso-800);
+  color: var(--color-espresso);
 }
 
 .prose strong {
   font-weight: 700;
-  color: var(--color-espresso-900);
+  color: var(--color-dark-espresso);
 }
 
 .globe-marker-icon:hover {

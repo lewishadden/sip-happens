@@ -32,19 +32,19 @@ function renderContent(content: string) {
 
     if (line.startsWith('# ')) {
       elements.push(
-        <h1 key={i} className="text-3xl font-bold text-espresso-900 mb-4 mt-8 first:mt-0">
+        <h1 key={i} className="text-3xl font-bold text-dark-espresso mb-4 mt-8 first:mt-0">
           {line.slice(2)}
         </h1>
       );
     } else if (line.startsWith('## ')) {
       elements.push(
-        <h2 key={i} className="text-2xl font-semibold text-espresso-800 mb-3 mt-8">
+        <h2 key={i} className="text-2xl font-semibold text-espresso mb-3 mt-8">
           {line.slice(markdownH2PrefixLength)}
         </h2>
       );
     } else if (line.startsWith('**') && line.endsWith('**')) {
       elements.push(
-        <p key={i} className="text-espresso-800 font-bold mb-4 leading-relaxed">
+        <p key={i} className="text-espresso font-bold mb-4 leading-relaxed">
           {line.slice(markdownBoldMarkerLength, -markdownBoldMarkerLength)}
         </p>
       );
@@ -55,7 +55,7 @@ function renderContent(content: string) {
       elements.push(
         <p
           key={i}
-          className="text-espresso-700 mb-4 leading-relaxed"
+          className="text-espresso mb-4 leading-relaxed"
           dangerouslySetInnerHTML={{ __html: rendered }}
         />
       );
@@ -85,7 +85,7 @@ export default async function ReviewPage({ params }: PageProps) {
     <article className="max-w-4xl mx-auto px-4 py-12">
       <Link
         href="/reviews"
-        className="inline-flex items-center text-sm text-espresso-500 hover:text-caramel transition-colors mb-8"
+        className="inline-flex items-center text-sm text-light-espresso hover:text-caramel transition-colors mb-8"
       >
         &larr; Back to all reviews
       </Link>
@@ -104,11 +104,11 @@ export default async function ReviewPage({ params }: PageProps) {
       )}
 
       <header className="mb-10">
-        <div className="flex flex-wrap items-center gap-3 text-sm text-espresso-500 mb-4">
+        <div className="flex flex-wrap items-center gap-3 text-sm text-light-espresso mb-4">
           <time>{date}</time>
           {post.location && (
             <>
-              <span className="text-espresso-300">&#8226;</span>
+              <span className="text-light-espresso/40">&#8226;</span>
               <span className="flex items-center gap-1">
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path
@@ -130,22 +130,22 @@ export default async function ReviewPage({ params }: PageProps) {
           )}
         </div>
 
-        <h1 className="text-3xl md:text-4xl font-bold text-espresso-900 mb-4">{post.title}</h1>
+        <h1 className="text-3xl md:text-4xl font-bold text-dark-espresso mb-4">{post.title}</h1>
 
-        {post.bar_name && <p className="text-lg font-medium text-caramel mb-4">{post.bar_name}</p>}
+        {post.bar_name && <p className="text-lg font-medium text-espresso mb-4">{post.bar_name}</p>}
 
         {(post.rating !== null || post.price !== null) && (
           <div className="flex flex-wrap items-center gap-4">
             {post.rating !== null && (
-              <div className="flex items-center gap-3 p-4 bg-espresso-100 rounded-xl">
-                <span className="text-sm font-medium text-espresso-600">Our Rating:</span>
+              <div className="flex items-center gap-3 p-4 bg-ivory-mist-dark rounded-xl">
+                <span className="text-sm font-medium text-light-espresso">Our Rating:</span>
                 <RatingStars rating={post.rating} size="lg" />
               </div>
             )}
             {post.price !== null && (
-              <div className="flex items-center gap-2 p-4 bg-espresso-100 rounded-xl">
-                <span className="text-sm font-medium text-espresso-600">Price:</span>
-                <span className="text-lg font-bold text-espresso-900">
+              <div className="flex items-center gap-2 p-4 bg-ivory-mist-dark rounded-xl">
+                <span className="text-sm font-medium text-light-espresso">Price:</span>
+                <span className="text-lg font-bold text-dark-espresso">
                   {new Intl.NumberFormat('en', {
                     style: 'currency',
                     currency: post.currency || 'USD',
@@ -162,14 +162,16 @@ export default async function ReviewPage({ params }: PageProps) {
       <div className="prose max-w-none">{renderContent(post.content)}</div>
 
       {/* Navigation */}
-      <nav className="mt-16 pt-8 border-t border-espresso-200 grid grid-cols-1 sm:grid-cols-2 gap-4">
+      <nav className="mt-16 pt-8 border-t border-ivory-mist-dark grid grid-cols-1 sm:grid-cols-2 gap-4">
         {prevPost ? (
           <Link
             href={`/reviews/${prevPost.slug}`}
-            className="p-4 rounded-xl border border-espresso-200 hover:border-caramel hover:bg-foam transition-all group"
+            className="p-4 rounded-xl border border-ivory-mist-dark hover:border-caramel hover:bg-ivory-mist transition-all group"
           >
-            <span className="text-xs text-espresso-400 block mb-1">&larr; Previous Review</span>
-            <span className="font-semibold text-espresso-800 group-hover:text-caramel transition-colors">
+            <span className="text-xs text-light-espresso/70 block mb-1">
+              &larr; Previous Review
+            </span>
+            <span className="font-semibold text-espresso group-hover:text-caramel transition-colors">
               {prevPost.title}
             </span>
           </Link>
@@ -179,10 +181,10 @@ export default async function ReviewPage({ params }: PageProps) {
         {nextPost && (
           <Link
             href={`/reviews/${nextPost.slug}`}
-            className="p-4 rounded-xl border border-espresso-200 hover:border-caramel hover:bg-foam transition-all text-right group"
+            className="p-4 rounded-xl border border-ivory-mist-dark hover:border-caramel hover:bg-ivory-mist transition-all text-right group"
           >
-            <span className="text-xs text-espresso-400 block mb-1">Next Review &rarr;</span>
-            <span className="font-semibold text-espresso-800 group-hover:text-caramel transition-colors">
+            <span className="text-xs text-light-espresso/70 block mb-1">Next Review &rarr;</span>
+            <span className="font-semibold text-espresso group-hover:text-caramel transition-colors">
               {nextPost.title}
             </span>
           </Link>

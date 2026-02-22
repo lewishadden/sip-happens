@@ -15,8 +15,8 @@ export default async function ReviewsPage() {
   return (
     <div className="max-w-6xl mx-auto px-4 py-12">
       <div className="mb-10">
-        <h1 className="text-4xl font-bold text-espresso-900">All Reviews</h1>
-        <p className="text-espresso-500 mt-2">
+        <h1 className="text-4xl font-bold text-dark-espresso">All Reviews</h1>
+        <p className="text-light-espresso mt-2">
           {posts.length} espresso martini {posts.length === 1 ? 'review' : 'reviews'} from around
           the world
         </p>
@@ -25,7 +25,7 @@ export default async function ReviewsPage() {
       {posts.length === 0 ? (
         <div className="text-center py-20">
           <span className="text-6xl block mb-4">&#127864;</span>
-          <p className="text-espresso-500 text-lg">No reviews yet. Check back soon!</p>
+          <p className="text-light-espresso text-lg">No reviews yet. Check back soon!</p>
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">

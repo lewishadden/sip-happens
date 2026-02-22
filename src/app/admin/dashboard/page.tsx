@@ -57,7 +57,7 @@ export default function AdminDashboard() {
   if (loading) {
     return (
       <div className="min-h-[70vh] flex items-center justify-center">
-        <div className="text-espresso-400 text-lg">Loading dashboard...</div>
+        <div className="text-light-espresso/70 text-lg">Loading dashboard...</div>
       </div>
     );
   }
@@ -66,19 +66,19 @@ export default function AdminDashboard() {
     <div className="max-w-6xl mx-auto px-4 py-12">
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-10 gap-4">
         <div>
-          <h1 className="text-3xl font-bold text-espresso-900">Dashboard</h1>
-          {user && <p className="text-espresso-500 mt-1">Welcome back, {user.name}</p>}
+          <h1 className="text-3xl font-bold text-dark-espresso">Dashboard</h1>
+          {user && <p className="text-light-espresso mt-1">Welcome back, {user.name}</p>}
         </div>
         <div className="flex gap-3">
           <Link
             href="/admin/posts/new"
-            className="px-5 py-2.5 bg-caramel text-espresso-950 font-semibold rounded-xl hover:bg-espresso-400 transition-all text-sm"
+            className="px-5 py-2.5 bg-caramel text-dark-espresso font-semibold rounded-xl hover:bg-light-espresso transition-all text-sm"
           >
             + New Review
           </Link>
           <button
             onClick={handleLogout}
-            className="px-5 py-2.5 border border-espresso-300 text-espresso-600 font-medium rounded-xl hover:bg-espresso-100 transition-all text-sm"
+            className="px-5 py-2.5 border border-light-espresso/40 text-light-espresso font-medium rounded-xl hover:bg-ivory-mist-dark transition-all text-sm"
           >
             Sign Out
           </button>
@@ -86,55 +86,55 @@ export default function AdminDashboard() {
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-10">
-        <div className="bg-white rounded-xl p-6 border border-espresso-100 shadow-sm">
-          <div className="text-3xl font-bold text-espresso-800">{posts.length}</div>
-          <div className="text-sm text-espresso-500 mt-1">Total Posts</div>
+        <div className="bg-white rounded-xl p-6 border border-ivory-mist-dark shadow-sm">
+          <div className="text-3xl font-bold text-espresso">{posts.length}</div>
+          <div className="text-sm text-light-espresso mt-1">Total Posts</div>
         </div>
-        <div className="bg-white rounded-xl p-6 border border-espresso-100 shadow-sm">
-          <div className="text-3xl font-bold text-espresso-800">
+        <div className="bg-white rounded-xl p-6 border border-ivory-mist-dark shadow-sm">
+          <div className="text-3xl font-bold text-espresso">
             {posts.filter((p) => p.published).length}
           </div>
-          <div className="text-sm text-espresso-500 mt-1">Published</div>
+          <div className="text-sm text-light-espresso mt-1">Published</div>
         </div>
-        <div className="bg-white rounded-xl p-6 border border-espresso-100 shadow-sm">
-          <div className="text-3xl font-bold text-espresso-800">
+        <div className="bg-white rounded-xl p-6 border border-ivory-mist-dark shadow-sm">
+          <div className="text-3xl font-bold text-espresso">
             {posts.filter((p) => !p.published).length}
           </div>
-          <div className="text-sm text-espresso-500 mt-1">Drafts</div>
+          <div className="text-sm text-light-espresso mt-1">Drafts</div>
         </div>
       </div>
 
-      <div className="bg-white rounded-2xl border border-espresso-100 shadow-sm overflow-hidden">
-        <div className="px-6 py-4 border-b border-espresso-100">
-          <h2 className="font-semibold text-espresso-800">All Posts</h2>
+      <div className="bg-white rounded-2xl border border-ivory-mist-dark shadow-sm overflow-hidden">
+        <div className="px-6 py-4 border-b border-ivory-mist-dark">
+          <h2 className="font-semibold text-espresso">All Posts</h2>
         </div>
 
         {posts.length === 0 ? (
           <div className="text-center py-12">
             <span className="text-4xl block mb-3">&#127864;</span>
-            <p className="text-espresso-500">No posts yet. Time to write your first review!</p>
+            <p className="text-light-espresso">No posts yet. Time to write your first review!</p>
           </div>
         ) : (
-          <div className="divide-y divide-espresso-50">
+          <div className="divide-y divide-ivory-mist">
             {posts.map((post) => (
               <div
                 key={post.id}
-                className="px-6 py-4 flex items-center justify-between gap-4 hover:bg-espresso-50/50 transition-colors"
+                className="px-6 py-4 flex items-center justify-between gap-4 hover:bg-ivory-mist/50 transition-colors"
               >
                 <div className="min-w-0 flex-1">
                   <div className="flex items-center gap-2">
-                    <h3 className="font-medium text-espresso-900 truncate">{post.title}</h3>
+                    <h3 className="font-medium text-dark-espresso truncate">{post.title}</h3>
                     <span
                       className={`flex-shrink-0 px-2 py-0.5 text-xs rounded-full font-medium ${
                         post.published
                           ? 'bg-green-100 text-green-700'
-                          : 'bg-espresso-100 text-espresso-500'
+                          : 'bg-ivory-mist-dark text-light-espresso'
                       }`}
                     >
                       {post.published ? 'Published' : 'Draft'}
                     </span>
                   </div>
-                  <div className="flex items-center gap-2 text-xs text-espresso-400 mt-1">
+                  <div className="flex items-center gap-2 text-xs text-light-espresso/70 mt-1">
                     {post.bar_name && <span>{post.bar_name}</span>}
                     {post.bar_name && post.location && <span>&#8226;</span>}
                     {post.location && <span>{post.location}</span>}
@@ -149,7 +149,7 @@ export default function AdminDashboard() {
                 <div className="flex items-center gap-2 flex-shrink-0">
                   <Link
                     href={`/admin/posts/${post.id}/edit`}
-                    className="px-3 py-1.5 text-xs font-medium text-espresso-600 border border-espresso-200 rounded-lg hover:bg-espresso-50 transition-colors"
+                    className="px-3 py-1.5 text-xs font-medium text-light-espresso border border-ivory-mist-dark rounded-lg hover:bg-ivory-mist transition-colors"
                   >
                     Edit
                   </Link>

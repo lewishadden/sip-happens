@@ -26,7 +26,7 @@ export default function AdminLoginPage() {
   if (checking) {
     return (
       <div className="min-h-[70vh] flex items-center justify-center">
-        <div className="text-espresso-400 text-lg">Loading...</div>
+        <div className="text-light-espresso/70 text-lg">Loading...</div>
       </div>
     );
   }
@@ -62,13 +62,13 @@ export default function AdminLoginPage() {
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
           <span className="text-5xl block mb-4">&#127864;</span>
-          <h1 className="text-3xl font-bold text-espresso-900">Admin Login</h1>
-          <p className="text-espresso-500 mt-2">Sign in to manage your reviews</p>
+          <h1 className="text-3xl font-bold text-dark-espresso">Admin Login</h1>
+          <p className="text-light-espresso mt-2">Sign in to manage your reviews</p>
         </div>
 
         <form
           onSubmit={handleSubmit}
-          className="bg-white rounded-2xl p-8 shadow-md border border-espresso-100"
+          className="bg-white rounded-2xl p-8 shadow-md border border-ivory-mist-dark"
         >
           {error && (
             <div className="mb-6 p-3 bg-red-50 border border-red-200 rounded-xl text-red-700 text-sm">
@@ -77,7 +77,7 @@ export default function AdminLoginPage() {
           )}
 
           <div className="mb-5">
-            <label htmlFor="email" className="block text-sm font-medium text-espresso-700 mb-2">
+            <label htmlFor="email" className="block text-sm font-medium text-espresso mb-2">
               Email
             </label>
             <input
@@ -86,13 +86,13 @@ export default function AdminLoginPage() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
-              className="w-full px-4 py-3 rounded-xl border border-espresso-200 focus:outline-none focus:ring-2 focus:ring-caramel focus:border-transparent text-espresso-900 placeholder-espresso-300"
+              className="w-full px-4 py-3 rounded-xl border border-ivory-mist-dark focus:outline-none focus:ring-2 focus:ring-caramel focus:border-transparent text-dark-espresso placeholder-light-espresso/40"
               placeholder="admin@siphappens.com"
             />
           </div>
 
           <div className="mb-6">
-            <label htmlFor="password" className="block text-sm font-medium text-espresso-700 mb-2">
+            <label htmlFor="password" className="block text-sm font-medium text-espresso mb-2">
               Password
             </label>
             <input
@@ -101,7 +101,7 @@ export default function AdminLoginPage() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
-              className="w-full px-4 py-3 rounded-xl border border-espresso-200 focus:outline-none focus:ring-2 focus:ring-caramel focus:border-transparent text-espresso-900 placeholder-espresso-300"
+              className="w-full px-4 py-3 rounded-xl border border-ivory-mist-dark focus:outline-none focus:ring-2 focus:ring-caramel focus:border-transparent text-dark-espresso placeholder-light-espresso/40"
               placeholder="Enter your password"
             />
           </div>
@@ -109,7 +109,7 @@ export default function AdminLoginPage() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full py-3 bg-espresso-800 text-cream font-semibold rounded-xl hover:bg-espresso-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full py-3 bg-espresso text-ivory-mist font-semibold rounded-xl hover:bg-dark-espresso transition-all disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {loading ? 'Signing in...' : 'Sign In'}
           </button>

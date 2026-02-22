@@ -68,7 +68,7 @@ export default function EditPostPage({ params }: { params: Promise<{ id: string 
   if (loading || !post) {
     return (
       <div className="min-h-[70vh] flex items-center justify-center">
-        <div className="text-espresso-400 text-lg">Loading post...</div>
+        <div className="text-light-espresso/70 text-lg">Loading post...</div>
       </div>
     );
   }
@@ -77,12 +77,12 @@ export default function EditPostPage({ params }: { params: Promise<{ id: string 
     <div className="max-w-4xl mx-auto px-4 py-12">
       <Link
         href="/admin/dashboard"
-        className="inline-flex items-center text-sm text-espresso-500 hover:text-caramel transition-colors mb-6"
+        className="inline-flex items-center text-sm text-light-espresso hover:text-caramel transition-colors mb-6"
       >
         &larr; Back to Dashboard
       </Link>
-      <h1 className="text-3xl font-bold text-espresso-900 mb-8">Edit Review</h1>
-      <div className="bg-white rounded-2xl p-8 shadow-sm border border-espresso-100">
+      <h1 className="text-3xl font-bold text-dark-espresso mb-8">Edit Review</h1>
+      <div className="bg-white rounded-2xl p-8 shadow-sm border border-ivory-mist-dark">
         <PostForm
           mode="edit"
           initialData={{

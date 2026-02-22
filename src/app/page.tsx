@@ -33,25 +33,25 @@ const Home = async () => {
   return (
     <div>
       {/* Hero */}
-      <section className="relative bg-espresso-900 text-cream overflow-hidden h-screen min-h-[632px]">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--color-espresso-700)_0%,_var(--color-espresso-950)_70%)]" />
+      <section className="relative bg-ivory-mist text-espresso overflow-hidden h-[calc(100vh-var(--height-header))] min-h-[632px]">
+        <div className="absolute inset-0" />
         <div className="relative max-w-6xl mx-auto px-4 py-24 md:py-36 text-center">
           <span className="text-6xl md:text-8xl block mb-6">&#127864;</span>
           <h1 className="text-4xl md:text-6xl font-bold mb-4 tracking-tight">Sip Happens</h1>
-          <p className="text-lg md:text-xl text-espresso-300 max-w-2xl mx-auto mb-4">
+          <p className="text-lg md:text-xl text-light-espresso max-w-2xl mx-auto mb-4">
             Reviewing espresso martinis around the globe, one sip at a time.
           </p>
-          <p className="text-sm text-espresso-400 mb-8">{totalReviews} reviews and counting</p>
+          <p className="text-sm text-light-espresso mb-8">{totalReviews} reviews and counting</p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
               href="/reviews"
-              className="inline-flex items-center justify-center px-8 py-3 bg-caramel text-espresso-950 font-semibold rounded-full hover:bg-espresso-300 transition-all shadow-lg hover:shadow-xl"
+              className="inline-flex items-center justify-center px-8 py-3 bg-caramel text-dark-espresso font-semibold rounded-full hover:bg-light-espresso transition-all shadow-lg hover:shadow-xl"
             >
               Browse Reviews
             </Link>
             <Link
               href="/about"
-              className="inline-flex items-center justify-center px-8 py-3 border-2 border-espresso-600 text-espresso-200 font-semibold rounded-full hover:border-caramel hover:text-caramel transition-all"
+              className="inline-flex items-center justify-center px-8 py-3 border-2 border-espresso text-espresso font-semibold rounded-full hover:border-caramel hover:text-caramel transition-all"
             >
               Our Story
             </Link>
@@ -60,71 +60,73 @@ const Home = async () => {
       </section>
 
       {/* Latest Reviews */}
-      <section className="max-w-6xl mx-auto px-4 py-16">
-        <div className="flex items-end justify-between mb-10">
-          <div>
-            <h2 className="text-3xl font-bold text-espresso-900">Latest Reviews</h2>
-            <p className="text-espresso-500 mt-1">Fresh from the glass</p>
+      <section className="bg-ivory-mist-dark">
+        <div className="max-w-6xl mx-auto px-4 py-16">
+          <div className="flex items-end justify-between mb-10">
+            <div>
+              <h2 className="text-3xl font-bold text-dark-espresso">Latest Reviews</h2>
+              <p className="text-light-espresso mt-1">Fresh from the glass</p>
+            </div>
+            <Link
+              href="/reviews"
+              className="text-sm font-semibold text-light-espresso hover:text-caramel transition-colors hidden sm:block"
+            >
+              View all reviews &rarr;
+            </Link>
           </div>
-          <Link
-            href="/reviews"
-            className="text-sm font-semibold text-espresso-600 hover:text-caramel transition-colors hidden sm:block"
-          >
-            View all reviews &rarr;
-          </Link>
-        </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {featuredPosts.map((post) => (
-            <PostCard key={post.id} {...post} />
-          ))}
-        </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {featuredPosts.map((post) => (
+              <PostCard key={post.id} {...post} />
+            ))}
+          </div>
 
-        <div className="mt-8 text-center sm:hidden">
-          <Link
-            href="/reviews"
-            className="text-sm font-semibold text-espresso-600 hover:text-caramel transition-colors"
-          >
-            View all reviews &rarr;
-          </Link>
+          <div className="mt-8 text-center sm:hidden">
+            <Link
+              href="/reviews"
+              className="text-sm font-semibold text-light-espresso hover:text-caramel transition-colors"
+            >
+              View all reviews &rarr;
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* Stats */}
+      <section className="bg-espresso text-ivory-mist">
+        <div className="max-w-6xl mx-auto px-4 py-16">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+            <div>
+              <div className="text-4xl font-bold text-caramel mb-2">{totalReviews}</div>
+              <div className="text-caramel text-sm">Reviews Published</div>
+            </div>
+            <div>
+              <div className="text-4xl font-bold text-caramel mb-2">{countryCount}</div>
+              <div className="text-caramel text-sm">Countries Visited</div>
+            </div>
+            <div>
+              <div className="text-4xl font-bold text-caramel mb-2">&#8734;</div>
+              <div className="text-caramel text-sm">Espresso Martinis Consumed</div>
+            </div>
+          </div>
         </div>
       </section>
 
       {/* Globe */}
       <ReviewGlobe markers={globeMarkers} />
 
-      {/* Stats */}
-      <section className="bg-espresso-900 text-cream">
-        <div className="max-w-6xl mx-auto px-4 py-16">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
-            <div>
-              <div className="text-4xl font-bold text-caramel mb-2">{totalReviews}</div>
-              <div className="text-espresso-400 text-sm">Reviews Published</div>
-            </div>
-            <div>
-              <div className="text-4xl font-bold text-caramel mb-2">{countryCount}</div>
-              <div className="text-espresso-400 text-sm">Countries Visited</div>
-            </div>
-            <div>
-              <div className="text-4xl font-bold text-caramel mb-2">&#8734;</div>
-              <div className="text-espresso-400 text-sm">Espresso Martinis Consumed</div>
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* CTA */}
       <section className="max-w-6xl mx-auto px-4 py-16 text-center">
-        <h2 className="text-2xl md:text-3xl font-bold text-espresso-900 mb-4">
+        <h2 className="text-2xl md:text-3xl font-bold text-dark-espresso mb-4">
           Know a bar we should visit?
         </h2>
-        <p className="text-espresso-500 max-w-xl mx-auto mb-8">
+        <p className="text-light-espresso max-w-xl mx-auto mb-8">
           We&apos;re always on the hunt for the next great espresso martini. Drop us a
           recommendation and we&apos;ll add it to our list.
         </p>
         <Link
           href="/about"
-          className="inline-flex items-center justify-center px-8 py-3 bg-espresso-800 text-cream font-semibold rounded-full hover:bg-espresso-700 transition-all"
+          className="inline-flex items-center justify-center px-8 py-3 bg-espresso text-ivory-mist font-semibold rounded-full hover:bg-dark-espresso transition-all"
         >
           Get in Touch
         </Link>

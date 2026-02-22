@@ -107,7 +107,7 @@ export default function LocationSearch({
         type="text"
         value={inputValue}
         onChange={(e) => handleManualChange(e.target.value)}
-        className="w-full px-4 py-3 rounded-xl border border-espresso-200 focus:outline-none focus:ring-2 focus:ring-caramel focus:border-transparent text-espresso-900"
+        className="w-full px-4 py-3 rounded-xl border border-ivory-mist-dark focus:outline-none focus:ring-2 focus:ring-caramel focus:border-transparent text-dark-espresso"
         placeholder="London, United Kingdom"
       />
     );
@@ -125,7 +125,7 @@ export default function LocationSearch({
         type="text"
         value={inputValue}
         onChange={(e) => handleManualChange(e.target.value)}
-        className="w-full px-4 py-3 rounded-xl border border-espresso-200 focus:outline-none focus:ring-2 focus:ring-caramel focus:border-transparent text-espresso-900"
+        className="w-full px-4 py-3 rounded-xl border border-ivory-mist-dark focus:outline-none focus:ring-2 focus:ring-caramel focus:border-transparent text-dark-espresso"
         placeholder="Search for a location..."
       />
     </>
