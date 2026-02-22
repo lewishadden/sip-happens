@@ -32,8 +32,8 @@ export default function Navbar() {
                 href={link.href}
                 className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
                   pathname === link.href
-                    ? 'bg-espresso/50 text-ivory-mist'
-                    : 'text-ivory-mist hover:bg-espresso hover:text-ivory-mist'
+                    ? 'bg-light-espresso/40 text-ivory-mist'
+                    : 'text-ivory-mist hover:bg-light-espresso/80 hover:text-ivory-mist'
                 }`}
               >
                 {link.label}

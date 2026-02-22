@@ -12,7 +12,7 @@ export default function AboutPage() {
       <h1 className="text-4xl font-bold text-dark-espresso mb-8">About Sip Happens</h1>
 
       <div className="prose max-w-none space-y-6">
-        <div className="bg-ivory-mist rounded-2xl p-8 shadow-sm border border-ivory-mist-dark">
+        <div className="bg-white rounded-2xl p-8 shadow-sm border border-ivory-mist-dark">
           <h2 className="text-2xl font-semibold text-espresso mb-4">The Mission</h2>
           <p className="text-espresso leading-relaxed mb-4">
             It started with a bad espresso martini at an airport bar. You know the type — lukewarm,
@@ -33,7 +33,7 @@ export default function AboutPage() {
           </p>
         </div>
 
-        <div className="bg-ivory-mist rounded-2xl p-8 shadow-sm border border-ivory-mist-dark">
+        <div className="bg-white rounded-2xl p-8 shadow-sm border border-ivory-mist-dark">
           <h2 className="text-2xl font-semibold text-espresso mb-4">What We Look For</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
             {[
@@ -72,7 +72,7 @@ export default function AboutPage() {
           </div>
         </div>
 
-        <div className="bg-ivory-mist rounded-2xl p-8 shadow-sm border border-ivory-mist-dark">
+        <div className="bg-white rounded-2xl p-8 shadow-sm border border-ivory-mist-dark">
           <h2 className="text-2xl font-semibold text-espresso mb-4">Our Rating Scale</h2>
           <div className="space-y-3">
             {[
